@@ -1,0 +1,47 @@
+table.table.table-bordered.table-striped.table-hover
+
+  tbody
+
+
+    tr.align-middle
+      td.col-4 فرع مشغول
+      td.col-8
+        label.switch
+          input#pub_189.sw1(type='checkbox', data-id='189', name="isBusy", checked=branch.isBusy)
+          span.switch-slider.round
+        span.checkmark.fas.fa-check(style='display: none;')
+    tr.align-middle
+      td.col-4 إتاحة استلام الطلبات
+      td.col-8
+        label.switch
+          input#pub_189.sw1(type='checkbox', data-id='189', name="pickupAvailable", checked=(branch.length === 0 ? true : branch.pickupAvailable))
+          span.switch-slider.round
+        span.checkmark.fas.fa-check(style='display: none;')
+    tr.align-middle
+      td.col-4 إتاحة جدولة الطلبات
+      td.col-8
+        label.switch
+          input#pub_189.sw1(type='checkbox', data-id='189', name="scheduleAvailable", checked=(branch.length === 0 ? true : branch.scheduleAvailable))
+          span.switch-slider.round
+        span.checkmark.fas.fa-check(style='display: none;')
+    tr.align-middle
+      td.col-4 إتاحة خيار الطلب للتوصيل
+      td.col-8
+        label.switch
+          input#pub_189.sw1(type='checkbox', data-id='189', name="deliveryAvailable", checked=(branch.length === 0 ? true : branch.deliveryAvailable))
+          span.switch-slider.round
+        span.checkmark.fas.fa-check(style='display: none;')
+    
+
+    
+    
+    //tr.align-middle
+      //td البريد الإلكتروني
+      //td
+        //.row
+          //.col
+            //input.form-control(placeholder="Name")
+          //.col
+            //input.form-control(placeholder="Name")
+        //.row.mt-2
+          //span عندما يتطلب تسجيل طلب الشراء إعدادًا بالإضافة إلى وقت التسليم الذي يتجاوز هذه الفترة ، فسيتم تعطيل التسليم في أسرع وقت ممكن. يمكن للعميل جدولة الطلب (إذا كان ممكّنًا)

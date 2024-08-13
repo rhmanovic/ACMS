@@ -1,0 +1,53 @@
+// tab1 .pug
+table.table.table-bordered.table-striped.table-hover
+  tbody
+    tr.align-middle
+      td.col-4 الحالة
+      td.col-8
+        
+        label.switch
+          input#pub_189.sw1(type='checkbox', data-id='189', name="status", checked=branch.status)
+          span.switch-slider.round
+        span.checkmark.fas.fa-check(style='display: none;')
+    
+    tr.align-middle
+      td اسم الفرع بالعربية
+      td
+        .col.col-lg-8
+          input.form-control(type='text', name='branch_name_ar', placeholder="أدخل اسم الفرع بالعربية", required, itsTab='tab1', value=branch.branch_name_ar)
+          span.spanLocalError.bg-danger.text-white.hidden *إجباري
+
+    tr.align-middle
+      td
+        span اسم الفرع EN
+      td
+        .col.col-lg-8
+          input.form-control(type='text', name='branch_name_en', placeholder="Enter branch name in English", required, itsTab='tab1', value=branch.branch_name_en)
+          span.spanLocalError.bg-danger.text-white.hidden *إجباري
+
+    tr.align-middle
+      td عنوان الفرع بالعربية
+      td
+        .col.col-lg-8
+          textarea.form-control(name='addressAr', placeholder="أدخل عنوان الفرع بالعربية")
+            | #{branch.addressAr}
+
+    tr.align-middle
+      td عنوان الفرع EN
+      td
+        .col.col-lg-8
+          textarea.form-control(name='addressEn', placeholder="Enter branch address in English")
+            | #{branch.addressEn}
+
+
+    tr.align-middle
+      td رقم هاتف خدمة العملاء
+      td
+        .col.col-lg-8
+          input.form-control.rtl(type='tel', name='phone', placeholder="أدخل رقم الهاتف", value=branch.phone)
+
+    tr.align-middle
+      td البريد الإلكتروني
+      td
+        .col.col-lg-8
+          input.form-control(type='email', name='email', placeholder="أدخل البريد الإلكتروني", value=branch.email)
