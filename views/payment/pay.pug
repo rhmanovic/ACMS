@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  h1 هذه الصفحة لارسال للدفع عن طريق Tap Payment
+  h3 اكتب المبلغ
+
+  form(method='POST' action='/payment/pay')
+    input.form-control(type="number" name="amount")
+    button.btn.btn-primary(type='submit') ادفع
