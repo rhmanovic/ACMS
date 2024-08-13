@@ -1,0 +1,67 @@
+.card
+  .card-body
+    .row.mt-2
+      .container
+        table.table.table-bordered.table-striped.table-hover
+          tbody
+            tr.align-middle
+              td.col-4 الإسم بالعربية
+              td.col-8
+                input.form-control(type='text', name='ArabicName', placeholder="الإسم بالعربية", required=true value=category.ArabicName)
+                span.spanLocalError.bg-danger.text-white.hidden *إجباري
+            tr.align-middle
+              td الإسم بالانجليزي
+              td
+                input.form-control(type='text', name='EnglishName', placeholder="الإسم بالانجليزي", required=true value=category.EnglishName)
+                span.spanLocalError.bg-danger.text-white.hidden *إجباري
+            tr.align-middle
+              td
+                span صورة التصنيف (PNG/JPG/GIF)
+                br
+                span (العرض والطول الموصى بهما: 500px*500px)
+              td
+                .col.col-md-4
+
+                  
+                    label.btn.btn-outline-primary.btn-upload-img.d-flex.flex-column.align-items-center.justify-content-center.uplad-image
+                      input#category_img(type='file', name='category_img', accept='image/png, image/jpeg, image/jpg, image/gif', hidden, onchange='previewImage(event)')
+                      i.fas.fa-plus-circle.fa-2x(style='color: #007bff;')
+                      span.span-upload-img.mt-2(style='color: #007bff;') اختيار صورة
+                
+                
+                
+                
+                .col.col-md-4.align-middle.text-center
+                  if category.imgsrc
+                    img#imagePreview.border.border-4.my-4(src=category.imgsrc , alt='Product image', style='height: 150px;')
+                  else
+                    img#imagePreview.border.border-4.my-4(src='https://via.placeholder.com/150', alt='Product image', style='height: 150px;')
+            tr.align-middle
+              td خصم ٪
+              td
+                input.form-control(type='number', name='discountPerc', placeholder="0" value=category.discountPerc)
+            tr.align-middle
+              td الترتيب
+              td
+                input.form-control(type='number', name='sort', placeholder="0" value=category.sort)
+            tr.align-middle
+              td الحالة
+              td
+                label.switch
+                  
+                  if category.status
+                    input#pub_189.sw1(type='checkbox', name='status', checked)
+                    span.switch-slider.round
+                  else
+                    input#pub_189.sw1(type='checkbox', name='status')
+                    span.switch-slider.round
+                span.checkmark.fas.fa-check(style='display: none;')
+        .row.justify-content-end
+          .col-auto.mr-auto.mx-3
+            span.text-danger.mt-3#textValidationError
+        .row
+          #page-title.d-flex.justify-content-between.align-items-center.px-3.py-2
+            .col.d-flex.justify-content-end
+              button.btn.btn-primary.btn-labeled.mx-2#bigform(type='submit')
+                .fa.fa-save
+                span= " حفظ "

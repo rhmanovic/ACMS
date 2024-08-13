@@ -1,0 +1,81 @@
+style.
+  .card-like-row {
+    background: #E7E8EB; /* Card-like row background color */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px; /* Vertical margin between rows */
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+  }
+  .card-like-table {
+    border-collapse: separate;
+    border-spacing: 0 10px; /* Spacing between rows */
+  }
+  .card-like-table thead th {
+    border-top: 3px solid #ccc; /* Top border for thead, lighter gray */
+    border-bottom: 3px solid #ccc; /* Bottom border for thead, lighter gray */
+    background-color: #fff; /* Background color for thead */
+    font-weight: 500;
+    color: #5D5D5D; /* Font color for thead */
+  }
+  .card-like-table tbody tr td {
+    background: #E7E8EB; /* Updated background color for tbody */
+    border: none !important;
+    font-weight: 500;
+    color: #5D5D5D; /* Font color for thead */
+  }
+
+.card.shadow-sm
+  .card-body
+    .container
+      table.table.card-like-table
+        thead
+          tr
+            th(scope="col")
+              input.form-check-input(type="checkbox", value="", id="flexCheckDefault", style="border-color: #333333;")
+              label.form-check-label.mx-2(for="flexCheckDefault") كود الطلب
+            th.align-middle.text-center(scope="col") العميل
+            th.align-middle.text-center(scope="col") طريقة الدفع
+            th.align-middle.text-center(scope="col") حالة التوصيل
+            th.align-middle.text-center(scope="col") المجموع
+            th.align-middle.text-center(scope="col") تاريخ الإضافة
+        tbody
+          each order, index in orders
+            tr.card-like-row
+              td.align-middle
+                input.form-check-input(type="checkbox", value="", id="flexCheckDefault", style="border-color: #333333;")
+                label.form-check-label.mx-2(for="flexCheckDefault")= order.order_number
+              td.align-middle.text-center
+                span= order.customerName
+                br
+                span= order.phone
+                br
+                span= order.address
+              td.align-middle.text-center
+                - var paymentIcon = order.PaymentMethod === 'knet' ? 'knet.png' : order.PaymentMethod === 'cash' ? 'cash.png' : order.PaymentMethod === 'credit' ? 'credit.png' : order.PaymentMethod === 'mixed' ? 'mixed.png' : order.PaymentMethod === 'visa' ? 'visa.png' : order.PaymentMethod === 'link' ? 'link.png' : 'default.png'
+                img.pay_icon(src=`../img/upload/${paymentIcon}`, alt='', style='max-width: 40px;')
+                br
+                span= order.payment_method
+                br
+                span= order.PaymenStatus === 'paid' ? 'ناجح' : 'غير ناجح'
+              td.align-middle.text-center
+                include sub/DropDownDelivery
+              td.align-middle.text-center د.ك #{order.total}
+              td.align-middle.text-center
+                span= new Date(order.time).toLocaleDateString('ar-EG')
+                br
+                span= new Date(order.time).toLocaleTimeString('ar-EG')
+    nav
+      ul.pagination.justify-content-center
+        if current > 1
+          li.page-item
+            a.page-link(href=`?page=${current - 1}`) &laquo; السابق
+        each num in [...Array(pages).keys()].map(n => n + 1)
+          if num == current
+            li.page-item.active
+              span.page-link= num
+          else
+            li.page-item
+              a.page-link(href=`?page=${num}`)= num
+        if current < pages
+          li.page-item
+            a.page-link(href=`?page=${+current + 1}`) التالي &raquo;

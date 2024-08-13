@@ -1,0 +1,26 @@
+.row
+.container.mt-3
+  .row.d-flex.justify-content-between
+    -
+      var cards = [
+        { number: '1', text: 'الكل', icon: 'fa-shopping-cart' },
+        { number: '0', text: 'قيد الاستبدال', icon: 'fa-sync' },
+        { number: '0', text: 'قيد التحضير', icon: 'fa-list' },
+        { number: '0', text: 'قيد التوصيل', icon: 'fa-truck' },
+        { number: '3', text: 'تم الشحن', icon: 'fa-clock' },
+      ]
+
+    each card, index in cards
+      .col-lg-2.col-md-4.col-sm-6.col-12.mb-4.px-0.mx-3
+        .card.shadow-sm
+          .card-body.align-items-center.p-1.pt-3
+            .row
+
+
+              .col.text-center.align-items-center.mb-2(style='height: 4rem;')
+                h5= card.number
+                span= card.text
+
+              .col.text-center.align-items-center.d-flex.justify-content-center.mb-2(style='height: 4rem;')
+                .rounded-circle.bg-primary.d-flex.justify-content-center.align-items-center.mb-2(style='width: 3rem; height: 3rem;')
+                  i.fas(class=`${card.icon} fa-lg text-white`)

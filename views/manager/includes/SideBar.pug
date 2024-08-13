@@ -1,0 +1,92 @@
+
+#sidebar.sidebar
+  nav
+   ul.navbar-nav.px-2
+     li.nav-item
+       a.nav-link(href='/manager/category') التصنيفات
+  
+     li.nav-item(data-bs-toggle="collapse" href="#collapse01" role="button" aria-expanded="false" aria-controls="collapse01")
+       a.nav-link(href='/about') المنتجات
+     li.nav-item#collapse01.collapse
+       ul.px-4
+         li
+           a.nav-link(href='/manager/products') المنتجات
+         li
+           a.nav-link(href='/') تحميل المنتجات بكميات كبرة
+         li
+           a.nav-link(href='/') الإضافات
+         li
+           a.nav-link(href='/manager/productsPrint') طباعة المنجات
+  
+     li.nav-item(data-bs-toggle="collapse" href="#collapse02" role="button" aria-expanded="false" aria-controls="collapse02")
+       a.nav-link(href='/about') الطلبات
+     li.nav-item#collapse02.collapse
+       ul.px-4
+         li
+           a.nav-link(href='/manager/orders') الطلبات
+         li
+           a.nav-link(href='/') الطلبات الجديدة
+         li
+           a.nav-link(href='/') الطلبات قيد التحضير
+         li
+           a.nav-link(href='/') الطلبات قيد التسليم
+         li
+           a.nav-link(href='/') الطلبات المستلمة
+         li
+           a.nav-link(href='/') الطلبات الملغاة
+     li.nav-item
+       a.nav-link(href='/manager/branch') الأفرع
+     li.nav-item
+       a.nav-link(href='/manager/coupon') قسائم الخصومات
+  
+  
+     li.nav-item(data-bs-toggle="collapse" href="#collapse03" role="button" aria-expanded="false" aria-controls="collapse03")
+       a.nav-link(href='/about') عملاء المتجر
+     li.nav-item#collapse03.collapse
+       ul.px-4
+         li
+           a.nav-link(href='/manager/customers') عملاء المتجر
+         li
+           a.nav-link(href='/') تاريخ الزائرين
+         li
+           a.nav-link(href='/') الرصيد
+  
+     li.nav-item
+       a.nav-link(href='/manager/subusers') المستخدمين
+  
+     li.nav-item(data-bs-toggle="collapse" href="#collapse04" role="button" aria-expanded="false" aria-controls="collapse04")
+       a.nav-link(href='/about') السائقين
+     li.nav-item#collapse04.collapse
+       ul.px-4
+         li
+           a.nav-link(href='/') السائقين
+         li
+           a.nav-link(href='/') تقرير
+  
+     li.nav-item
+       a.nav-link(href='/manager/settings') الإعدادات
+     li.nav-item
+       a.nav-link(href='/manager/notifications') إرسال الاشعارات
+  
+  
+     li.nav-item(data-bs-toggle="collapse" href="#collapse05" role="button" aria-expanded="false" aria-controls="collapse05")
+       a.nav-link(href='/about') باقات الإشتراك
+     li.nav-item#collapse05.collapse
+       ul.px-4
+         li
+           a.nav-link(href='/') باقات الإشتراك
+         li
+           a.nav-link(href='/') اشتراكات
+  
+     li.nav-item(data-bs-toggle="collapse" href="#collapse06" role="button" aria-expanded="false" aria-controls="collapse06")
+       a.nav-link(href='/about') تقارير
+     li.nav-item#collapse06.collapse
+       ul.px-4
+         li
+           a.nav-link(href='/') تقارير المبيعات
+         li
+           a.nav-link(href='/') الإحصائيات
+         li
+           a.nav-link(href='/') التحميلات
+         li
+           a.nav-link(href='/') الجلسات

@@ -1,0 +1,83 @@
+style.
+  .card-like-row {
+    background: #E7E8EB; /* Card-like row background color */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px; /* Vertical margin between rows */
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
+  }
+  .card-like-table {
+    border-collapse: separate;
+    border-spacing: 0 10px; /* Spacing between rows */
+
+
+  }
+  .card-like-table thead th {
+    border-top: 3px solid #ccc; /* Top border for thead, lighter gray */
+    border-bottom: 3px solid #ccc; /* Bottom border for thead, lighter gray */
+    background-color: #fff; /* Background color for thead */
+    font-weight: 500;
+    color: #5D5D5D; /* Font color for thead */
+
+
+  }
+  .card-like-table tbody tr td {
+    background: #E7E8EB; /* Updated background color for tbody */
+    border: none !important;
+    font-weight: 500;
+    color: #5D5D5D; /* Font color for thead */
+  }
+- var users = [{ id: "2W15-36", firstName: 'عبدالعزيز', phone: '55559294', email: 'fwfwa0463@gmail.com	', username: 'johndoe', city: 'هدية', price: '4.300', orderDate: '19-07-2023', orderTime: '2:57 AM' }, { id: "2Y8Y-29", firstName: 'mariam', phone: '55559294', email: '', username: 'janedoe', city: 'العقيلة', price: '26.250', orderDate: '19-07-2023', orderTime: '3:32 PM' }, { id: "78AM-20", firstName: 'سالين', phone: '55559294', email: '', username: 'jimbeam', city: 'الخالدية', price: '0.800', orderDate: '19-07-2023', orderTime: '3:27 PM' }]
+.card.shadow-sm
+  .card-body
+
+    .container
+      table.table.card-like-table
+        thead
+          tr
+
+
+            th(scope="col")
+
+
+              input.form-check-input(type="checkbox", value="", id="flexCheckDefault", style="border-color: #333333;")
+              label.form-check-label.mx-2(for="flexCheckDefault") كود الطلب
+
+            th.align-middle.text-center(scope="col") العميل
+            th.align-middle.text-center(scope="col") طريقة الإستلام / الوقت المقدر
+            th.align-middle.text-center(scope="col") الفرع/المنطقة
+            th.align-middle.text-center(scope="col") طريقة الدفع
+            th.align-middle.text-center(scope="col") حالة التوصيل
+            th.align-middle.text-center(scope="col") المجموع
+            th.align-middle.text-center(scope="col") تاريخ الإضافة
+        tbody
+
+          each user, index in users
+            tr.card-like-row
+              td.align-middle
+                input.form-check-input(type="checkbox", value="", id="flexCheckDefault", style="border-color: #333333;")
+                label.form-check-label.mx-2(for="flexCheckDefault")= user.id
+              td.align-middle.text-center
+                span= user.firstName
+                br
+                span= user.phone
+                br
+                span= user.email
+              td.align-middle.text-center
+                span= user.orderDate
+                br
+                span= user.orderTime
+              td.align-middle.text-center= user.city
+              td.align-middle.text-center
+                img.pay_icon(src='../img/upload/knet.png', alt='', style='max-width: 40px;')
+                br
+                span كي نت
+                br
+                span ناجح
+              td.align-middle.text-center
+                include sub/DropDownDelivery
+              td.align-middle.text-center د.ك #{user.price}
+              td.align-middle.text-center
+                span= user.orderDate
+                br
+                span= user.orderTime
