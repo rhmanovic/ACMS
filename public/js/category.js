@@ -1,32 +1,25 @@
-//
 // Define the DeleteModalTrigger function
-function DeleteModalTrigger(branchId, branchName) {
+function DeleteModalTrigger(categoryId, categoryName) {
   // Implementation of DeleteModalTrigger function
   // This function should handle the click event for triggering the delete modal
 
   // Log something to indicate the function execution
-  // console.log('Delete modal triggered');
+  console.log('Delete modal triggered');
   // Add a line to log the category ID and name
-  // console.log(`Category ID: ${branchId}, Category Name: ${branchName}`);
+  console.log(`Category ID: ${categoryId}, Category Name: ${categoryName}`);
 
-  document.getElementById('branchToDelete').textContent = branchName;
+  document.getElementById('categoryToDelete').textContent = categoryName;
 
-  document.getElementById('branchToDeleteID').value = branchId;
-
+  document.getElementById('categoryToDeleteID').value = categoryId;
+    
    $('#deleteConfirmationModal').modal('show');
 }
 
 // Add event listener for all category switches
 document.addEventListener('change', async (event) => {
-  // console.log("xxx")
   if (event.target.classList.contains('category-switch')) {
-    const branchId = event.target.dataset.id; // Get the category ID from the data-id attribute
-    const name = event.target.dataset.name; // Get the category ID from the data-id attribute
+    const categoryId = event.target.dataset.id; // Get the category ID from the data-id attribute
     const newStatus = event.target.checked; // Get the new status from the checked property of the switch
-
-    // console.log("branchId: " + branchId);
-    // console.log("name: " + name);
-    // console.log("newStatus: " + newStatus);
 
     try {
       // Disable the switch element and add a class to set opacity to the parent label element
@@ -34,15 +27,15 @@ document.addEventListener('change', async (event) => {
       const labelElement = event.target.closest('label');
       labelElement.classList.add('disabled-opacity');
 
-      // console.log("labelElement.classList:: " + labelElement.classList)
+      console.log("labelElement.classList:: " + labelElement.classList)
 
       // Send a POST request to update the category status
-      const response = await fetch('/manager/branch/update-status', {
+      const response = await fetch('/manager/categories/update-status', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ id: branchId, status: newStatus, name: name })
+        body: JSON.stringify({ id: categoryId, status: newStatus })
       });
 
       if (!response.ok) {
@@ -51,7 +44,7 @@ document.addEventListener('change', async (event) => {
 
       // Update the category status on the frontend if the request is successful
       const categoryRow = event.target.closest('tr');
-      //categoryRow.querySelector('.checkmark').style.display = newStatus ? 'block' : 'none'; // Show/hide the checkmark span based on the new status
+      categoryRow.querySelector('.checkmark').style.display = newStatus ? 'block' : 'none'; // Show/hide the checkmark span based on the new status
 
       // Show toast notification
       const toast = new bootstrap.Toast(document.querySelector('.toast'));
@@ -64,7 +57,7 @@ document.addEventListener('change', async (event) => {
 
       }, 5000);
     } catch (error) {
-      // console.error('Error updating category status:', error);
+      console.error('Error updating category status:', error);
       event.target.disabled = false;
       // Re-enable the switch element and remove the opacity class in case of error
       labelElement.classList.remove('disabled-opacity');
