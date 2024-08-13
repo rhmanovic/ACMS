@@ -1,0 +1,71 @@
+link(href='https://cdn.jsdelivr.net/npm/quill@2.0.0/dist/quill.snow.css' rel='stylesheet')
+script(src='https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js')
+script(src='https://cdn.jsdelivr.net/npm/quill@2.0.0/dist/quill.js')
+link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css')
+script(src='https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js')
+link(rel='stylesheet' href='https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css')
+
+style.
+  .ql-editor {
+    background-color: white; /* Set your desired color */
+    height: 200px;
+  }
+
+table.table.table-bordered.table-striped.table-hover
+  tbody
+    
+    // Adding new fields as rows in the table
+    tr.align-middle
+      td.col-lg-2 سعر البيع
+      td.col-lg-6
+        .col
+          input.form-control(type='number', name='sale_price', id='sale_price_1', min='0', step='.05', placeholder='سعر البيع', required='true', itsTab="tab2" , value=product.sale_price)
+          span.spanLocalError.bg-danger.text-white.hidden *إجباري
+      td د.ك
+
+    tr.align-middle
+      td تكلفة المنتج (إن وجدت)
+      td
+        input.form-control(type='number', name='purchase_price', id='input_purchase_price', min='0', step='.001', placeholder='تكلفة المنتج (إن وجدت)', value=product.purchase_price)
+      td د.ك
+
+           
+    
+    tr.align-middle
+      td حد الشراء
+      td
+        input.form-control(type='number', name='purchase_limit', id='input_purchase_limit', min='0', step='1', placeholder='حد الشراء', value=product.purchase_limit)
+      td
+    tr.align-middle
+      td الرمز الشريطي
+      td
+        input.form-control(type='text', name='barcode', id='input_barcode', placeholder='الرمز الشريطي', value=product.barcode)
+      td
+    tr.align-middle
+      td نوع الخصم
+      td
+      
+
+        select.form-control(name='pdt_discount_type', id='pdt_discount_type', required='true', itsTab="tab2")
+          option(value='nodiscount', selected=(product.pdt_discount_type === undefined || product.pdt_discount_type === 'nodiscount' ? true : false)) بدون خصم
+          option(value='percentage', selected=(product.pdt_discount_type === 'percentage' ? true : false)) نسبه مئويه
+          option(value='quantity', selected=(product.pdt_discount_type === 'quantity' ? true : false)) كمية
+
+        
+          
+      td
+    tr.align-middle
+      td خصم
+      td
+        input.form-control(type='number', id='discount', name='pdt_discount', min='0', step='.01', max='99', placeholder='خصم', value=product.pdt_discount)
+      td
+    tr.align-middle
+      td كمية المخزون
+      td
+        input.form-control(type='number', id='Stock', name='Stock', min='0', step='1', placeholder='كمية المخزون', value=product.Stock)
+      td
+    tr.align-middle
+      td المخزون في المستودع
+      td
+        input.form-control(type='number', id='warehouse_stock', name='warehouse_stock', min='0', step='1', placeholder='المخزون في المستودع', value=product.warehouse_stock)
+      td

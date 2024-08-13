@@ -1,1 +1,153 @@
+table.table.table-bordered.table-striped.table-hover
+  tbody
+    tr.align-middle
+      td اسم المنتج (العربية)
+      td
+        .col.col-lg-
+          input.form-control.mb-1(name='product_name_ar', placeholder='اسم المنتج (العربية)', required, itsTab='tab1', value=product.product_name_ar)
+          span.spanLocalError.bg-danger.text-white.hidden *إجباري
+          
+    tr.align-middle
+      td اسم المنتج (EN)
+      td
+        .col.col-lg-8
+          input.form-control(name='product_name_en', placeholder="اسم المنتج (EN)" required , itsTab="tab1", value=product.product_name_en)
+          span.spanLocalError.bg-danger.text-white.hidden *إجباري
+    tr.align-middle
+      td التصنيف
+      td
+        .col.col-lg-8
+          select.form-select(name='category_number' required placeholderselect="اختر التصنيف")
+            option.form-control(value='' disabled selected hidden) اختر التصنيف
+            each category in categories
+              if product.category_number == category.category_number
+                option(value=category.category_number selected) #{category.ArabicName}
+              else
+                option(value=category.category_number) #{category.ArabicName}
+          span.spanLocalError.bg-danger.text-white.hidden *إجباري
+          
+    tr.align-middle
+      td اسم العلامة التجارية
+      td
+        .col.col-lg-8
+          input.form-control(name='brand', placeholder="اسم العلامة التجارية" , itsTab="tab1", value=product.brand)
 
+    tr.align-middle
+      td الضمان
+      td
+        .col.col-lg-8
+          input.form-control(name='warranty', placeholder="الضمان" , itsTab="tab1", value=product.warranty)
+          
+    tr.align-middle
+      td امر ترتيب
+      td
+        .col.col-lg-8
+          input.form-control(type='number', name='order_command', placeholder="0", step="0.1" value=product.order_command)
+    tr.align-middle
+      td وزن (Kg)
+      td
+        .col.col-lg-8
+          input.form-control(name='weight', placeholder="0", value=product.weight)
+    tr.align-middle
+      td الكلمات المفتاحية
+      td
+        .col.col-lg-8
+          input.form-control(name='keywords', placeholder="الكلمات المفتاحية", value=product.keywords)
+    tr.align-middle
+      td
+        span صورة المنتج (PNG/JPG/GIF)
+        br
+        span (العرض والطول الموصى بهما: 500px*500px)
+      td
+        .col.col-md-4
+          label.btn.btn-outline-primary.btn-upload-img.d-flex.flex-column.align-items-center.justify-content-center.upload-image
+            input#category_img(type='file', name='product_image', accept='image/png, image/jpeg, image/jpg, image/gif', hidden, onchange='previewImage(event)')
+            i.fas.fa-plus-circle.fa-2x(style='color: #007bff;')
+            span.span-upload-img.mt-2(style='color: #007bff;') اختيار صورة
+            
+        .col.col-md-4.align-middle.text-center
+          img#imagePreview.border.border-4.my-4(src=`${product.product_image || 'https://via.placeholder.com/150'}` , alt='Product image', style='height: 150px;')
+    tr.align-middle
+      td معرف رابط فيديو يوتيوب (اختياري)
+      td
+        .col.col-lg-8
+          input.form-control(name='youtube_video_id', placeholder="معرف رابط فيديو يوتيوب (اختياري)" value=product.youtube_video_id)
+    tr.align-middle
+      td الخيار (Option)
+      td
+        .col.col-lg-8
+          label.switch
+            input#options(type='checkbox', name='options', checked=product.options)
+            span.switch-slider.round
+          span.checkmark.fas.fa-check(style='display: none;')
+    tr.align-middle
+      td.col-3
+        label.control-label(for='quill-editor32') الوصف (العربية)
+      td.col-9(dir="ltr").p-4
+        #toolbar-container32.bg-light
+          span.ql-formats.border.bg-white
+            select.ql-font.border
+            select.ql-size.border
+            button.ql-bold.border
+            button.ql-italic.border
+            button.ql-underline.border
+            button.ql-strike.border
+            select.ql-color.border
+            select.ql-background.border
+            button.ql-header(value='1').border
+            button.ql-header(value='2').border
+            button.ql-list(value='ordered').border
+            button.ql-list(value='bullet').border
+            button.ql-indent(value='-1').border
+            button.ql-indent(value='+1').border
+            button.ql-direction(value='rtl').border
+            select.ql-align.border
+        input(type="text" name='description_ar' id='hiddenDescriptionAr', value=product.description_ar)
+        #editor32.ql-editor
+        script.
+          var quill32 = new Quill('#editor32', {
+            theme: 'snow',
+            modules: {
+              toolbar: '#toolbar-container32'
+            }
+          });
+          
+          // Retrieve the description from the hidden input
+          var descriptionAr = document.getElementById('hiddenDescriptionAr').value;
+          // Set the editor's content using dangerouslyPasteHTML
+          quill32.clipboard.dangerouslyPasteHTML(descriptionAr);
+    tr.align-middle
+      td.col-3
+        label.control-label(for='quill-editor33') الوصف (الانجليزية)
+      td.col-9(dir="ltr").p-4
+        #toolbar-container33.bg-light
+          span.ql-formats.border.bg-white
+            select.ql-font.border
+            select.ql-size.border
+            button.ql-bold.border
+            button.ql-italic.border
+            button.ql-underline.border
+            button.ql-strike.border
+            select.ql-color.border
+            select.ql-background.border
+            button.ql-header(value='1').border
+            button.ql-header(value='2').border
+            button.ql-list(value='ordered').border
+            button.ql-list(value='bullet').border
+            button.ql-indent(value='-1').border
+            button.ql-indent(value='+1').border
+            button.ql-direction(value='rtl').border
+            select.ql-align.border
+        input(type="text" name='description_en' id='hiddenDescriptionEn', value=product.description_en)
+        #editor33.ql-editor
+        script.
+          var quill33 = new Quill('#editor33', {
+            theme: 'snow',
+            modules: {
+              toolbar: '#toolbar-container33'
+            }
+          });
+          // Retrieve the description from the hidden input
+          var descriptionEn = document.getElementById('hiddenDescriptionEn').value;
+          // Set the editor's content using dangerouslyPasteHTML
+          quill33.clipboard.dangerouslyPasteHTML(descriptionEn);
