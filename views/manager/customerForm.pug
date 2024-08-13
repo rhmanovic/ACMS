@@ -1,0 +1,108 @@
+extends layout
+
+block content
+  .main
+    - const gccCountries = ["Bahrain", "Kuwait", "Oman", "Qatar", "Saudi Arabia", "United Arab Emirates"];
+    .row.min-vh-100.m-0
+
+
+      include includes/SideBar
+
+
+      .col.background-main
+        .row
+          #page-title.d-flex.justify-content-between.align-items-center.px-3.py-2
+            h1.page-header.text-overflow.col-md-8 اضافة عميل جديد
+
+
+            .col.d-flex.justify-content-end
+              a.btn.btn-primary.btn-labeled.mx-2(href='/manager/customers')
+                .fa.fa-list
+                span= " ادارة العملاء "
+
+        .row.px-2
+          .card
+            .card-body
+              form#bigform(method='POST', action='/manager/add-customer')
+                input.form-control#theid(type='text', name='id', itsTab='tab1', value=customer._id)
+                .row.mt-2
+                  .container
+                    table.table.table-bordered.table-striped.table-hover
+  
+                      tbody
+                    
+                    
+                        
+                       
+                        tr.align-middle
+                          td التصنيف
+                          td
+                            
+    
+                            select.form-select.px-5#country(name='country' placeholderselect="الدولة")
+                              option.form-control(value='' disabled selected hidden) اختر الدولة
+                              each country in gccCountries
+                                if customer.country == country
+                                  option(value=customer.country selected) #{customer.country}
+                                else
+                                  option(value=country) #{country}
+
+                            
+                            span#countryRequired.spanLocalError.bg-danger.text-white.hidden *إجباري
+                            p#countryError.text-danger.hidden.mx-1.mb-0 يرجى تحديد الدولة.
+                        
+                        tr.align-middle
+                          td اسم العميل
+                          td
+                            input.form-control(type='text', name='name', placeholder="اسم العميل",  value=customer.name)
+                            span.spanLocalError.bg-danger.text-white.hidden *إجباري
+  
+                        
+                        tr.align-middle
+                          td البريد الإلكتروني
+                          td
+                            
+                            input.form-control#email(type='email', name='email', placeholder="أدخل البريد الإلكتروني", value=customer.email)
+                            p#emailError.text-danger.position-absolute(start-0 mt-1, style='display: none;')
+                        
+                        tr.align-middle
+                          td رقم هاتف العميل
+                          td
+                            
+                            input.form-control.rtl#phone(type='tel', name='phone', placeholder="أدخل رقم الهاتف", value=customer.phone, onkeypress='return isNumberKey(event)', required)
+                            span#phoneRequired.spanLocalError.bg-danger.text-white.hidden *إجباري
+                            p#phoneError.text-danger.hidden.mx-1.mb-0
+                        tr.align-middle
+                          td كلمة المرور
+                          td
+                            input#password.form-control(type='password', name='password', placeholder='كلمة المرور', autocomplete="new-password")
+                          
+                            span#passwordRequired.spanLocalError.bg-danger.text-white.hidden *إجباري
+                            p#passwordError.text-danger.hidden.mx-1.mb-0
+                            
+                        
+                        tr.align-middle
+                          td تأكيد كلمة المرور
+                          td
+                            input#confirmPassword.form-control(type='password', name='confirmPassword', placeholder='تأكيد كلمة المرور')
+                            span#passwordConfirmRequired.spanLocalError.bg-danger.text-white.hidden *إجباري
+
+                            p#confirmPasswordError.text-danger.mb-0.hidden
+                            p#confirmPasswordError2.text-danger.mb-0.hidden
+  
+                .row
+                  #page-title.d-flex.justify-content-between.align-items-center.px-3.py-2
+            
+            
+                    .row.justify-content-end
+                      .col-auto.mr-auto.mx-3
+                        span.text-danger.mt-3
+                          ul#textValidationErrorul
+                    .row
+                      #page-title.d-flex.justify-content-between.align-items-center.px-3.py-2
+                        .col.d-flex.justify-content-end
+                          button.btn.btn-primary.btn-labeled.mx-2#formbutton(type='submit')
+                            .fa.fa-save
+                            span= " حفظ "
+
+    script(src='/js/customerForm.js')

@@ -1,0 +1,34 @@
+extends layout
+
+block content
+  .main
+    
+    .row.min-vh-100.m-0
+
+
+      include includes/SideBar
+
+
+      .col.background-main
+        .row
+          #page-title.d-flex.justify-content-between.align-items-center.px-3.py-2
+            h1.page-header.text-overflow.col-md-8 إدارة قسائم الخصومات
+
+
+
+            .col.d-flex.justify-content-end
+              a.btn.btn-primary.btn-labeled.mx-2(href='/manager/category/form')
+                .fa.fa-plus-circle
+                span= " اضافة قسيمة "
+
+        .row
+          .col-sm-3.mt-4
+            h2 إنشاء قسيمة
+            p أضف خصومات القسيمة لتشجيع عملائك وزيادة عمليات الشراء
+            a.btn.btn-primary.btn-labeled.mx-2(href='/manager/category/form')
+              .fa.fa-plus-circle
+              span= " اضافة قسيمة "
+    
+          .col
+            
+            img.w-100(src="../img/upload/coupon.png", alt="Coupon Image")

@@ -1,0 +1,45 @@
+nav.navbar.navbar-expand-lg.navbar-light.bg-light.fs-4.border-bottom.border-5
+  .container-fluid
+    // Navigation items on the LEFT
+    ul.navbar-nav.me-auto.mb-1.mb-lg-0.px-0
+      li.nav-item
+        span.nav-item.nav-link.mt-1
+          i.fa-solid.fa-bars(aria-hidden='true')
+          
+      li.nav-item
+        a.nav-link(href="#") ARABAT
+      li.nav-item
+        a.navbar-brand(href='#ARABAT')
+          img(src='/img/upload/logoMNASATI.png', alt='ARABAT', style='height: 50px;')
+      
+    // Navigation items on the CENTER
+    .navbar-center
+      // a.navbar-brand(href='/manager')
+        img(src='/img/upload/logoMega.png', alt='MegaWatt', style='height: 50px;')
+  
+    // Navigation items on the right
+    ul.navbar-nav.ml-auto.mb-1.mb-lg-0.px-0
+      li.nav-item
+        a.navbar-brand(href='/manager')
+          img(src='/img/upload/logoMega.png', alt='ARABAT', style='height: 50px;')
+      
+      li.nav-item
+        // Use the session projectName if available
+        if projectNameNow
+          a.nav-link(href="/manager") #{projectNameNow}
+        else
+          a.nav-link(href="/manager") Project Name
+
+      li.nav-item
+        a.nav-item.nav-link.mt-1(href='/manager')
+          i.fa.fa-bell(aria-hidden='true')
+          
+      // Dropdown for fa fa-cog
+      li.nav-item.dropdown
+        a.nav-link.dropdown-toggle.mt-1(href='#', id='navbarDropdown', role='button', data-bs-toggle='dropdown', aria-expanded='false')
+          i.fa.fa-cog(aria-hidden='true')
+        .dropdown-menu(aria-labelledby='navbarDropdown')
+          a.dropdown-item(href='/manager/logout') Logout
+          a.dropdown-item(href='#') Action 2
+          .dropdown-divider
+          a.dropdown-item(href='#') Another action

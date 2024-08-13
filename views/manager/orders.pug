@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  .main
+    .row.min-vh-100.m-0
+
+
+      include includes/SideBar
+
+      // p= orders
+      .col.background-main
+        include includes/TopStatus
+        include includes/OrdersTable

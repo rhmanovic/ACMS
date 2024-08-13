@@ -1,0 +1,240 @@
+doctype html
+html(lang="en" dir="rtl")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title Product Images
+    link(rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css")
+    style.
+      .container {
+        background: url('https://arabatcms.replit.app/img/backgrounds/blue-insta-bg.jpg') no-repeat center center;
+        background-size: cover;
+        position: relative;
+        width: 512px;
+        height: 512px;
+        margin: auto;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .logo {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        width: 120px;
+        height: auto;
+        z-index: 2;
+      }
+      .image-container {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+      .product-image {
+        max-width: 80%;
+        height: auto;
+        margin: auto;
+        display: block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+      .overlay-text {
+        position: absolute;
+        bottom: 10px;
+        left: 0;
+        width: 100%;
+        color: #000;
+        font-size: 20px;
+        font-weight: bold;
+        background: rgba(255, 255, 255, 0.8);
+        padding: 5px;
+        z-index: 1;
+      }
+      .download-button {
+        margin-top: 20px;
+        display: block;
+        margin: 20px auto;
+      }
+      .orange-rectangle {
+        position: absolute;
+        top: 100px;
+        right: 20px;
+        width: 175px;
+        height: 50px;
+        background-color: #ff6663;
+        z-index: 2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-size: 30px;
+        font-weight: bold;
+      }
+      .variant-price {
+        position: absolute;
+        right: 20px;
+        width: 175px;
+        height: 50px;
+        background-color: #ff6663;
+        z-index: 2;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-size: 20px;
+        font-weight: bold;
+        display: none;
+      }
+      .variations {
+        margin-top: 20px;
+        text-align: left;
+      }
+      .variation-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+      .text-box-container {
+        margin-top: 20px;
+        text-align: center;
+      }
+      .text-box {
+        width: 80%;
+        height: 100px;
+        margin: auto;
+        margin-bottom: 10px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+        font-size: 16px;
+      }
+      .copy-button {
+        display: block;
+        margin: 10px auto;
+      }
+  body
+    - const numericPrice = parseFloat(price);
+    .container.mt-4#container
+      img.logo(src="https://arabatcms.replit.app/img/web/logo-01.png" alt="Logo")
+      .image-container
+        img.product-image(src=product_image alt="Product Image")
+        if !isNaN(numericPrice)
+          .orange-rectangle#price-container #{numericPrice.toFixed(3)} KD
+        else
+          .orange-rectangle#price-container السعر: NaN KD
+        each variation, index in variations
+          .variant-price(id=`variant-price-${index}` style=`top: ${100 + (index * 60)}px; display: none;`)= `${variation.name} ${Number(variation.price).toFixed(3)} KD`
+      .overlay-text= product_name
+    button.download-button.btn.btn-primary(type="button" onclick="downloadImage()") تنزيل الصورة
+
+    .container
+      .variations
+        each variation, index in variations
+          .variation-item
+            p= `${variation.name} السعر: ${Number(variation.price).toFixed(3)} KD`
+            label.switch
+              input(type="checkbox" onchange=`updatePrice(${variation.price}, ${index}, '${variation.name}')`)
+              span.slider
+
+    .text-box-container
+      - const formattedPrice = !isNaN(numericPrice) ? numericPrice.toFixed(3) : 'NaN';
+      textarea.text-box#dummyTextBox #{product_name}
+      button.copy-button.btn.btn-secondary(type="button" onclick="copyText()") نسخ النص
+
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.3.2/html2canvas.min.js")
+    script.
+      let selectedPrices = [];
+
+      console.log('Initial price:', '#{formattedPrice}');
+      console.log('Product name:', '#{product_name}');
+
+      function updatePrice(price, index, name) {
+        console.log('Updating price:', price, 'Index:', index, 'Name:', name);
+        
+        const checkbox = document.querySelector(`input[type="checkbox"][onchange="updatePrice(${price}, ${index}, '${name}')"]`);
+        const variantPriceElement = document.getElementById(`variant-price-${index}`);
+        const priceContainer = document.getElementById('price-container');
+
+        if (checkbox.checked) {
+          selectedPrices.push({ price, index, name });
+          variantPriceElement.style.display = 'flex';
+        } else {
+          selectedPrices = selectedPrices.filter(item => item.index !== index);
+          variantPriceElement.style.display = 'none';
+        }
+
+        if (selectedPrices.length > 0) {
+          priceContainer.style.display = 'none';
+        } else {
+          priceContainer.style.display = 'flex';
+        }
+
+        selectedPrices.sort((a, b) => a.index - b.index);
+
+        selectedPrices.forEach((item, i) => {
+          document.getElementById(`variant-price-${item.index}`).style.top = `${100 + (i * 60)}px`;
+        });
+
+        updateTextBox(); // Update the text box content
+      }
+
+      
+
+      function updateTextBox() {
+        console.log("Updating text box");
+        const textBox = document.getElementById('dummyTextBox');
+        const productName = '#{product_name}';
+        const basePrice = 'السعر: #{Number(formattedPrice).toFixed(3)} د.ك';
+        
+        // Initialize text content with the product name
+        let textContent = `${productName}`;
+      
+        // If no variants are selected, include the base price
+        if (selectedPrices.length === 0) {
+          textContent += `\n${basePrice}`;
+        }
+      
+        // Add selected variant prices to the text content
+        selectedPrices.forEach(item => {
+          textContent += `\n${item.name} السعر: ${item.price.toFixed(3)} د.ك`;
+        });
+
+
+        textContent += `\nحياك خدمة العملاء 90903115 بالواتساب`;
+      
+        console.log(`Updated text content: ${textContent}`);
+        textBox.value = textContent;
+      }
+
+
+      
+
+      function downloadImage() {
+        console.log('Downloading image');
+        const container = document.getElementById('container');
+        html2canvas(container, {
+          allowTaint: true,
+          useCORS: true
+        }).then(canvas => {
+          const link = document.createElement('a');
+          link.href = canvas.toDataURL('image/png');
+          link.download = 'product_image.png';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }).catch(err => {
+          console.error('Error generating image:', err);
+        });
+      }
+
+      function copyText() {
+        console.log('Copying text');
+        const textBox = document.getElementById('dummyTextBox');
+        textBox.select();
+        textBox.setSelectionRange(0, 99999); // For mobile devices
+        document.execCommand('copy');
+        alert('تم نسخ النص');
+      }

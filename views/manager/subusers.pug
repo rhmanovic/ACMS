@@ -1,0 +1,36 @@
+extends layout
+
+block content
+  .main
+
+    .row.min-vh-100.m-0
+
+
+       
+      include includes/SideBar
+
+
+      .col.background-main
+        .row
+          #page-title.d-flex.justify-content-between.align-items-center.px-3.py-2
+            h1.page-header.text-overflow.col-md-8 المستخدمين الفرعيين
+
+
+
+
+            .col.d-flex.justify-content-end
+              a.btn.btn-primary.btn-labeled.mx-2(href='/manager/category/form')
+                .fa.fa-plus-circle
+                span= " اضافة مستخدم فرعي جديد "
+
+        .row
+          .col-sm-3.mt-4
+            h2 إضافة مستخدم جديد
+            p أضف خصومات القسيمة لتشجيع عملائك وزيادة عمليات الشراء
+            a.btn.btn-primary.btn-labeled.mx-2(href='/manager/category/form')
+              .fa.fa-plus-circle
+              span= " اضافة مستخدم فرعي جديد "
+
+          .col
+
+            img.w-100(src="../img/upload/subusers.png", alt="Coupon Image")

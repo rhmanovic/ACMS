@@ -1,0 +1,91 @@
+extends layout
+
+block content
+  .main
+    - var products = [{ }, { }, { }, { }]
+    .row.min-vh-100.m-0
+
+
+      include includes/SideBar
+
+
+      .col.background-main
+        .row
+          
+        .row
+          #page-title.d-flex.justify-content-between.align-items-center.px-3.py-2
+            h1.page-header.text-overflow.col-md-8 إدارة عملية الإرسال
+
+
+            .col.d-flex.justify-content-end
+              a.btn.btn-primary.btn-labeled.mx-2(href='/manager/branch/form')
+                .fa.fa-plus-circle
+                span= " اضافة اشعار جديد "
+            
+              a.btn.btn-primary.btn-labeled.mx-2(href='/manager/branch/form')
+                .fa.fa-search
+                span= " بحث "
+
+        .row.p-2
+          .card
+            .card-body
+              form
+                .form-group.mb-3
+                  input.form-control(type='text', placeholder='First input')
+                  .input-group-append
+                    span.input-group-text
+                      i.fa.fa-calendar-alt
+                .form-group.mb-3
+                  select.form-control
+                    option Choose...
+                    option(value='1') Option 1
+                    option(value='2') Option 2
+                    option(value='3') Option 3
+                .form-group.mb-3
+                  input.form-control(type='text', placeholder='Second input')
+                  .input-group-append
+                    span.input-group-text
+                      i.fa.fa-envelope
+                .form-group.mb-3
+                  input.form-control(type='date', placeholder='mm/dd/yyyy')
+                button.btn.btn-primary(type='submit')
+                  i.fas.fa-search Search
+
+  
+
+        .row.px-2
+          .card
+            .card-body
+              .row.d-flex.justify-content-end
+                .col-2
+                  input.form-control(placeholder="بحث")
+              .row.mt-2
+                .container
+                  table.table.table-bordered.table-striped.table-hover
+                    thead
+                      tr
+
+                        th عنوان الإشعار
+                        th الجمهور المستهدف
+                        th مجدول
+                        th وقت الإرسال
+                        th الحالة
+                        th وقت الإضافة
+                        th إجراءات
+
+
+
+                        
+                    tbody
+                      
+                      tr.align-middle.text-center
+                        td مخفي الديكور
+                        td جميع عملاء المتجر
+                        td لا
+                        td 2023-04-05 13:27:23
+                        td تم الإرسال
+                        td 2023-04-05 13:27:23
+                        td
+                          button.btn.btn-primary.btn-labeled
+                            .fa.fa-circle-info
+                            span.mx-1 مشاهدة

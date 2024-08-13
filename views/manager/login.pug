@@ -1,0 +1,31 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title Sign In to Your Account
+    link(href='https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css' rel='stylesheet' integrity='sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD' crossorigin='anonymous')
+    link(rel='stylesheet', href='/stylesheets/style2.css')
+  body.page-background.height100vh
+    .container
+      .row.justify-content-center.align-items-center.height100vh.px-3
+        .row.illustration-side.justify-content-center.align-items-center.p-1.py-5.p-md-5
+          .col-10.col-lg-6
+             img(src='/img/upload/login.png', alt='Your Graphic', style='max-width: 100%; height: auto;')
+          .col-12.col-lg-6
+             .card.mt-2.shadow.rounded-3
+              .card-body
+                h3.mb-3.text-center Sign In to Your Account
+                form#loginForm(role='form', action='/manager/login', method='post')
+                  .form-floating.mb-3
+                    input#emailorphone.form-control(type='text', name='emailorphone', placeholder='Email or Phone', required)
+                    label(for='emailorphone') Email address or Phone Number
+                  .form-floating.mb-3
+                    input#password.form-control(type='password', name='password', placeholder='Password', required)
+                    label(for='password') Password
+                  .d-grid.gap-2
+                    button.btn.btn-primary(type='submit') Sign In
+                  .mt-3.text-center
+                    a(href='#') Forgot Password?
+                  .mt-3.text-center
+                    a(href='/manager/register') Sign Up Now

@@ -1,0 +1,72 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title Page Title
+    link(rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css")
+    style.
+      body {
+        direction: rtl;
+      }
+      .card-text, .card-title, .card-subtitle, table th, table td {
+        text-align: right;
+        font-size: 2.2em;
+        color: black;
+      }
+      h5.card-title {
+        font-size: 1.4em;
+      }
+      .text-muted {
+        color: black !important; // Override Bootstrap's default gray text-muted color
+      }
+      .card {
+        border-color: black; // Set the card border color to black
+      }
+  
+  body
+    block content
+      .main
+        .row.min-vh-100.m-0
+          .col.background-main
+            .row.px-2
+              // Cards displaying product name and price
+              .row
+                each product in products
+                  .col-md-6.mb-3
+                    .card
+                      .card-body
+                        h6.card-subtitle.mb-2.text-muted(style="font-size: 2.2em")= product.product_name_en
+                        h5.card-title(style="font-size: 2.2em")= product.product_name_ar
+                        p.card-text(style="font-size: 2.2em") السعر: #{product.sale_price.toFixed(3)} دينار
+              
+              // Table displaying products
+              .card
+                .card-body
+                  .row.mt-2
+                    .container
+                      table.table.table-bordered.table-striped.table-hover
+                        thead
+                          tr
+                            th.align-middle(scope="col" style="font-size: 2.2em; color: black") الإسم (AR)
+                            th.align-middle(scope="col" style="font-size: 2.2em; color: black") الإسم (EN)
+                            th.align-middle.col(scope="col" style="font-size: 2.2em; color: black") السعر
+                        tbody
+                          each product in products
+                            tr.align-middle.text-center(data-product-id=product._id)
+                              td(style="font-size: 2.2em; color: black")= product.product_name_ar
+                              td(style="font-size: 2.2em; color: black")= product.product_name_en
+                              td.sale_price(style="width: 110px; font-size: 2.2em; color: black")
+                                span.price-span.clickable.p-2#sale_price= product.sale_price.toFixed(3)
+
+      .toast-container.position-fixed.bottom-0.start-0.p-3
+        .toast.hide(role='alert', aria-live='assertive', aria-atomic='true', data-bs-delay='5000')
+          .toast-header
+            strong.toast-title.ms-auto Updated Successfully
+            button.btn-close(type='button', data-bs-dismiss='toast', aria-label='Close')
+          .toast-body#toastBody
+
+    // Bootstrap JS and dependencies
+    script(src="https://code.jquery.com/jquery-3.5.1.slim.min.js")
+    script(src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js")
+    script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js")

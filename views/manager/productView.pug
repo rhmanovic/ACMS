@@ -1,0 +1,62 @@
+extends layout
+
+block content
+  
+  style.
+    
+              
+  
+  .main
+    .row.min-vh-100.m-0
+      include includes/SideBar
+
+      .col.background-main
+        .row
+          #page-title.d-flex.justify-content-between.align-items-center.px-3.py-2
+            h1.page-header.text-overflow.col-md-8 مشاهدة المنتدج
+            .col.d-flex.justify-content-end
+              a.btn.btn-primary.btn-labeled.mx-2(href='/manager/products')
+                .fa.fa-list
+                span= " إدارة المنتجات "
+
+        .row.px-2
+          .card
+            .card-body
+              .row
+                .col-12.col-sm-4.text-center
+                  img.mx-auto(src=product.product_image alt='Product image' style='width: 100%; max-width: 400px; height: auto; aspect-ratio: 1 / 1;')
+                .col-12.col-sm-8
+                  
+                  table.table.table-bordered.table-striped.table-hover
+                    tbody
+                      tr.align-middle.align-middle.text-center
+                        td.col-6
+                            span رقم المنتج
+                        td.col-6
+                            span= product.product_number
+                      tr.align-middle.align-middle.text-center
+                        td.col-6
+                            span الاسم
+                        td.col-6
+                            span= product.product_name_en
+                      tr.align-middle.align-middle.text-center
+                        td التصنيف
+                        td
+                          - var categoryName = productCategory ? productCategory.ArabicName : "No Category Found"
+                          span= categoryName
+                      tr.align-middle.align-middle.text-center
+                        td نوع المنتج
+                        td
+                            span= product.product_type
+                      tr.align-middle.align-middle.text-center
+                        td سعر البيع
+                        td
+                            span.price-span#sale_price= product.sale_price
+                      tr.align-middle.align-middle.text-center
+                        td تكلفة المنتج (إن وجدت)
+                        td
+                            span= product.purchase_price
+                      tr.align-middle.align-middle.text-center
+                        td الحالة
+                        td
+                            span= product.status

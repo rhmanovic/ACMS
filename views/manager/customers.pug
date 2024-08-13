@@ -1,0 +1,81 @@
+extends layout
+
+block content
+  .main
+    .row.min-vh-100.m-0
+      include includes/SideBar
+        
+      .col.background-main
+        .row.justify-content-between.align-items-center.py-3
+          .col-auto
+            h1.page-header عملاء المتجر
+            
+          .col-auto
+            a.btn.btn-primary.btn-labeled.mx-2(href='/manager/customer/form/new')
+              .fa.fa-plus-circle
+              span= " اضافة عميل جديد "
+            a.btn.btn-primary.btn-labeled.mx-2(href='/manager/customer/customerBalanceForm')
+              .fa.fa-plus-circle
+              span= " اضافة رصيد "
+            a.btn.btn-primary.btn-labeled.mx-2(href='/manager/customer/form')
+              i.fas.fa-file-excel
+              span= " تصدير الى Excel "
+            
+
+        
+        p= customers
+        .row
+          .col-12
+            .card
+              .card-body
+                .row.d-flex.justify-content-end
+                  .col-2
+                    input.form-control(placeholder="بحث")
+                row.mt-2
+                .container
+                  table.table.table-bordered.table-striped.table-hover
+                    thead.thead-light
+                      tr
+                        th(scope="col") رقم
+                        th(scope="col") الاسم
+                        th(scope="col") البريد الإلكتروني
+                        th(scope="col") التصنيف
+                        th(scope="col") الهاتف
+                        th(scope="col") الدولة
+                        th(scope="col") الرصيد (د.ك.)
+                        th(scope="col") تاريخ الإضافة
+                        th(scope="col") إجراءات
+                    tbody
+                      
+                      each customer, index in customers
+                        tr
+                          td= customer.customer_number
+                          td= customer.name
+                          td= customer.email
+                          td= customer.type
+                          td= customer.phone
+                          td= customer.country
+                          td= customer.balance
+                          td= customer.addedDate.toISOString().split('T')[0]
+                          td
+                            .row
+                                                         
+                              .col-6
+                                a.btn.btn-sm.btn-outline-secondary.w-100(href=`/manager/customer/form/${customer._id}`)
+                                  i.fas.fa-edit.mx-1
+                                  | تعديل
+                              .col-6
+                                a.btn.btn-sm.btn-outline-secondary.w-100(href=`/manager/customer/customerOrders#view=${index}`)
+                                  i.fas.fa-shopping-cart.mx-1
+                                  | الطلبات
+  
+                            .row.mt-1
+                              .col-6
+                                a.btn.btn-sm.btn-outline-secondary.w-100(href=`/manager/customer/customerBalanceForm#view=${index}`)
+                                  i.fas.fa-money-bill-alt.mx-1
+                                  | تعبئة الرصيد
+                              .col-6
+                                a.btn.btn-sm.btn-outline-secondary.w-100(href=`/manager/customer/customerAddress#view=${index}`)
+                                  i.fas.fa-map-marker-alt.mx-1
+                                  | قائمة العناوين
+                      

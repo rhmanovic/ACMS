@@ -1,0 +1,124 @@
+extends layout
+
+block content
+  .main
+    .row.min-vh-100.m-0
+      include includes/SideBar
+
+      .col.background-main
+        .row
+          #page-title.d-flex.justify-content-between.align-items-center.px-3.py-2
+            h1.page-header.text-overflow.col-md-8 إدارة المنتجات
+            
+            .col.d-flex.justify-content-end
+              a.btn.btn-primary.btn-labeled.mx-2(href='/manager/product/form/new')
+                .fa.fa-plus-circle
+                span= " اضافة منتج جديد"
+              a.btn.btn-primary.btn-labeled.mx-2(href='/manager/exportproducts')
+                .fa.fa-file-excel-o
+                span= " تصدير إلى Excel"
+
+        .row.px-2
+          
+          .card
+            .card-body
+              .row.d-flex.justify-content-end
+                .col-2
+                  input.form-control(placeholder="بحث")
+              .row.mt-2
+                .container
+                  table.table.table-bordered.table-striped.table-hover
+                    thead
+                      tr
+                        th.align-middle.col-1(scope="col") صورة المنتج
+                        th.align-middle(scope="col") الإسم (AR)
+                        th.align-middle(scope="col") الإسم (EN)
+                        th.align-middle(scope="col") التصنيف
+                        th.align-middle.col(scope="col") السعر
+                        th.align-middle.col(scope="col") الكمية الحالية
+                        th.align-middle.col-1(scope="col") امر ترتيب
+                        th.align-middle.col-1(scope="col") عرض
+                        th.align-middle.col-2(scope="col") إجراءات
+                    tbody
+                      each product in products
+                        tr.align-middle.text-center(data-product-id=product._id)
+                          td 
+                            img(src=`${product.product_image || 'https://via.placeholder.com/150'}` alt='Product image' style='height: 50px;')
+                          td= product.product_name_ar
+                          td= product.product_name_en
+                          td
+                            each category in categories
+                              if product.category_number
+                                if category.category_number == product.category_number
+                                  span= category.ArabicName || "Category Not Found"
+                          td.sale_price(style="width: 110px;")
+                            .spinner1.spinner-grow.text-primary.hidden(role='status')
+                              span.visually-hidden Loading...
+                            span.price-span.clickable.p-2#sale_price= product.sale_price
+                            form.form1.update-price-form.inline-form.hidden.ltr(action='/manager/update-price' method='post' onsubmit='submitForm(event)')
+                              .input-group.mb-3
+                                input.form-control.no-arrows.p-1(type='number' name='value' value=product.sale_price placeholder='Enter new price' autocomplete="off")
+                                input(type='hidden' name='type' value='sale_price')
+                                input(type='hidden' name='productId' value=product._id)
+                                button.btn.btn-primary(type='submit')
+                                  i.fas.fa-check
+                          td.stock(style="width: 110px;")
+                            .spinner1.spinner-grow.text-primary.hidden(role='status')
+                              span.visually-hidden Loading...
+                            span.stock-span.clickable.p-2= product.Stock
+                            form.form1.update-price-form.inline-form.hidden.ltr(action='/manager/update-price' method='post' onsubmit='submitForm(event)')
+                              .input-group.mb-3
+                                input.form-control.no-arrows.p-1(type='number' name='value' value=product.Stock placeholder='Enter new price' autocomplete="off")
+                                input(type='hidden' name='type' value='sale_price')
+                                input(type='hidden' name='productId' value=product._id)
+                                button.btn.btn-primary(type='submit')
+                                  i.fas.fa-check
+                          td= product.order_command
+                          td
+                            label.switch
+                              input(id='pub_' + product._id, class='product-switch', type='checkbox', data-id=product._id, checked=product.status)
+                              span.switch-slider.round
+                              span.checkmark.fas.fa-check(style='display: none;')
+                          td.text-end
+                            span.badge.bg-primary.mx-1.mb-1.position-relative
+                              i.fas.fa-pencil= " تعديل"
+                              a.stretched-link(href=`/manager/product/form/${product.product_number}`)
+                            span.badge.bg-info.mx-1.mb-1.position-relative
+                              i.fas.fa-eye= " مشاهدة"
+                              a.stretched-link(href=`/manager/product/view/${product.product_number}`)
+                            span.badge.bg-secondary.mx-1.mb-1
+                              i.fas.fa-minus= " إزالة"
+                            span.badge.bg-Success.mx-1.mb-1
+                              i.fas.fa-plus= " تعبئة المخزون"
+                            button.btn-light.span.badge.bg-Danger.mx-1.mb-1.border-0(onclick=`DeleteModalTrigger('${product._id}', '${product.product_name_ar}')`)
+                              i.fas.fa-trash= " حذف"
+                            a.btn-light.span.badge.bg-Success.mx-1.mb-1.border-0(target='_blank', href=`/manager/generate-image?product_number=${product.product_number}`)
+                              i.fas.fa-star= "توليد صورة منتج"
+
+
+    .modal.fade#deleteConfirmationModal(tabindex='-1', role='dialog', aria-labelledby='deleteConfirmationModalLabel', aria-hidden='true')
+      .modal-dialog.modal-dialog-centered(role='document')
+        .modal-content
+          .modal-header
+            h5#deleteConfirmationModalLabel.modal-title تأكيد الحذف
+            button.close(type='button', data-bs-dismiss='modal', aria-label='Close')
+              span(aria-hidden='true') ×
+          .modal-body
+            span هل أنت متأكد من أنك تريد حذف التصنيف 
+            span#productToDelete.text-danger
+    
+          .modal-footer
+            button.btn.btn-secondary(data-bs-dismiss='modal') إلغاء
+            form#cart(method='POST' action='/manager/product/delete')
+              input#productToDeleteID(name="productToDeleteID" style='display: none;')
+              button.btn.btn-danger#confirmDeleteButton(type='submit') حذف
+
+    .toast-container.position-fixed.bottom-0.start-0.p-3
+      .toast.hide(role='alert', aria-live='assertive', aria-atomic='true', data-bs-delay='5000')
+        .toast-header
+          strong.toast-title.ms-auto Updated Successfully
+          button.btn-close(type='button', data-bs-dismiss='toast', aria-label='Close')
+        .toast-body#toastBody
+    
+    script(src='/js/product.js')
+    script(src='/js/product2.js')

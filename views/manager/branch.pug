@@ -1,1 +1,126 @@
+extends layout
 
+block content
+  .main
+    
+    
+    .row.min-vh-100.m-0
+
+
+      div(style='width: 18rem;')        
+        include includes/SideBar
+
+
+      .col.background-main
+        .row
+          #page-title.d-flex.justify-content-between.align-items-center.px-3.py-2
+            h1.page-header.text-overflow.col-md-8 إدارة الأفرع
+
+
+            .col.d-flex.justify-content-end
+              a.btn.btn-primary.btn-labeled.mx-2(href='/manager/branch/form')
+                .fa.fa-plus-circle
+                span= " اضافة فرع جديد "
+          
+          
+        .row.px-2
+          .card
+            .card-body
+              .row.d-flex.justify-content-end
+                .col-2
+                  input.form-control(placeholder="بحث")
+              .row.mt-2
+                .container
+                  table.table.table-bordered.table-striped.table-hover
+                    thead
+                      tr
+
+
+
+
+
+                        th.align-middle(scope="col") عنوان (EN)
+                        th.align-middle(scope="col") عنوان (AR)
+                        th.align-middle(scope="col") هاتف
+                        th.align-middle.col(scope="col") الحالة
+                        th.align-middle.col(scope="col") مشغول
+                        th.align-middle.col(scope="col") توصيل الطلب
+                        th.align-middle.col(scope="col") إستلام الطلب
+                        th.align-middle.col(scope="col") الجدول الزمني
+                        th.align-middle.col-3(scope="col") إجراءات
+                    tbody
+                      each branch, index in branches
+                        tr.align-middle.text-center
+                          td= branch.branch_name_ar
+                          td= branch.branch_name_en
+                          td= branch.phone
+
+                          
+                          td
+                            label.switch
+
+
+                              input.sw1.category-switch(type='checkbox', name='status', checked=branch.status, data-id=branch._id, data-name="status")
+                              span.switch-slider.round
+                            span.checkmark.fas.fa-check(style='display: none;')
+
+                          
+                          td
+                            label.switch
+                              input.sw1.category-switch(type='checkbox', name='isBusy', checked=branch.isBusy, data-id=branch._id, data-name="isBusy")
+                              span.switch-slider.round
+                            span.checkmark.fas.fa-check(style='display: none;')
+                          td
+                            label.switch
+                              input.sw1.category-switch(type='checkbox', name='deliveryAvailable', checked=branch.deliveryAvailable, data-id=branch._id, data-name="deliveryAvailable")
+                              span.switch-slider.round
+                            span.checkmark.fas.fa-check(style='display: none;')
+                          td
+                            label.switch
+                              input.sw1.category-switch(type='checkbox', name='pickupAvailable', checked=branch.pickupAvailable, data-id=branch._id, data-name="pickupAvailable")
+                              span.switch-slider.round
+                            span.checkmark.fas.fa-check(style='display: none;')
+                          td
+                            label.switch
+                              input.sw1.category-switch(type='checkbox', name='scheduleAvailable', checked=branch.scheduleAvailable, data-id=branch._id, data-name="scheduleAvailable")
+                              span.switch-slider.round
+                            span.checkmark.fas.fa-check(style='display: none;')
+
+                          td.text-end
+
+                            a.badge.bg-primary.mx-1.mb-1(href=`/manager/branch/form/${branch._id}`)
+                              i.fas.fa-times= " " + "تعديل"
+                            //span.badge.bg-Info.mx-1.mb-1
+                              //i.fas.fa-pencil-alt= " " + "مشاهدة"
+                            button.btn-light.span.badge.bg-Danger.mx-1.mb-1.border-0(onclick=`DeleteModalTrigger('${branch._id}', '${branch.branch_name_en}')`)
+                              //- Add delete action with a 'Delete' icon
+                              i.fas.fa-trash.mr-2= " " + "حذف"
+
+    //- Modal for confirming deletion
+    .modal.fade#deleteConfirmationModal(tabindex='-1', role='dialog', aria-labelledby='deleteConfirmationModalLabel', aria-hidden='true')
+      .modal-dialog.modal-dialog-centered(role='document')
+        .modal-content
+          .modal-header.py-2
+            h4#deleteConfirmationModalLabel.modal-title تأكيد الحذف
+            button.close.btn.btn-outline-secondary(type='button', data-bs-dismiss='modal', aria-label='Close')
+              span(aria-hidden='true') &times;
+          .modal-body
+            p هل أنت متأكد من أنك تريد حذف الفرع؟
+            .text-center
+              span#branchToDelete.text-danger
+          .modal-footer.py-1
+            button.btn.btn-outline-secondary(data-bs-dismiss='modal') إلغاء
+            form#cart(method='POST', action='/manager/branch/delete')
+              input#branchToDeleteID(type='hidden', name='branchToDeleteID')
+              button.btn.btn-danger#confirmDeleteButton(type='submit') حذف
+
+
+    //- Bootstrap Toast for showing notifications
+    .toast-container.position-fixed.bottom-0.start-0.p-3
+      .toast.hide(role='alert', aria-live='assertive', aria-atomic='true', data-delay='5000')
+        .toast-header
+          strong.toast-title.ms-auto تحديث الحالة
+          button.btn-close(type='button', data-bs-dismiss='toast', aria-label='Close')
+        .toast-body حالة التصنيف تم تحديثها بنجاح
+        
+    script(src='/js/branch.js')

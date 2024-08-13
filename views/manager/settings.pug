@@ -1,0 +1,77 @@
+extends layout
+
+block content
+  .main
+    
+    .row.min-vh-100.m-0
+
+
+      include includes/SideBar
+
+
+      .col.background-main
+        .row
+          #page-title.d-flex.justify-content-between.align-items-center.px-3.py-2
+            h1.page-header.text-overflow.col-md-8 إدارة التصنيفات
+
+
+        
+        .row.px-2
+          .col-2
+            .card
+              .nav.flex-column.nav-pills.navbar-light.bg-light(role='tablist', 'aria-orientation'='vertical')
+                a.nav-link.active(href='#overview', data-bs-toggle='pill', role='tab', aria-controls='overview', aria-selected='true') صور المتجر
+                a.nav-link(href='#settings', data-bs-toggle='pill', role='tab', aria-controls='settings', aria-selected='false') اعدادات المتجر
+                a.nav-link(href='#social', data-bs-toggle='pill', role='tab', aria-controls='social', aria-selected='false') شبكات التواصل الاجتماعى
+                a.nav-link(href='#seo', data-bs-toggle='pill', role='tab', aria-controls='seo', aria-selected='false') تحسين محركات البحث (SEO)
+                a.nav-link(href='#bankAccounts', data-bs-toggle='pill', role='tab', aria-controls='bankAccounts', aria-selected='false') المعلومات البنكية
+                a.nav-link(href='#notifications', data-bs-toggle='pill', role='tab', aria-controls='notifications', aria-selected='false') أصوات الإشعارات
+                a.nav-link(href='#about_us', data-bs-toggle='pill', role='tab', aria-controls='about_us', aria-selected='false') معلومات عنا
+                a.nav-link(href='#rules', data-bs-toggle='pill', role='tab', aria-controls='rules', aria-selected='false') الشروط والأحكام
+                a.nav-link(href='#countries', data-bs-toggle='pill', role='tab', aria-controls='countries', aria-selected='false') الدول التي توصل اليها
+                a.nav-link(href='#sms', data-bs-toggle='pill', role='tab', aria-controls='sms', aria-selected='false') إعدادات الرسائل القصيرة
+                a.nav-link(href='#design', data-bs-toggle='pill', role='tab', aria-controls='design', aria-selected='false') اعدادات التصميم للفواتير
+                a.nav-link(href='#payments', data-bs-toggle='pill', role='tab', aria-controls='payments', aria-selected='false') طرق الدفع
+                a.nav-link(href='#adbanner', data-bs-toggle='pill', role='tab', aria-controls='adbanner', aria-selected='false') اعلان مقدمة المتجر
+                a.nav-link(href='#shipping', data-bs-toggle='pill', role='tab', aria-controls='shipping', aria-selected='false') رسوم التوصيل
+                a.nav-link(href='#count', data-bs-toggle='pill', role='tab', aria-controls='count', aria-selected='false') الدعم
+                a.nav-link(href='#gateways', data-bs-toggle='pill', role='tab', aria-controls='gateways', aria-selected='false') بوابات الدفع
+
+          .col
+            .card.mb-4
+              .card-body
+                div.tab-content#myTabContent
+                  .tab-pane.fade.show.active#overview(role='tabpanel', aria-labelledby='overview') 
+                    include includes/settings/overview
+
+                  .tab-pane.fade#settings(role='tabpanel', aria-labelledby='settings')
+                    include includes/settings/settings
+                  .tab-pane.fade#social(role='tabpanel', aria-labelledby='social')
+                    include includes/settings/social
+                  .tab-pane.fade#seo(role='tabpanel', aria-labelledby='seo')
+                    include includes/settings/seo
+                  
+                  .tab-pane.fade#bankAccounts(role='tabpanel', aria-labelledby='bankAccounts')
+                    include includes/settings/bankAccounts
+                  .tab-pane.fade#notifications(role='tabpanel', aria-labelledby='notifications')
+                    include includes/settings/notifications
+                  .tab-pane.fade#about_us(role='tabpanel', aria-labelledby='about_us')
+                    include includes/settings/about_us
+                  .tab-pane.fade#rules(role='tabpanel', aria-labelledby='rules')
+                    include includes/settings/rules
+                  .tab-pane.fade#countries(role='tabpanel', aria-labelledby='countries')
+                    include includes/settings/countries
+                  .tab-pane.fade#sms(role='tabpanel', aria-labelledby='sms')
+                    include includes/settings/sms
+                  .tab-pane.fade#design(role='tabpanel', aria-labelledby='design')
+                    | Content for design
+                  .tab-pane.fade#payments(role='tabpanel', aria-labelledby='payments')
+                    include includes/settings/payments
+                  .tab-pane.fade#adbanner(role='tabpanel', aria-labelledby='adbanner')
+                    include includes/settings/adbanner
+                  .tab-pane.fade#shipping(role='tabpanel', aria-labelledby='shipping')
+                    include includes/settings/shipping
+                  .tab-pane.fade#count(role='tabpanel', aria-labelledby='count')
+                    | Content for count
+                  .tab-pane.fade#gateways(role='tabpanel', aria-labelledby='gateways')
+                    include includes/settings/gateways

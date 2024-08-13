@@ -1,0 +1,83 @@
+extends layout
+
+block content
+  .main
+    - var products = [{ }, { }, { }, { }]
+    .row.min-vh-100.m-0
+
+
+      include includes/SideBar
+
+
+      .col.background-main
+        .row
+          #page-title.d-flex.justify-content-between.align-items-center.px-3.py-2
+            h1.page-header.text-overflow.col-md-8 إضافة رصيد
+
+
+            .col.d-flex.justify-content-end
+              a.btn.btn-primary.btn-labeled.mx-2(href='/manager/customers')
+                .fa.fa-list
+                span= " ادارة العملاء "
+
+        .row.px-2
+          .card
+            .card-body
+              .row.d-flex.justify-content-end
+                .col-2
+                  input.form-control(placeholder="بحث")
+              .row.mt-2
+                .container
+                  table.table.table-bordered.table-striped.table-hover
+
+                    tbody
+                  
+                  
+                      
+                      tr.align-middle
+                        td العميل
+                        td
+                          .col.col-lg-8
+                            input.form-control(placeholder="Name")
+                      
+                      tr.align-middle
+                        td كمية (د.ك)
+                        td
+                          .col.col-lg-8
+                            input.form-control(placeholder="Name")
+                      
+                      tr.align-middle
+                        td تاريخ الانتهاء
+                        td
+                          .col.col-lg-8
+                            input.form-control(placeholder="Name")
+                      
+                      tr.align-middle
+                        td ملاحظات
+                        td
+                          .col.col-lg-8
+                            input.form-control(placeholder="Name")
+                      
+                      tr.align-middle
+                        td بإخطار العملاء
+
+                        td
+                          label.switch
+                            input#pub_189.sw1(type='checkbox', data-id='189', checked)
+                            span.switch-slider.round
+                          span.checkmark.fas.fa-check(style='display: none;')
+                      
+                      tr.align-middle
+                        td يخطر بواسطة
+                        td
+                          .col.col-lg-8
+                            input.form-control(placeholder="Name")
+
+            .row
+              #page-title.d-flex.justify-content-between.align-items-center.px-3.py-2
+        
+        
+                .col.d-flex.justify-content-end
+                  button.btn.btn-primary.btn-labeled.mx-2
+                    .fa.fa-save
+                    span= " حفظ "

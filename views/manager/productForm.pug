@@ -1,0 +1,82 @@
+extends layout
+
+block content
+  .main
+    script(src='/js/productDate.js')
+    script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js')
+    .row.min-vh-100.m-0
+      include includes/SideBar
+
+      .col.background-main
+        .row
+          #page-title.d-flex.justify-content-between.align-items-center.px-3.py-2
+            h1.page-header.text-overflow.col-md-8= title
+            .col.d-flex.justify-content-end
+              a.btn.btn-primary.btn-labeled.mx-2(href='/manager/products')
+                .fa.fa-list
+                span إدارة المنتجات
+
+        .row.px-2
+          form(action='/manager/products', method='POST', enctype='multipart/form-data')
+            input.form-control.mb-1(name='product_number', value=(product ? product.product_number : ''))
+
+            .card
+              .card-body
+                ul.nav.nav-tabs#myTab(role='tablist')
+                  li.nav-item(role='presentation')
+                    button.theTab.nav-link.active#tab1-tab(data-bs-toggle='tab', data-bs-target='#tab1', type='button', role='tab', aria-controls='tab1', aria-selected='true') تفاصيل المنتج
+                  li.nav-item(role='presentation')
+                    button.theTab.nav-link#tab2-tab(data-bs-toggle='tab', data-bs-target='#tab2', type='button', role='tab', aria-controls='tab2', aria-selected='false') المعلومات التجارية
+                  li.nav-item(role='presentation')
+                    button.theTab.nav-link#tab3-tab(data-bs-toggle='tab', data-bs-target='#tab3', type='button', role='tab', aria-controls='tab3', aria-selected='false') إدارة المتغيرات
+                  li.nav-item(role='presentation')
+                    button.theTab.nav-link#tab4-tab(data-bs-toggle='tab', data-bs-target='#tab4', type='button', role='tab', aria-controls='tab4', aria-selected='false') الأفرع المتاحة
+
+                .tab-content#myTabContent
+                  .tab-pane.border.show.active.fade#tab1(role='tabpanel', aria-labelledby='tab1-tab')
+                    include includes/product/tab1.pug
+                  .row.tab-pane.border.fade#tab2(role='tabpanel', aria-labelledby='tab2-tab')
+                    include includes/product/tab2.pug
+                  .row.tab-pane.border.fade#tab3(role='tabpanel', aria-labelledby='tab3-tab')
+                    include includes/product/tab3.pug
+                  .row.tab-pane.border.fade#tab4(role='tabpanel', aria-labelledby='tab4-tab')
+                    include includes/product/tab4.pug
+
+                .row.justify-content-end
+                  .col-auto.mr-auto.mx-3
+                    span.text-danger.mt-3#textValidationError
+                .row
+                  #page-title.d-flex.justify-content-between.align-items-center.px-3.py-2
+                    .col.d-flex.justify-content-end
+                      button.btn.btn-primary.btn-labeled.mx-2#bigform(type='submit')
+                        .fa.fa-save
+                        span حفظ
+
+            button#addRow.col.col-lg-2.mt-4.mx-3(type='button', class='btn btn-primary mb-2') اضف متغير (لون/ حجم الخ)
+            #variationsContainer
+
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js')
+  script(src='https://cdn.jsdelivr.net/npm/quill@2.0.0/dist/quill.js')
+  script(src='https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js')
+  
+  script(src='/js/productForm.js')
+  script(src='/js/productformtab3.js')
+  script.
+    var productVariations = !{JSON.stringify(product.variations || [])};
+
+    $(document).ready(function() {
+      // Populate existing variations
+      productVariations.forEach(function(variation) {
+        addVariationRow(variation);
+      });
+
+      // Add new variation row on button click
+      $('#addRow').click(function() {
+        addVariationRow('');
+      });
+
+      // Remove variation row
+      $(document).on('click', '.remove-row', function() {
+        $(this).closest('.variation-row').remove();
+      });
+    });
