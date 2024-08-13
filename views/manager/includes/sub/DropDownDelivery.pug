@@ -1,1 +1,60 @@
+style.
+  .dropdown-custom {
+    position: relative;
+    font-size: 0.9rem; /* Match font size to your screenshot */
+  }
+  .dropdown-custom .dropdown-menu {
+    padding: 0; /* Remove padding */
+    border-radius: 0.25rem; /* Smoother border radius */
+    border: none;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); /* Softer shadow */
+    background-color: #FFFFFF; /* Assuming white background as standard */
+  }
+  .dropdown-custom .dropdown-item {
+    padding: 0.75rem 1rem; /* Adjust padding for larger click area */
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; /* Adjust gap between icon and text */
+    color: #495057; /* Default text color, assuming a standard grey text */
+    transition: background-color 0.2s ease; /* Smooth transition for background */
+  }
+  .dropdown-custom .dropdown-item:hover, .dropdown-custom .dropdown-item:focus {
+    background-color: #E3F2FD; /* Light blue background color for hover/focus */
+    color: #0056b3; /* Darker blue text color on hover/focus */
+  }
+  .dropdown-custom .dropdown-item.active {
+    background-color: #0056b3; /* Active item darker blue background color */
+    color: #FFFFFF; /* Active item text white color */
+  }
+  .dropdown-toggle::after {
+    display: none; /* Hide the default arrow icon */
+  }
 
+.container
+
+
+
+  .dropdown.dropdown-custom
+    button#dropdownMenuButton1.btn.btn-outline-primary.dropdown-toggle.w-100(text='تم الشحن' type='button' data-bs-toggle='dropdown' aria-expanded='false')
+      | تم الشحن
+    ul.dropdown-menu(aria-labelledby='dropdownMenuButton1')
+      li
+        a.dropdown-item(href="#", style="color: orange")
+          i.fas.fa-exchange-alt.me-2
+          | قيد الاستبدال
+      li
+        a.dropdown-item(href="#", style="color: #FFD700")
+          i.fas.fa-list-ul.me-2
+          | قيد التحضير
+      li
+        a.dropdown-item(href="#", style="color: #ADD8E6")
+          i.fas.fa-truck.me-2
+          | قيد التوصيل
+      li
+        a.dropdown-item(href="#", style="color: green")
+          i.fas.fa-check.me-2
+          | تم الشحن
+      li
+       a.dropdown-item(href="#", style="color: red")
+          i.fas.fa-times.me-2
+          | ألغيت
