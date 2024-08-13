@@ -1,0 +1,15 @@
+/* Custom CSS to center logos in the navbar */
+.navbar-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Ensures that the navbar-brand elements containing the logos are centered */
+  flex-grow: 1;
+}
+
+/* Make sure logos resize nicely on smaller screens */
+@media (max-width: 768px) {
+  .navbar-center {
+    flex-direction: column;
+  }
+}

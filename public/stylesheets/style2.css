@@ -1,0 +1,25 @@
+/* Page background */
+.page-background {
+  background-image: url('/img/backgrounds/login1.jpg'); /* Replace with your illustration path */
+  background-size: cover;
+  background-position: center;
+
+    background-color: #72cef3;
+}
+
+/* Styles for the illustration side */
+.illustration-side {
+  background-image: url('/img/backgrounds/back2.png');
+  background-size: cover;
+  background-position: center;
+}
+
+
+.height100vh {
+  min-height: 100vh; /* Use min-height to ensure full viewport height */
+}
+
+.uplad-image {
+  border: 2px solid #007bff; border-radius: 10px; width: 100%; max-width: 300px; padding: 20px;
+}
+
