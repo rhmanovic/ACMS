@@ -1,0 +1,16 @@
+#carouselExampleAutoplaying.carousel.slide.carousel-dark(data-bs-ride='carousel')
+  .carousel-inner
+    each img,index in productData.img
+      if index == 0
+        .carousel-item.active(data-bs-interval="4000")
+          img.d-block.w-100.p-4.insta(src=img, alt=productDataName , style="aspect-ratio: 1 / 1;")
+      else
+        .carousel-item(data-bs-interval="4000")
+          img.d-block.w-100.p-4.insta(src=img, alt=productDataName , style="aspect-ratio: 1 / 1;")
+
+  button.carousel-control-prev(type='button' data-bs-target='#carouselExampleAutoplaying' data-bs-slide='prev')
+    span.carousel-control-prev-icon(aria-hidden='true')
+    span.visually-hidden Previous
+  button.carousel-control-next(type='button' data-bs-target='#carouselExampleAutoplaying' data-bs-slide='next')
+    span.carousel-control-next-icon(aria-hidden='true')
+    span.visually-hidden Next

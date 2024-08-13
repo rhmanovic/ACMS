@@ -1,0 +1,105 @@
+form#cart(method='POST' action='/cart')
+  div.px-lg-3.text-right
+      h3.my-4#product_name= productDataName
+  
+      if productData.discounted
+        include ./timer.pug
+        
+  
+      .text-right.d-flex.bd-highlight.justify-content-between.flex-column.flex-md-row-reverse.align-self-baselin
+      .col.p-0
+          span.badge.badge-light.mt-2
+              if productData.canBeOrdered
+                Span.text-success= theLanguage.available
+      
+      
+          
+      if productData.discounted
+        .fs-2
+          span= ` ${theLanguage.price} `
+          span.text-danger.fw-bold= productData.discountPrice.toFixed(3)
+          span.text-danger.fw-bold= ` ${theLanguage.KD} `
+          span.text-decoration-line-through.fs-3=` ${productData.price.toFixed(3)} ${theLanguage.KD}`
+      else
+        .container.fs-1
+          span= ` ${theLanguage.price} `
+          span.fw-bold= productData.price.toFixed(3)
+          span.fw-bold= ` ${theLanguage.KD} `
+                  
+  
+  
+  
+      br
+      if productData.canBeOrdered
+        
+        - var variation = productData.variation
+        p= theLanguage.chooseColor 
+        .input-group.my-2
+          select.form-select.col-3(name='variation' type='string')
+            each letter in variation.split("-")
+              option(value=letter)= letter
+  
+        p.my-0= theLanguage.quantity
+        div.my-1
+            label.sr-only(for='inlineFormInputGroup')
+            .input-group.my-2
+                .input-group-prepend
+                button.btn.btn-light.btn-number.border(type='button', data-type='minus', data-field='quantity')
+                    i.fa.fa-minus(aria-hidden='true')
+                if Q
+                  input.form-control.col-3(type='text', id="intTextBox", name='quantity', value=Q , min='1', max='1000')
+                else
+                  input.form-control.col-3(type='text', id="intTextBox", name='quantity', value='1', min='1', max='1000')
+  
+                .input-group-prepend
+                button.btn.btn-number.tomato.text-white.rounded-0(type='button', data-type='plus', data-field='quantity')
+                    i.fa.fa-plus(aria-hidden='true')
+  
+  
+  
+      -  var productDataid = productData._id;
+     
+      div(hidden)
+        input#pid(type="" name="productId" value= productDataid)
+        input#pid(type="" name="buyknow" value= productData.buyknow)
+  
+        if productData.discounted
+          input#pprice(type="" name="price" value= productData.discountPrice)
+        else
+          input#pprice(type="" name="price" value= productData.price)
+  
+  
+        input#pname(type="" name="name" value= productDataName)
+        
+        input#pproductNo(type="" name="productNo" value= productData.productNo)
+        input#pproductNo(type="" name="parentNo" value= productData.productNo)
+        input#pwarranty(type="" name="warranty" value= productData.warranty)
+  
+  
+  
+        if productData.discounted
+          .row.row-cols-auto.mx-1
+            span.p-0.col.ltr.text-decoration-line-through.card-text#card-text1.fw-bolder.fs-6.text-danger= `${(productData.discountPrice).toFixed(3)} K.D` 
+            span.mx-1.p-0.col.ltr.card-text#card-text1.fw-bolder.fs-5= `${(productData.price).toFixed(3)} K.D`
+        else
+          span.card-text#card-text1.fw-bolder.fs-5= `${(productData.price).toFixed(3)} K.D`
+  
+  
+     
+  
+      h3.mx-1#errorProduct.text-danger.mt-2 
+  
+  
+      
+      if productData.canBeOrdered
+        if productData.buyknow
+          button.col.btn.tomato.mt-3.text-white#addToCartButton(type='submit')
+            span= theLanguage.buyNow
+            i.mx-2.fa.fa-cart-plus(aria-hidden='true')
+        else
+          button.col.btn.tomato.mt-3.text-white#addToCartButton(type='submit')
+            span= theLanguage.addToCart
+            i.mx-2.fa.fa-cart-plus(aria-hidden='true')
+      else
+        .alert.alert-danger(role='alert')
+          span= theLanguage.unAavailable

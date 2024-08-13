@@ -1,0 +1,69 @@
+if managerNow || theSalesemanNow
+
+  .card.mx-1
+    .card-header.collapsed(data-bs-toggle='collapse' data-bs-target='#collapseInventoryForm2' aria-expanded='false' aria-controls='collapseInventoryForm2')
+      i.fas.fa-angle-down.mx-1
+      | ادارة المنتج
+    .collapse#collapseInventoryForm2
+      .card-body
+    
+        a(href=`../manager/editAny/Product/${productData._id}/name//${productData.name?productData.name:"NaN"}/${typeof productData.name}/productshop`)
+          span تعديل الاسم
+    
+        a(href=`../manager/editAny/Product/${productData._id}/discounted//${productData.discounted?productData.discounted:"NaN"}/${typeof productData.discounted}/productshop`)
+         p= `خصم =  ${productData.discounted} `
+         
+    
+        a(href=`../manager/editAny/Product/${productData._id}/buyknow//${productData.buyknow?productData.buyknow:"NaN"}/${typeof productData.buyknow}/productshop`)
+         p= `زر اشتر الان =  ${productData.buyknow} `
+         
+        a(href=`../manager/editAny/Product/${productData._id}/googleSheet//${productData.googleSheet?productData.googleSheet:"NaN"}/${typeof productData.googleSheet}/productshop`)
+         p= `عرض في قوقل =  ${productData.googleSheet} `
+    
+         
+        a(href=`../manager/editAny/Product/${productData._id}/showInWebsite//${productData.showInWebsite?productData.showInWebsite:"NaN"}/${typeof productData.showInWebsite}/productshop`)
+         p= `عرض في الموقع =  ${productData.showInWebsite} `
+    
+    
+        a(href=`../manager/editAny/Product/${productData._id}/canBeOrdered//${productData.canBeOrdered?productData.canBeOrdered:"NaN"}/${typeof productData.canBeOrdered}/productshop`)
+         p= `يمكن الطلب =  ${productData.canBeOrdered} `
+    
+    
+        a(href=`../manager/editAny/Product/${productData._id}/warehouseAvialable//${productData.warehouseAvialable?productData.warehouseAvialable:"NaN"}/${typeof productData.warehouseAvialable}/productshop`)
+         p= `متوفر في المخزن =  ${productData.warehouseAvialable} `
+    
+    
+        a(href=`../manager/editAny/Product/${productData._id}/qurain//${productData.qurain?productData.qurain:"NaN"}/${typeof productData.qurain}/productshop`)
+         p= `الكمية في المخزن =  ${productData.qurain} `
+    
+        a(href=`../manager/editAny/Product/${productData._id}/warehouseNo//${productData.warehouseNo?productData.warehouseNo:"NaN"}/${typeof productData.warehouseNo}/productshop`)
+         p= `رقم المخزن =  ${productData.warehouseNo} `
+    
+    
+    
+        a(href=`../manager/productPage/${productData._id}`)
+         span.badge.text-bg-success صفحة ادارة المنتج
+    
+    
+    
+        if managerNow  
+          a(href=`../manager/editAny/Product/${productData._id}/cost//${productData.cost?productData.cost:"NaN"}/${typeof productData.cost}/productshop`)
+            p.text-danger= `التكلفه    ${productData.name} =  ${productData.cost} `
+          a(href=`../manager/editAny/Product/${productData._id}/price//${productData.price?productData.price:"NaN"}/${typeof productData.price}/productshop`)
+            p= `سعر  ${productData.name} =  ${productData.price} `
+          a(href=`../manager/editAny/Product/${productData._id}/discountPrice//${productData.discountPrice?productData.discountPrice:"NaN"}/${typeof productData.discountPrice}/productshop`)
+            p= `(بعد الخصم)  ${productData.name} =  ${productData.discountPrice} `
+
+        
+
+        h3 ملاحظات داخلية
+        ul
+          each note in productData.privateNotes
+            li #{note.note} (#{note.date.toLocaleDateString('en-GB')})
+        
+         
+        form(action=`../manager/addPrivateNote/Product/${productData._id}` method='post')
+          .form-group
+            label(for='privateNote') اضف ملاحظة داخلية:
+            input#privateNote.form-control(name='privateNote' rows='3')
+          button.btn.btn-primary(type='submit') اضف

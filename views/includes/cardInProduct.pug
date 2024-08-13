@@ -1,0 +1,12 @@
+.card.mb-3            
+  img.insta(src=product.img[0] style=`aspect-ratio: 1 / 1;`)
+  .card-body
+  
+    if product.discounted
+      .row.row-cols-auto.mx-1
+        span.p-0.col.ltr.text-decoration-line-through.card-text#card-text1.fw-bolder.fs-6.text-danger= `${(product.price).toFixed(3)} K.D` 
+        span.mx-1.p-0.col.ltr.card-text#card-text1.fw-bolder.fs-5= `${(product.discountPrice).toFixed(3)} K.D`
+    else
+      span.card-text#card-text1.fw-bolder.fs-5= `${(product.price).toFixed(3)} K.D`
+    span.card-title#card-title1.limit-content.mt-2.minCardLineHeight= `${productName}`
+    a.stretched-link(href=`/product/${product.url}`) 
