@@ -1,0 +1,47 @@
+.row
+  #page-title.d-flex.justify-content-between.align-items-center.px-3.py-2
+    h1.page-header.text-overflow.col-md-8 إدارة طرق الدفع
+
+
+table.table.table-bordered
+
+  tbody
+
+
+    tr.align-middle
+      td.col-3
+        
+        .nav.flex-column.nav-pills.navbar-light.bg-light(role='tablist', 'aria-orientation'='vertical')
+          a.nav-link.active(href='#shipping11', data-bs-toggle='pill', role='tab', aria-controls='shipping11', aria-selected='true') الكويت
+          a.nav-link(href='#shipping22', data-bs-toggle='pill', role='tab', aria-controls='shipping22', aria-selected='true') الامارات العربية المتحدة
+          a.nav-link(href='#shipping33', data-bs-toggle='pill', role='tab', aria-controls='shipping33', aria-selected='true') البحرين
+          a.nav-link(href='#shipping44', data-bs-toggle='pill', role='tab', aria-controls='shipping44', aria-selected='true') المملكة العربية السعودية
+          a.nav-link(href='#shipping55', data-bs-toggle='pill', role='tab', aria-controls='shipping55', aria-selected='true') عمان
+          a.nav-link(href='#shipping66', data-bs-toggle='pill', role='tab', aria-controls='shipping66', aria-selected='true') قطر
+          
+        
+      td.col-9
+        div.tab-content#myTabContent
+          .tab-pane.fade.show.active#shipping11(role='tabpanel', aria-labelledby='shipping11')
+            include shipping/1
+          .tab-pane.fade#shipping22(role='tabpanel', aria-labelledby='shipping22')
+            include shipping/1
+          .tab-pane.fade#shipping33(role='tabpanel', aria-labelledby='shipping33')
+            include shipping/1
+          .tab-pane.fade#shipping44(role='tabpanel', aria-labelledby='shipping44')
+            include shipping/1
+          .tab-pane.fade#shipping55(role='tabpanel', aria-labelledby='shipping55')
+            include shipping/1
+          .tab-pane.fade#shipping66(role='tabpanel', aria-labelledby='shipping66')
+            include shipping/1
+          
+    
+
+.row
+  #page-title.d-flex.justify-content-between.align-items-center.px-3.py-2
+
+
+.col.d-flex.justify-content-end
+  button.btn.btn-primary.btn-labeled.mx-2
+    .fa.fa-save
+    span= " حفظ "

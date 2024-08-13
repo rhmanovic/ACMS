@@ -1,0 +1,43 @@
+h1= title
+hr.hr
+
+.row
+  .col
+    .card.mb-4.shadow
+      .card-body
+        p عند تفعيلك لبوابات الدفع الموضحة أدناه، ستتمكن من ربط متجرك الإلكتروني بإحدى تلك البوابات المختلفة. كل بوابة من البوابات لديها اشتراطات معينة لتفعيل حسابك لديهم. خيارات الدفع تتيح لك استقبال المدفوعات الإلكترونية عبر البطاقات الائتمانية وبعضهم يدعم خيار : مدى ، للدفع الإلكتروني. سنقوم بربطك إلكترونياً معهم ولكنك بحاجة أيضاً إلى تفعيل اشتراكك لديهم وتعبئة النماذج اللازمة.
+
+h2 بوابات الدفع
+
+.row.mt-4
+  .col-2
+    .card.mb-4.shadow
+      .card-body.align-middle.text-center
+        img(src="/img/upload/bookey.png", alt='Payment Gateways', style='max-width: 70%')
+        h5 بووكي
+        h5 Bookeey
+        button.btn.btn-primary.btn-labeled
+          .fa.fa-circle-info
+          span.mx-1 معلومات إضافية
+
+  .col-2
+    .card.mb-4.shadow
+      .card-body.align-middle.text-center
+        img(src="/img/upload/hesabe.png", alt='Payment Gateways', style='max-width: 70%')
+        h5 حسابي
+        h5 Hesaby
+        button.btn.btn-primary.btn-labeled
+          .fa.fa-circle-info
+          span.mx-1 معلومات إضافية
+
+  .col-2
+    .card.mb-4.shadow
+      .card-body.align-middle.text-center
+        img(src="/img/upload/tap.jpeg", alt='Payment Gateways', style='max-width: 70%')
+        h5 تاب
+        h5 TAP
+        button.btn.btn-primary.btn-labeled(data-bs-toggle='modal', data-bs-target='#tapModal')
+          .fa.fa-circle-info
+          span.mx-1 معلومات إضافية
+
+include gateways/tap

@@ -1,0 +1,57 @@
+
+
+style.
+  :root {
+    --bs-checkbox-color: green; /* This will set the color of the checkbox */
+  }
+  .form-check-input:checked {
+    background-color: var(--bs-checkbox-color);
+    border-color: var(--bs-checkbox-color);
+  }
+
+.row
+  #page-title.d-flex.justify-content-between.align-items-center.px-3.py-2
+    h1.page-header.text-overflow.col-md-8 إدارة الدول التي توصل اليها
+
+table.table.table-bordered.table-striped.table-hover
+
+  tbody
+    tr.align-middle
+      td.col-3
+        label.control-label.mx-2(for='input_schedule_interval') الدول التي توصل اليها
+      td.col-9
+        .input-group
+          ul.list-unstyled.text-right.m-0.p-0
+            li
+              input.form-check-input(type="checkbox", value="country1", id="flexCheckDefault1", checked, style="border-color: #333333; accent-color: green;")
+              label.mx-1(for="flexCheckDefault1").text-success.font-weight-bold الكويت
+            li
+              input.form-check-input(type="checkbox", value="country2", id="flexCheckDefault2", style="border-color: #333333;")
+              label.mx-1(for="flexCheckDefault2") السعودية
+            li
+              input.form-check-input(type="checkbox", value="country3", id="flexCheckDefault3", style="border-color: #333333;")
+              label.mx-1(for="flexCheckDefault3") الامارات
+            li
+              input.form-check-input(type="checkbox", value="country3", id="flexCheckDefault3", style="border-color: #333333;")
+              label.mx-1(for="flexCheckDefault3") البحرين
+            li
+              input.form-check-input(type="checkbox", value="country3", id="flexCheckDefault3", style="border-color: #333333;")
+              label.mx-1(for="flexCheckDefault3") قطر
+            li
+              input.form-check-input(type="checkbox", value="country3", id="flexCheckDefault3", style="border-color: #333333;")
+              label.mx-1(for="flexCheckDefault3") عمان
+            
+
+       
+
+
+
+
+.row
+  #page-title.d-flex.justify-content-between.align-items-center.px-3.py-2
+
+
+.col.d-flex.justify-content-end
+  button.btn.btn-primary.btn-labeled.mx-2
+    .fa.fa-save
+    span= " حفظ "

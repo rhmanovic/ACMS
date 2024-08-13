@@ -1,0 +1,96 @@
+link(href='https://cdn.jsdelivr.net/npm/quill@2.0.0/dist/quill.snow.css' rel='stylesheet')
+script(src='https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js')
+script(src='https://cdn.jsdelivr.net/npm/quill@2.0.0/dist/quill.js')
+link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css')
+script(src='https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js')
+link(rel='stylesheet' href='https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css')
+
+style.
+  .ql-editor {
+    background-color: white; /* Set your desired color */
+    height: 200px;
+    
+
+  }
+
+
+
+.row
+  .col-md-12
+    .row
+      #page-title.d-flex.justify-content-between.align-items-center.px-3.py-2
+        h1.page-header.text-overflow.col-md-8 إدارة الشروط والأحكام
+    table.table.table-bordered.table-striped.table-hover
+      tbody
+        tr.align-middle
+          td.col-3
+            label.control-label(for='quill-editor32') الأحكام والشروط (English)
+          td.col-9(dir="ltr").p-4
+            #toolbar-container32.bg-light
+              span.ql-formats.border.bg-white
+                select.ql-font.border
+                select.ql-size.border
+                button.ql-bold.border
+                button.ql-italic.border
+                button.ql-underline.border
+                button.ql-strike.border
+                select.ql-color.border
+                select.ql-background.border
+                button.ql-header(value='1').border
+                button.ql-header(value='2').border
+                button.ql-list(value='ordered').border
+                button.ql-list(value='bullet').border
+                button.ql-indent(value='-1').border
+                button.ql-indent(value='+1').border
+                button.ql-direction(value='rtl').border
+                select.ql-align.border
+            #editor32.ql-editor
+            script.
+              var quill32 = new Quill('#editor32', {
+                theme: 'snow',
+                modules: {
+                  toolbar: '#toolbar-container32'
+                }
+              });
+  
+  
+        tr.align-middle
+          td.col-3
+            label.control-label(for='quill-editor33') الأحكام والشروط (Arabic)
+          td.col-9(dir="ltr").p-4
+            #toolbar-container33.bg-light
+              span.ql-formats.border.bg-white
+                select.ql-font.border
+                select.ql-size.border
+                button.ql-bold.border
+                button.ql-italic.border
+                button.ql-underline.border
+                button.ql-strike.border
+                select.ql-color.border
+                select.ql-background.border
+                button.ql-header(value='1').border
+                button.ql-header(value='2').border
+                button.ql-list(value='ordered').border
+                button.ql-list(value='bullet').border
+                button.ql-indent(value='-1').border
+                button.ql-indent(value='+1').border
+                button.ql-direction(value='rtl').border
+                select.ql-align.border
+            #editor33.ql-editor
+            script.
+              var quill33 = new Quill('#editor33', {
+                theme: 'snow',
+                modules: {
+                  toolbar: '#toolbar-container33'
+                }
+              });
+
+
+.row
+  .col.d-flex.justify-content-end
+    button.btn.btn-primary.btn-labeled.mx-2
+      i.fa.fa-save
+      |  حفظ
+
+
+

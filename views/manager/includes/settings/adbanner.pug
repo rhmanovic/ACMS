@@ -1,0 +1,55 @@
+.row
+  #page-title.d-flex.justify-content-between.align-items-center.px-3.py-2
+    h1.page-header.text-overflow.col-md-8 اعلان مقدمة المتجر
+
+
+table.table.table-bordered.table-striped.table-hover
+
+  tbody
+
+    tr.align-middle
+      td.col-4
+        p خلفية قائمة المنتجات (JPG/PNG)
+        p.text-secondary صورة بنرية (JPG/PNG)
+      td.col-8
+        .col.col-md-4.align-middle
+          img.border.border-4.my-4(src='https://via.placeholder.com/500x500', alt='Product image', style='height: 300px;')    
+
+
+        button.btn.btn-primary.btn-labeled
+          .fa.fa-image
+          span.mx-1 اختيار صورة
+
+    
+    tr.align-middle
+      td.col-3
+        label.control-label(for='input_schedule_interval') رابط
+      td.col-9
+        .input-group
+          input#input_schedule_interval.form-control(type='Text', name='schedule_interval').mx-1
+
+
+    tr.align-middle
+      td.col-3
+        label.control-label(for='input_schedule_interval') الحالة
+      td.col-9
+        .input-group
+          label.switch
+            input#pub_189.sw1(type='checkbox', data-id='189', checked)
+            span.switch-slider.round
+          span.checkmark.fas.fa-check(style='display: none;')
+
+
+    
+
+
+
+
+.row
+  #page-title.d-flex.justify-content-between.align-items-center.px-3.py-2
+
+
+.col.d-flex.justify-content-end
+  button.btn.btn-primary.btn-labeled.mx-2
+    .fa.fa-save
+    span= " حفظ "

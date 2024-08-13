@@ -1,0 +1,149 @@
+style.
+  :root {
+    --bs-checkbox-color: green; /* This will set the color of the checkbox */
+  }
+  .form-check-input:checked {
+    background-color: var(--bs-checkbox-color);
+    border-color: var(--bs-checkbox-color);
+  }
+
+
+.row
+  #page-title.d-flex.justify-content-between.align-items-center.px-3.py-2
+    h1.page-header.text-overflow.col-md-8 إدارة إعدادات الرسائل القصيرة
+
+
+table.table.table-bordered.table-striped.table-hover
+
+  tbody
+    
+
+    tr.align-middle
+      td.col-3
+        label.control-label(for='input_schedule_interval') إشعار طلب جديد لك
+      td.col-9
+        .input-group
+          label.switch
+            input#pub_189.sw1(type='checkbox', data-id='189', checked)
+            span.switch-slider.round
+          span.checkmark.fas.fa-check(style='display: none;')
+
+  
+    tr.align-middle
+      td.col-3
+        label.control-label(for='input_schedule_interval') إشعار طلب جديد للعملاء
+      td.col-9
+        .input-group
+          label.switch
+            input#pub_189.sw1(type='checkbox', data-id='189', checked)
+            span.switch-slider.round
+          span.checkmark.fas.fa-check(style='display: none;')
+
+  
+    tr.align-middle
+      td.col-3
+        label.control-label(for='input_schedule_interval') إشعار تحديث حالة الطلب للعملاء
+      td.col-9
+        .input-group
+          label.switch
+            input#pub_189.sw1(type='checkbox', data-id='189', checked)
+            span.switch-slider.round
+          span.checkmark.fas.fa-check(style='display: none;')
+
+  
+    tr.align-middle
+      td.col-3
+        label.control-label(for='input_schedule_interval') إشعار طلب جديد للمستخدمين الفرعيين
+      td.col-9
+        .input-group
+          label.switch
+            input#pub_189.sw1(type='checkbox', data-id='189', checked)
+            span.switch-slider.round
+          span.checkmark.fas.fa-check(style='display: none;')
+
+    tr.align-middle
+      td.col-3
+        label.control-label(for='input_default_language') المستخدمين الفرعيين لتلقي الرسائل القصيرة 
+      td.col-9
+        ul.list-unstyled.text-right.m-0.p-0
+          li
+            input.form-check-input(type="checkbox", value="country1", id="flexCheckDefault1", checked, style="border-color: #333333; accent-color: green;")
+            label.mx-1(for="flexCheckDefault1").text-success.font-weight-bold Abulrahman
+          li
+            input.form-check-input(type="checkbox", value="country2", id="flexCheckDefault2", style="border-color: #333333;")
+            label.mx-1(for="flexCheckDefault2") Amjad
+
+    tr.align-middle
+      td.col-3
+        label.control-label(for='input_schedule_interval') إشعار طلب جديد للعميل (English)
+        p.text-secondary  المتغيرات: [[store_name]], [[order_code]] 
+      td.col-9
+        .input-group
+          textarea.form-control(dir='ltr')
+            | Thank you for ordering from [[store_name]], you order number is: [[order_code]]
+          
+  
+    tr.align-middle
+      td.col-3
+        label.control-label(for='input_schedule_interval') إشعار طلب جديد للعميل (Arabic)
+        p.text-secondary  المتغيرات: [[store_name]], [[order_code]]  
+      td.col-9
+        .input-group
+          textarea.form-control(dir='rtl')
+            | شكراً لطلبك من [[store_name]]، كود الطلب هو [[order_code]]
+          
+  
+    tr.align-middle
+      td.col-3
+        label.control-label(for='input_schedule_interval') إشعار طلب جديد للمستخدم الفرعي (English)
+        p.text-secondary المتغيرات: [[branch_name]], [[order_code]] 
+      td.col-9
+        .input-group
+          textarea.form-control(dir='ltr')
+            | New order received in [[branch_name]]. Order code: [[order_code]]
+          
+  
+    tr.align-middle
+      td.col-3
+        label.control-label(for='input_schedule_interval') إشعار طلب جديد للمستخدم الفرعي (Arabic)
+        p.text-secondary المتغيرات: [[branch_name]], [[order_code]] 
+      td.col-9
+        .input-group
+          textarea.form-control(dir='rtl')
+            | تلقى طلب جديد في [[branch_name]]. رمز الطلب: [[order_code]]
+          
+  
+    tr.align-middle
+      td.col-3
+        label.control-label(for='input_schedule_interval') تحديث حالة الطلب للعميل (English)
+        p.text-secondary المتغيرات: [[current_order_status]], [[order_code]] 
+      td.col-9
+        .input-group
+          textarea.form-control(dir='ltr')
+            | Your order [[order_code]] has been updated with a new status. Current Status: [[current_order_status]]
+          
+  
+    tr.align-middle
+      td.col-3
+        label.control-label(for='input_schedule_interval') تحديث حالة الطلب للعميل (Arabic)
+        p.text-secondary المتغيرات: [[current_order_status]], [[order_code]] 
+      td.col-9
+        .input-group
+          textarea.form-control(dir='rtl')
+            | تم تحديث طلبك [[order_code]] بحالة جديدة. الوضع الحالي: [[current_order_status]]
+          
+  
+
+  
+   
+
+
+
+.row
+  #page-title.d-flex.justify-content-between.align-items-center.px-3.py-2
+
+
+.col.d-flex.justify-content-end
+  button.btn.btn-primary.btn-labeled.mx-2
+    .fa.fa-save
+    span= " حفظ "

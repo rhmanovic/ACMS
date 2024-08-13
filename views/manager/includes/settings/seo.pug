@@ -1,0 +1,82 @@
+.row
+  #page-title.d-flex.justify-content-between.align-items-center.px-3.py-2
+    h1.page-header.text-overflow.col-md-8 إدارة تحسين محركات البحث (SEO)
+
+table.table.table-bordered.table-striped.table-hover
+
+  tbody
+    tr.align-middle
+      td.col-3
+        label.control-label.mx-2(for='input_schedule_interval') الكلمات المفتاحية
+      td.col-9
+        .input-group
+          input#input_schedule_interval.form-control(type='Text', name='schedule_interval', placeholder='').mx-1
+  
+    tr.align-middle
+      td.col-3
+        label.control-label.mx-2(for='input_schedule_interval') وصف المحتوى
+      td.col-9
+        .input-group
+          textarea.form-control
+
+    tr.align-middle
+      td.col-3
+        label.control-label(for='input_schedule_interval') Google Analytics Key
+      td.col-9
+        .input-group
+          input#input_schedule_interval.form-control(type='number', name='schedule_interval', placeholder='Google Analytics Key', min='0', step='1').mx-1
+        P.mx-1 رجاء قم بإضافة Google analytics Code الخاص بك هنا ، يمكنك الحصول عليه من حسابك على ال Google analytics .
+  
+    
+   
+  
+    
+    tr.align-middle
+      td.col-3
+        label.control-label(for='input_schedule_interval') Facebook Pixel ID
+      td.col-9
+        .input-group
+          input#input_schedule_interval.form-control(type='number', name='schedule_interval', placeholder='Facebook Pixel ID', min='0', step='1').mx-1
+        P.mx-1 رجاء قم بإضافة Facebook Pixel ID الخاص بك هنا ، يمكنك الحصول عليه من حسابك على ال Facebook .
+
+  
+    
+    tr.align-middle
+      td.col-3
+        label.control-label(for='input_schedule_interval') Facebook Pixel Token API Key
+      td.col-9
+        .input-group
+          input#input_schedule_interval.form-control(type='number', name='schedule_interval', placeholder='Facebook Pixel Token API Key', min='0', step='1').mx-1
+        P.mx-1 رجاء قم بإضافة ال API Token المرتبط ب Facebook Pixel ID الخاص بك هنا ، يمكنك الحصول عليه من حسابك على ال Facebook.
+  
+    
+    tr.align-middle
+      td.col-3
+        label.control-label(for='input_schedule_interval') معرف Google Tag Manager
+      td.col-9
+        .input-group
+          input#input_schedule_interval.form-control(type='number', name='schedule_interval', placeholder='معرف Google Tag Manager', min='0', step='1').mx-1
+        P.mx-1 الرجاء إدخال معرف مدير علامة جوجل الخاص بك.
+
+  
+    
+    tr.align-middle
+      td.col-3
+        label.control-label(for='input_schedule_interval') Tiktok Pixel Id
+      td.col-9
+        .input-group
+          input#input_schedule_interval.form-control(type='number', name='schedule_interval', placeholder='Tiktok Pixel Id', min='0', step='1').mx-1
+        P.mx-1 Please enter your tiktok pixel ID.
+
+  
+    
+
+
+.row
+  #page-title.d-flex.justify-content-between.align-items-center.px-3.py-2
+
+
+.col.d-flex.justify-content-end
+  button.btn.btn-primary.btn-labeled.mx-2
+    .fa.fa-save
+    span= " حفظ "

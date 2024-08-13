@@ -1,0 +1,164 @@
+.row
+  #page-title.d-flex.justify-content-between.align-items-center.px-3.py-2
+    h1.page-header.text-overflow.col-md-8 اعدادات المتجر
+
+table.table.table-bordered.table-striped.table-hover
+  
+  tbody
+    tr.align-middle
+      td.col-3
+        label.control-label(for='input_primary_color') اللون العام
+      td.col-9
+        input#input_primary_color.form-control(type='color', name='primary_color', value='#073c86', style='width: 75px;')
+        
+    tr.align-middle
+      td.col-3
+        label.control-label(for='input_header_color') لون عنوان المتجر
+      td.col-9
+        input#input_header_color.form-control(type='color', name='header_color', value='#073c86', style='width: 75px;')
+
+    tr.align-middle
+      td.col-3
+        label.control-label(for='input_font_color') لون الرمز
+      td.col-9
+        input#input_font_color.form-control(type='color', name='font_color', value='#000000', style='width: 75px;')
+
+    tr.align-middle
+      td.col-3
+        label.control-label(for='input_schedule_interval') الجدول الزمني الفاصل
+      td.col-9
+        .input-group
+          input#input_schedule_interval.form-control(type='number', name='schedule_interval', value='60', min='0', step='1').mx-1
+          select#input_schedule_interval_type.form-control(name='schedule_interval_type').mx-1
+            option(value='M', selected) دقيقة
+            option(value='H') ساعات
+    tr.align-middle
+      td.col-3
+        label.control-label(for='input_schedule_interval') وقت التحضير
+      td.col-9
+        .input-group
+          input#input_schedule_interval.form-control(type='number', name='schedule_interval', value='60', min='0', step='1').mx-1
+          select#input_schedule_interval_type.form-control(name='schedule_interval_type').mx-1
+            option(value='M', selected) دقيقة
+            option(value='H') ساعات
+
+    // ... add more rows as needed for each setting
+
+    tr.align-middle
+      td.col-3
+        label.control-label(for='input_default_language') اللغة الافتراضية لواجهة المتجر
+      td.col-9
+        select#input_default_language.form-control(name='default_language')
+          option(value='en') English
+          option(value='ar', selected) Arabic
+    tr.align-middle
+      td.col-3
+        label.control-label(for='input_default_language') اللغة الإفتراضية للوحة تحكم التاجر
+      td.col-9
+        select#input_default_language.form-control(name='default_language')
+          option(value='en') English
+          option(value='ar', selected) Arabic
+    tr.align-middle
+      td.col-3
+        label.control-label(for='input_default_language') حالة المتجر
+      td.col-9
+        select#input_default_language.form-control(name='default_language')
+          option(value='on') لا يعمل
+          option(value='off', selected) يعمل
+
+    tr.align-middle
+      td.col-3
+        label.control-label(for='input_schedule_interval') الحد الأقصى للصفحات
+      td.col-9
+        .input-group
+          input#input_schedule_interval.form-control(type='number', name='schedule_interval', value='16', min='0', step='1').mx-1
+          
+    tr.align-middle
+      td.col-3
+        label.control-label(for='input_schedule_interval') )الحد الأدنى من المخزون (للتنبيه
+      td.col-9
+        .input-group
+          input#input_schedule_interval.form-control(type='number', name='schedule_interval', value='0', min='0', step='1').mx-1
+          
+    tr.align-middle
+      td.col-3
+        label.control-label(for='input_schedule_interval') الحد المسموح به من الطلبات المعلقه
+      td.col-9
+        .input-group
+          input#input_schedule_interval.form-control(type='number', name='schedule_interval', value='', min='0', step='1').mx-1
+        P.mx-1 اترك الحقل فارغًا للحصول على طلبات غير محدودة
+
+          
+    tr.align-middle
+      td.col-3
+        label.control-label(for='input_schedule_interval') الحد الأدنى لمبلغ الطلب للحصول على توصيل مجاني(د.ك)
+      td.col-9
+        .input-group
+          input#input_schedule_interval.form-control(type='number', name='schedule_interval', value='', min='0', step='1').mx-1
+       
+
+    tr.align-middle
+      td.col-3
+        label.control-label(for='input_schedule_interval') دول التوصيل المجاني
+      td.col-9
+        select#input_schedule_interval_type.form-control(name='schedule_interval_type').mx-1
+          option(value='M', selected) اختر بعض الخيارات
+          option(value='H') Kuwait
+          option(value='H') Saudi
+          option(value='H') Oman
+          option(value='H') UAE
+          option(value='H') Bahrain
+          option(value='H') Qatar
+        P.mx-1 اتركه فارغًا لتطبيق التوصيل المجاني لجميع البلدان
+
+
+    tr.align-middle
+      td.col-3
+        label.control-label(for='input_schedule_interval') تسمية للتعليق على شاشة المنتج (EN)
+      td.col-9
+        .input-group
+          input#input_schedule_interval.form-control(type='Text', name='schedule_interval', value='Leave your message').mx-1
+        
+    tr.align-middle
+      td.col-3
+        label.control-label(for='input_schedule_interval') تسمية للتعليق على شاشة المنتج (AR)
+      td.col-9
+        .input-group
+          input#input_schedule_interval.form-control(type='Text', name='schedule_interval', value='اترك رسالتك هنا').mx-1
+        
+    tr.align-middle
+      td.col-3
+        label.control-label(for='input_schedule_interval') إظهار عنوان الخيار في الفاتورة
+      td.col-9
+        .input-group
+          label.switch
+            input#pub_189.sw1(type='checkbox', data-id='189', checked)
+            span.switch-slider.round
+          span.checkmark.fas.fa-check(style='display: none;')
+        
+
+    tr.align-middle
+      td.col-3
+        label.control-label(for='input_schedule_interval') مبلغ المحفظة لكل نقطة (د.ك)
+      td.col-9
+        .input-group
+          input#input_schedule_interval.form-control(type='number', name='schedule_interval', value='0', min='0', step='1').mx-1
+    tr.align-middle
+      td.col-3
+        label.control-label(for='input_schedule_interval') المبلغ المستحق مقابل نقطة واحدة (د.ك)
+      td.col-9
+        .input-group
+          input#input_schedule_interval.form-control(type='number', name='schedule_interval', value='0', min='0', step='1').mx-1
+
+          
+    // ... add more rows as needed for each setting
+
+
+.row
+  #page-title.d-flex.justify-content-between.align-items-center.px-3.py-2
+
+
+.col.d-flex.justify-content-end
+  button.btn.btn-primary.btn-labeled.mx-2
+    .fa.fa-save
+    span= " حفظ "
