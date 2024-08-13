@@ -1,0 +1,25 @@
+extends layout
+
+block content
+
+  
+  // theLanguage.orders
+  .main.container
+    h1= theLanguage.siteImages
+    hr
+    br
+    each image, index in SiteImages
+      .col-md-8.col-md-offset-2
+        form(action=`manager/SiteImages?toedit=${index}`, method='post', enctype='multipart/form-data')
+          .form-group.container
+            label(for='imageUpload').col-12  #{index}
+            .col-sm
+              .input-group.mb-3
+                input#inputGroupFile01.form-control(type='file', aria-describedby='myFile' name='myFile')
+                //label.input-group-text(for='inputGroupFile02') Upload
+                button#myFile.input-group-text(for='inputGroupFile01') Upload
+            
+          .preview(style='text-align: left;')
+            img(src=`/img/upload/${image}`, alt='Image preview', style='width: 100px; height: 100px;')
+        hr
+        

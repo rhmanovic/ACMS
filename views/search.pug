@@ -1,0 +1,22 @@
+
+extends layout
+
+block content
+  
+  .main.container
+    h1.mb-3= `نتيجة بحث عن: ${text}`
+    - var counter = 0
+    if productSearch.length > 0
+      .row#cards
+        each product,index in productSearch      
+          .col-6.col-lg-4.px-2
+            include ./includes/card.pug
+    else
+      br
+      br
+      br
+      br
+      h3.text-center.text-secondary لم يتم العثور على منتجات تطابق شروط البحث
+
+    
+  

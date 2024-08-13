@@ -1,0 +1,157 @@
+extends layout
+
+block content
+
+  .jumbotron.jumbotron-fluid.bg-info.text-white.mb-0
+    .container.pt-lg-5
+      h1.display-5= courseData.name
+      //- p.lead= courseData.description
+  - var indexC = 0
+  .container
+    .row
+      .col.mr-lg-3
+        div
+          h4.my-3.pt-4 About this Course
+          p= courseData.name
+        h4.my-3.pt-4 Course content
+        
+        .accordion
+          each chapter,index in ChaptersData
+            - indexC = index
+            .card.cardShadow.mb-1
+              .card-header.p-0.chapter-header.row.justify-content-between.mb-0(id=`headinga${index}`)
+                - var ariaExpanded = (index === 0 ? 'true' : 'false')
+                - var isShow = (index === 0 ? 'collapse show' : 'collapse')
+                button.btn.btn-link.collapsed.col.text-left(type='button', data-toggle='collapse', data-target=`#collapsea${index}`, aria-expanded=ariaExpanded , aria-controls=`collapsea${index}`)= chapter.name
+                span.align-items-center.row.mr-1.col-auto.p-0
+                  if chapter.status == 'subscribed'
+                    // the user is subscribed to paid chapter
+                    i.mr-2.my-3.fas.fa-lock-open.text-secondary.ml-1
+                  else if chapter.status == 'free'
+                    span.badge-pill.badge-info.text-white Free 
+                    //- .price.badge.badge-pill.badge-info.text-white.btn.mr-4.my-1.collapsed Free 
+                  else 
+                    //- a.badge-pill.badge-danger.text-white(href=`/pay?ch=${chapter._id}`)= chapter.price + " KD"
+                    if currentUser
+                      a.badge-pill.badge-danger.text-white.Pointer( data-toggle='modal', data-target='#pay', 
+                      onclick=`displayPay("${chapter._id}","${chapter.name}","${chapter.price}")`)= chapter.price + " KD"
+                      i.mr-2.my-3.fas.fa-lock.text-secondary.ml-1
+                    else
+                      a.badge-pill.badge-danger.text-white(href='/register')= chapter.price + " KD"
+                      i.mr-2.my-3.fas.fa-lock.text-secondary.ml-1
+          
+              div(class=isShow, aria-labelledby='headingOne', id=`collapsea${index}`)
+                p= chapter.description
+                ul#ulContent1
+
+                  //- section name
+                  each section,index2 in ChaptersData[index].sections
+                    - var link = ChaptersData[index].sectionsLinks[index2];
+                    - var pathName = `${courseData.name} / ${chapter.name} / ${section}`
+                    
+
+                    if link
+                      li
+                        span.submitEdited(type='submit', data-toggle='modal', data-target='#display' onclick=`displaythis("${pathName}","${link}")`)
+                          span= section
+                    else
+                      li.text-black-50
+                        span.text-black-50= section
+                    //- li= section
+
+      .col-lg-4.col-md-4.container.container1.mt-4-mo.mb-4.p-1.mx-2.mt-4
+        .card.cardShadow.border.pb-3
+          .mb-1
+            img.imgCard.rounded.d-block.card-img-top.border(src=courseData.img)
+            //- .cGradient
+            //- a.ddSize(data-toggle='modal', data-target='#introVideo')
+              .dSize
+                i.fas.fa-play.iPlay
+          .px-4
+            p.font-weight-bold.mb-0.mt-3 Includes
+            ul.list-unstyled
+              li #{indexC+1} Chapters
+              li 24 hours on-demand video
+              li 19 articles
+              li 19 coding exercises
+              li Full lifetime access
+              li Access on mobile and PC
+              // li Certificate of Completion
+            hr.my-4
+            p.text-info.text-center.mt-1 Share
+
+
+
+  // ## Modal video
+  #display.modal.fade(tabindex='-1', role='dialog', aria-labelledby='signIn form', aria-hidden='true')
+    .modal-dialog(role='document')
+      .modal-content
+        .modal-header.bg-info.text-white
+          h5#exampleModalLabel.modal-title /// modify, delet, or keep
+          button.close(type='button', data-dismiss='modal', aria-label='Close')
+            span(aria-hidden='true') ×
+
+        .modal-body.signing-buttons.text-center
+          .form-group.text-left
+            label#divId(for='txtEmail')
+            
+            .embed-responsive.embed-responsive-16by9
+              iframe#divIdVid.embed-responsive-item(src= "",controls,autoplay="false", allowfullscreen)
+            
+            
+  // ## Modal pay
+  #pay.modal.fade(tabindex='-1', role='dialog', aria-labelledby='signIn form', aria-hidden='true')
+    .modal-dialog(role='document')
+      .modal-content
+        .modal-header.bg-info.text-white
+          h5#exampleModalLabel.modal-title Check out
+          button.close(type='button', data-dismiss='modal', aria-label='Close')
+            span(aria-hidden='true') ×
+        .modal-body.signing-buttons.text-center
+          nav
+            ol.breadcrumb
+              li.breadcrumb-item= courseData.name
+              li.breadcrumb-item#chName chapter name
+          .card
+            .card-body.text-left
+              h5.font-weight-bold Your Item:
+              form(method='POST' action='/pay')
+                input#chId(type="hidden" name="chapterId" value= courseId)
+                label#chName2(for='course') Chapter Name:
+                br
+                label#chPrice(for='course') Chapter Price:
+                br
+                .form-check
+                  label.mr-2
+                    input(type='radio',checked='')
+                  img(src='/images/knet.png', alt='Mawadi', data-purpose='mawadi-brand-logo', height='55')
+
+
+                br
+                div.text-center
+                  button.btn.btn-primary(type='submit') Complete Payment
+               
+              
+            
+            
+
+  script.
+    function displaythis(name,link) {
+      console.log(name);
+      document.getElementById("divId").innerText = name
+      //- document.getElementById("divIdLink").href = link
+      
+      document.getElementById("divIdVid").src = link;
+    };
+
+  script.
+    function displayPay(id,name,price) {
+      console.log(name);
+      document.getElementById("chName").innerText = name
+      document.getElementById("chId").value = id
+      document.getElementById("chName2").innerText = `Chapter Name: ${name}`
+      document.getElementById("chPrice").innerText = `Chapter Price: ${price} KD`
+      //- document.getElementById("divIdLink").href = link
+      
+      document.getElementById("divIdVid").src = link;
+    };

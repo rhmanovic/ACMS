@@ -1,0 +1,31 @@
+extends layout
+
+block content
+  .main.container
+    .d-flex.flex-column
+      .col-md-8.col-md-offset-2
+        
+
+        if orderData.KentStatus == 'CAPTURED'
+         .justify-content-center
+            .alert.alert-success.mb-4(role='alert')
+              | تم دفع الطلب knet
+
+        else
+          .justify-content-center
+            .alert.alert-danger.mb-4(role='alert')
+              | الطلب غير مدفوع
+
+        .d-flex.justify-content-center
+          h1.display-4.m-b-2= "رقم الفاتورة: " + orderData.orderNo
+
+           
+
+        .d-flex.justify-content-center
+          h5.my-4= "اجمالي الحساب: " + amount.toFixed(3)
+
+
+        if orderData.KentStatus != 'CAPTURED'
+          .d-flex.justify-content-center
+            a(href=`/payforThis/${orderData.id}`)
+              img.insta(src="/img/upload/knet.png")

@@ -1,0 +1,29 @@
+extends layout
+
+block content
+
+  if websiteLangaue === "ar"
+    - var productDataName = productData.name
+  else if websiteLangaue === "en"
+    - var productDataName = productData.nameE
+    
+  .col
+    include ./includes/productCard.pug
+    if productData.discounted
+      include ./includes/advantages.pug                                         
+    
+    include ./includes/description.pug
+    
+    if managerNow || theSalesemanNow
+      include ./manager/includes/inventoryData.pug
+      br
+      include ./manager/includes/inventory.pug
+    br
+    
+    include ./includes/productManager.pug
+    br
+      
+    include ./includes/productScript.pug
+
+    if ShowModal
+      include ./includes/modal.pug

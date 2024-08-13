@@ -1,1 +1,39 @@
+extends layout
+
+block content
+
+  - var showModal = 1;
+  .main.container
+   
+    i(classname='icon bi-envelope')
+    i.bi-alarm
+
+    // Button trigger modal
+    button.btn.btn-primary#modalButton(type='button', data-toggle='modal', data-target='#exampleModalCenter' name="modalButton")
+      | Launch demo modal
+
+    // Modal
+    #exampleModalCenter.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalCenterTitle', aria-hidden='show')
+      .modal-dialog.modal-dialog-centered(role='document')
+        .modal-content
+          .modal-header
+            h5#exampleModalLongTitle.modal-title Modal title
+            button.close(type='button', data-dismiss='modal', aria-label='Close')
+              span(aria-hidden='true') &times;
+          .modal-body
+            | ...
+            i(classname='icon bi-envelope')
+          .modal-footer
+            button.btn.btn-secondary(type='button', data-dismiss='modal') Close
+            button.btn.btn-primary(type='button') Save changes
+
+ 
+
+  script(src='/input-change.js')
+
+  if showModal == 1
+    script.
+      window.onload = function () {
+        document.getElementById("modalButton").click()
+      };
 

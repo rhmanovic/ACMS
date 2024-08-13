@@ -1,0 +1,125 @@
+extends layoutInvoice
+
+block content
+  - var total = 0;
+  main.container.px-0.fw-bold
+    
+    p.fs-1.text-center.mt-5 فاتورة
+    
+    .row
+
+      .col
+        table.table-responsive.mb-2
+          tbody.fw-bold.fs-4
+            tr 
+              th التاريخ
+              th.px-2 :
+              td= `${orderData.time.toLocaleDateString("en-GB")}`
+            
+            tr 
+              th رقم الفاتورة
+              th.px-2 :
+              td= `${orderData.orderNo}`
+            if orderData.invoice > 0
+              tr 
+                th رقم الفاتورة
+                th.px-2 :
+                td= `${orderData.orderNo}`
+    
+    
+    
+    
+            tr
+              th اسم العميل
+              th.px-2 :
+              td= `${orderData.customerName}`
+            tr 
+              th العنوان
+              th.px-2 :
+              td= `${orderData.address}`
+            tr 
+              th هاتف
+              th.px-2 :
+              td.ltr.d-flex.flex-row-reverse= `${orderData.mobile}`
+            if orderData.KentStatus == "CAPTURED"
+              tr 
+                th حالة الدفع
+                th.px-2 :
+                td.ltr.d-flex.flex-row-reverse مدفوع كي-نت
+            else
+              tr 
+                th حالة الدفع
+                th.px-2 :
+                td.ltr.d-flex.flex-row-reverse الدفع عند الاستلام
+
+      
+        
+        
+      .col.ltr
+        img(src='/img/upload/myFile-1706093299954.png', alt='ITC', data-purpose='ITC-brand-logo', height='100')
+        p.mt-1 شركة اي تي ستور للتجارة العامة
+    
+    table.table
+      thead.table-secondary
+        tr
+          //th #
+          th 
+            span اسم المنتج
+            
+          
+          //- th ID
+          th الكفالة (سنة)
+          th الكمية
+          th 
+            span السعر
+            br
+            span د.ك
+          th 
+            span الاجمالي
+            br
+            span د.ك
+          
+      tbody.fw-bold.fs-4
+        each product,index in orderData.productIDs
+          tr
+            td
+              span= orderData.productNames[index]
+
+            //
+              if orderData.warehouseNo[index]
+                td= orderData.warehouseNo[index]
+              else
+                td -
+            td= orderData.warranty[index]
+            td= orderData.quantity[index]
+            td= orderData.price[index]
+            td= (orderData.price[index] * orderData.quantity[index]).toFixed(3)
+            - total += orderData.price[index] * orderData.quantity[index]
+      tbody.fw-bold.fs-4    
+        tr
+          td
+          td
+          th.table-secondary الشحن          
+          th= orderData.shippingCost
+        tr
+          td
+          td
+          th.table-secondary الاجمالي  
+          - total += orderData.shippingCost
+          th= total.toFixed(3)
+
+
+
+    ul
+      li البضاعة المباعة ترد وتستبدل خلال 14 يوم.
+     
+
+    span العنوان: اسوق القرين - شارع سوق السرحان - كهرباء مول - محل رقم 2
+    br
+    span هاتف: 90903115
+    br
+    span انستجرام: itcstorekw
+    br
+    br
+    br 
+    

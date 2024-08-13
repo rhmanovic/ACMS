@@ -1,0 +1,35 @@
+
+extends layout
+
+block content
+
+  if websiteLangaue === "ar"
+    - var mainCategoryName = categoryData.name
+  else if websiteLangaue === "en"
+    - var mainCategoryName = categoryData.nameE
+    
+  h1= mainCategoryName
+  .main.container
+    
+    .row.row-cols-3.row-cols-md-6
+      each TheCategory,index in subCategoryData
+
+        if websiteLangaue === "ar"
+          - var categoryName = TheCategory.name
+        else if websiteLangaue === "en"
+          - var categoryName = TheCategory.nameE
+          
+        include ./includes/CategoryCard.pug
+        
+    br
+    - var counter = 0
+    .row#cards
+      each product,index in productDataAll      
+        .col-6.col-lg-4.px-2
+        
+          if websiteLangaue === "ar"
+            - var productName = product.name
+          else if websiteLangaue === "en"
+            - var productName = product.nameE
+            
+          include ./includes/cardInProduct.pug

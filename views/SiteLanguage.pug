@@ -1,0 +1,31 @@
+extends layout
+
+block content
+
+
+
+
+ .main.container
+
+
+
+   .row
+     .col-md-8.col-md-offset-2
+
+
+        each value, index in language.language.en
+          form(action=`SiteLanguage?toedit=${index}&L=en`, method='POST')
+            label(for='userInput').font-weight-bold.text-danger= index
+            .input-group.mb-3
+              input.form-control(type='text', placeholder='Enter your text here', name='userInput', value=value)
+              .input-group-append
+                button.btn.btn-outline-secondary.mx-2(type='submit') تعديل
+
+
+
+          form(action=`SiteLanguage?toedit=${index}&L=ar`, method='POST')
+            .input-group.mb-3
+              input.form-control(type='text', placeholder='Enter your text here', name='userInput', value=language.language.ar[index])
+              .input-group-append
+                button.btn.btn-outline-secondary.mx-2(type='submit') تعديل
+          br           

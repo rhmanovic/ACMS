@@ -1,0 +1,108 @@
+extends layout
+
+block content
+  .main.p-0
+
+    .container
+      //(style='background-image: url(https://itc-11.abdulrahmanald1.repl.co/img/upload/myFile-1688774180473.png); background-position: center !important; background-size: cover !important; */')
+      .row
+        //.mt-5
+        //.mt-5
+        //.mt-5
+        //.mt-5
+        //.mt-5
+        //.mt-5
+        .mt-5
+        //.col
+          .alert.alert-danger.mx-3
+            i.fa-sharp.fa-regular.fa-clock
+            span= " الوقت المتبقي: "
+            // span= " 00hr : 00m : 00s "
+          
+          
+            // span.days
+            span.hours 00
+            span= " ساعة "
+            span.minutes 00
+            span= " دقيقة "
+            span.seconds 00
+            span= " ثانية "
+          
+        each product,index in productSub
+          .col-10.mx-auto
+            .card.cardShadow.mb-3
+              img.insta.border.border-black.border-2(src=product.img style='aspect-ratio: 1 / 1;");')
+              .card-body
+                h5#card-title1.card-title.text-center= product.name
+                // /i.fas.fa-chalkboard-teacher.text-secondary
+                //span#card-text1.card-text.m-2 24.5 د.ك
+                a.stretched-link(href=`/upSellAdd/${product.productNo}/111`)
+              .container.fs-4
+                span= " السعر "
+                span.text-danger.fw-bold.fs-2= product.upsell
+                span.text-danger.fw-bold= " د.ك "
+                span.text-decoration-line-through.fs-5=` ${product.beforePrice} د.ك`
+              
+              .row.m-0.p-0
+                p.m-auto.py-2.text-center.text-bg-danger.fs-3 اشتر الان
+            
+              
+        //.col-10.mx-auto
+          .card.cardShadow.mb-3
+            img.insta.border.border-black.border-2(src='https://itc-11.abdulrahmanald1.repl.co/img/upload/myFile-1688775558494.png' style='aspect-ratio: 2 / 1;background-image: url("https://itcstore.net/img/bg/01.png");')
+            .card-body
+              h5#card-title1.card-title.text-center (50 حبة) لمبة A60 12w
+              // /i.fas.fa-chalkboard-teacher.text-secondary
+              //span#card-text1.card-text.m-2 24.5 د.ك
+            .container.fs-3
+              span= " السعر "
+              span.text-danger.fw-bold= productData.discountPrice
+              span.text-danger.fw-bold= " د.ك "
+              span.text-decoration-line-through.fs-4=` ${productData.price} د.ك`
+              
+            .row.m-0.p-0
+              p.m-auto.py-2.text-center.text-bg-danger.fs-3 اشتر الان
+              
+       
+  
+  
+
+
+
+  script.
+    // The End Of The Year Date To Countdown To
+    // 1000 milliseconds = 1 Second
+    
+    let countDownDate = new Date();
+    countDownDate.setDate(countDownDate.getDate() + 1);
+    countDownDate.setHours(0, 0, 0, 0);
+    console.log(countDownDate);
+    
+    
+
+    let counter = setInterval(() => {
+
+
+      // Get Date Now
+      let dateNow = new Date().getTime();
+    
+      // Find The Date Difference Between Now And Countdown Date
+      let dateDiff = countDownDate - dateNow;
+    
+      // Get Time Units
+      // let days = Math.floor(dateDiff / 1000 / 60 / 60 / 24);
+      // let days = Math.floor(dateDiff / (1000 * 60 * 60 * 24));
+      let hours = Math.floor((dateDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      let minutes = Math.floor((dateDiff % (1000 * 60 * 60)) / (1000 * 60));
+      let seconds = Math.floor((dateDiff % (1000 * 60)) / 1000);
+    
+      // document.querySelector(".days").innerHTML = days < 10 ? `0${days}` : days;
+      document.querySelector(".hours").innerHTML = hours < 10 ? `0${hours}` : hours;
+      document.querySelector(".minutes").innerHTML = minutes < 10 ? `0${minutes}` : minutes;
+      document.querySelector(".seconds").innerHTML = seconds < 10 ? `0${seconds}` : seconds;
+      if (dateDiff < 0) {
+        clearInterval(counter);
+      }
+
+
+    }, 1000);

@@ -1,0 +1,62 @@
+extends layout
+
+block content
+
+  
+  .container.pt-lg-5
+    h1.display-5 courseData.name
+    nav
+      ol.breadcrumb
+        li.breadcrumb-item course name
+        li.breadcrumb-item chapter name
+    //- p.lead= courseData.description
+  
+  .container
+    .row
+      
+      .col-lg-4.col-md-4.container.container1.mt-4-mo.mb-4.p-1.mx-2.mt-4
+        .card.border.pb-3
+          .mb-1
+            img.imgCard.rounded.d-block.card-img-top.border(src="courseData.img")
+            //- .cGradient
+            //- a.ddSize(data-toggle='modal', data-target='#introVideo')
+              .dSize
+                i.fas.fa-play.iPlay
+          .px-4
+            p.font-weight-bold.mb-0.mt-3 Includes
+            ul.list-unstyled
+              li 24 hours on-demand video
+              li 19 articles
+              li 19 coding exercises
+              li Full lifetime access
+              li Access on mobile and TV
+              li Certificate of Completion
+            hr.my-4
+            p.text-info.text-center.mt-1 Share
+
+
+
+  // ## Modal Sign in
+  #display.modal.fade(tabindex='-1', role='dialog', aria-labelledby='signIn form', aria-hidden='true')
+    .modal-dialog(role='document')
+      .modal-content
+        .modal-header.bg-info.text-white
+          h5#exampleModalLabel.modal-title /// modify, delet, or keep
+        .modal-body.signing-buttons.text-center
+          .form-group.text-left
+            label#divId(for='txtEmail')
+            
+            .embed-responsive.embed-responsive-16by9
+              iframe#divIdVid.embed-responsive-item(src= "",controls,autoplay="false", allowfullscreen)
+            
+            
+            
+
+  script.
+    function displaythis(name,link) {
+      console.log(name);
+      document.getElementById("divId").innerText = name
+      //- document.getElementById("divIdLink").href = link
+      
+      document.getElementById("divIdVid").src = link;
+    };

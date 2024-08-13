@@ -1,0 +1,195 @@
+extends layout
+
+
+block content
+    - var totalPrice = 0
+    - var minOrder = Number(minimumOrder)
+    - var shippingPrice = 1002
+    - var shippingFee = Number(shipping)
+    - var completeOrder = theLanguage.completeOrder
+    
+    if cartData.length > 0
+        .container.text-right.my-3
+            .row.row-cols-1.row-cols-md-2.m-2.m-md-0
+                
+                .col.col-md-8.p-0
+                    h3.mb-4= theLanguage.cart
+                    
+                    .card.cardShadow
+                        
+                        each product,index in cartData
+                            each product2,index in cartData2
+                              if product2.ID == product._id
+                                - productQuantity = product2.Quantity
+                                - productVariation = product2.variation
+                           
+                            div(id=`div${product._id}`)
+                                .container-fluid.p-0.border
+                                    .row.row-cols-2.m-0
+                                        
+                                        .col-3.pt-3.pt-md-0
+                                            
+                                            span.image-wrap
+                                                - var productImage = ""
+                                                - if (product.img.length > 0) { productImage = product.img[0]} else {productImage = product.img}
+                                                
+                                                img.p-md-3.card-img-top.lazyload(data-src=productImage || "images/fff.png" onerror="this.onerror=null; this.src='images/fff.png'")
+                                        
+                                        .col-9.p-0
+                                            .container-fluid.p-0.pt-2
+                                                .row.row-cols-1.m-0
+                                                    .col-md-8.d-flex.flex-column
+                                                        .bd-highlight.my-2
+                                                            a(href=`/product/${product._id}`)
+                                                                h6= product.name
+                                                            if productVariation
+                                                            p= "اللون : "+productVariation
+                                                        .bd-highlight.mt-auto
+                                                            p.hideMIN.small2-font.text-muted
+                                                                button.btn.btn-light.btn-sm.small2-font.text-black-50(value=`${product._id}`, class="remove")
+                                                                    i.ml-1.fa.fa-trash(aria-hidden='true')
+                                                                    span= ` ${theLanguage.romove} `
+                                                    .col-md-4.d-flex.flex-column.p-0
+                                                        
+                                                        .container
+                                                            .d-flex.flex-column.bd-highlight.mb-3
+                                                                .p-2.bd-highlight
+                                                                    span.small-font= `${theLanguage.quantity} :`
+                                                                    div
+                                                                        label.sr-only(for='inlineFormInputGroup')
+                                                                        .input-group.my-2
+                                                                            .input-group-prepend
+                                                                              button.btn.btn-light.btn-number.border(type='button', data-type='minus', data-field=`quantity${index}`)
+                                                                                span#basic-addon1.h3 -
+                                                                                  
+                                                                            
+                                                                            input.form-control.col.text-center.btn-number.input-number(type='text', id=`${product._id}`, name=`quantity${index}`, value=`${productQuantity}`, min='0', max='1000' onchange=`Quantitychange2("${product._id}")`)
+
+                                                                            .input-group-prepend
+                                                                                button.btn.btn-danger.btn-number.tomato(type='button', data-type='plus', data-field=`quantity${index}`)
+                                                                                  span#basic-addon1.h3 +
+                                                                                  
+                                                                    
+                                                                .p-2.bd-highlight
+                                                                    if cartData2[index].isUpSell
+                                                                      - product.price = cartData2[index].upsell
+                                                                    if product.discounted
+                                                                      - productprice = product.discountPrice
+                                                                      span.small-font.text-decoration-line-through.text-secondary= `قبل الخصم : ${product.price} K.D`
+                                                                    else
+                                                                      - productprice = product.price
+                                                                      
+                                                                    br
+                                                                    span.fs-6.small-font= `${theLanguage.piecePrice}: ${productprice} K.D`
+                                                                .p-2.bd-highlight
+                                                                    span.fs-6.small-font= theLanguage.total
+                                                                    span.fs-6.small-font= ` K.D `
+                                                                    span.fs-6.small-font(id =`R${product._id}`)= ((productprice*1000) * cartData2[index].Quantity)/1000
+                                                                    - totalPrice += ((productprice*1000) * cartData2[index].Quantity)/1000
+                                                                .p-2.bd-highlight.hideMAX.text-muted.small2-font
+                                                                    button.btn.btn-light.btn-sm(value=`${product._id}`, class="remove")
+                                                                        i.ml-1.fa.fa-trash(aria-hidden='true')
+                                                                        span= ` ${theLanguage.romove} `
+
+                                            
+                .col.col-md-4.p-0
+                    .card.cardShadow.mr-md-2.mt-2.mt-md-0
+                        h4.mx-3.mt-2= theLanguage.orderSummary
+                        hr.mx-3
+                        .container
+                            .row
+                                .col= theLanguage.total
+                                .col.text-left.ltr
+                                    span(id="subTotalPrice")= totalPrice
+                                    span= " K.D"
+                            .row
+                                .col= theLanguage.shipping
+                                .col.text-left.ltr
+                                    span#shipping= shippingFee
+                                    span#shipping1= " K.D"
+                                
+                            hr.mx-3
+                            .row
+                              .col= theLanguage.grandTotal
+                              .col.text-left.ltr
+                                  span#finalPrice= (totalPrice + shippingFee).toFixed(3)
+                                  span= " K.D"
+
+                            form#addorder(method='POST' action='/AddOrder')
+                                .d-flex.flex-column.bd-highlight.mb-3
+                                    div(hidden)
+                                      .pt-2.bd-highlight اختر المنطقة:
+                                      input.p-1.bd-highlight(value=`cdccd#${shippingFee}#ddd` name='city')
+                                    //select.form-select#city(name='city' type='text')
+                                      option(value="1001") المناطق
+                                      each cityEnglish,index in citytData.cityEnglish
+                                        option(value=`${citytData.ID_CITY[index]}#${citytData.price[index]}#${citytData.cityEnglish[index]}`)= `${citytData.cityArabic[index]}`
+
+                                   
+
+                                                              
+
+
+
+                                    // User ID
+                                    input.p-1.bd-highlight(value= currentUser hidden  name='userID')
+                                        
+                                    
+
+                                    .pt-2.bd-highlight= theLanguage.name
+                                    input.p-1.bd-highlight(placeholder=theLanguage.fullName type='text' id='name' name='customerName' required="required" oninvalid="this.setCustomValidity('ضع اسم صحيح')" oninput="setCustomValidity('')")
+                                    .pt-2.bd-highlight= theLanguage.mobileNumber
+
+                                    input.p-1.bd-highlight.input-number(placeholder=theLanguage.mobileNumber type='tel' id='mobile' name='mobile' required="required" oninvalid="this.setCustomValidity('ضع هاتف صحيح')" oninput="setCustomValidity('')")
+                                    
+                                    .pt-2.bd-highlight= theLanguage.address
+                                    textarea.p-1.bd-highlight(placeholder=theLanguage.fullAddress type='text' id='address' name='address' required="required" oninvalid="this.setCustomValidity('ضع عنوان صحيح')" oninput="setCustomValidity('')")
+
+                                    //.row.mt-3
+                                      .col            
+                                        input(type='radio'  name="payment_method" value="knet")      
+                                        label.mx-2= theLanguage.knet  
+                                    .row
+                                      .col            
+                                        input(type='radio' checked="checked" name="payment_method" value="cash")      
+                                        label.mx-2= theLanguage.cashOnDelivery
+                                    
+                                    .row            
+                                        span#errorCart.text-danger.mt-2 
+                                           
+                                    
+                                    
+                                    
+                                    button.btn.btn-primary.mt-4.mb-2.bg-success#purchaseB(type='submit' disabled=totalPrice < minOrder)
+                                      h4.mt-2.font-weight-bold
+                                        span= theLanguage.completeOrder
+                                        if totalPrice < minOrder
+                                          span.text-danger.font-weight-bold (#{theLanguage.MOQ} #{minOrder} K.D)
+                                        script.
+                                          var purchaseButton = document.getElementById('purchaseB');
+                                          var subTotalPrice = document.getElementById('subTotalPrice');
+                                          var checkMinOrder = function() {
+                                            var updatedTotalPrice = parseFloat(subTotalPrice.textContent);
+                                            if (updatedTotalPrice < #{minOrder}) {
+                                              purchaseButton.disabled = true;
+                                              purchaseButton.querySelector('h4').textContent = '#{theLanguage.completeOrder} (#{theLanguage.MOQ} ' + #{minOrder} + ' K.D)';
+                                            } else {
+                                              purchaseButton.disabled = false;
+                                              purchaseButton.querySelector('h4').textContent = '#{theLanguage.completeOrder}';
+                                            }
+                                          };
+                                          subTotalPrice.addEventListener('DOMSubtreeModified', checkMinOrder);
+                                          checkMinOrder();
+                                    
+
+
+    else
+        .container.text-right.my-3
+            .col.p-0
+                .card.cardShadow
+                    h3.text-center.my-auto عربة التسوق فارغة
+    
+   
+        
+           
+

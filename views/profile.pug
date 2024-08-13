@@ -1,0 +1,27 @@
+extends layout
+
+block content
+  .jumbotron.jumbotron-fluid.bg-info.text-white.mb-0
+    .container.text-sm-center
+      h1.display-5.text-left My Profile
+
+  ol.breadcrumb
+    .container
+      li.breadcrumb-item.float-left
+        // a(href='/')
+        i.fas.fa-home
+      li.breadcrumb-item.active.float-left(aria-current='page') Profile
+
+  .container.clearfix
+    .row
+      .col-md-8.col-md-offset-2
+        h1.display-4
+          // img.avatar.img-circle.hidden-xs-down(src='/images/avatar.png', alt='avatar')
+          | #{name}
+        // h2.favorite-book Favorite Book
+        // | #{favorite}
+        h3 subscirptions
+        ul
+          each sub,index in subscriptions
+            if sub
+              li= sub

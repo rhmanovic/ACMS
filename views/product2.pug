@@ -1,0 +1,227 @@
+extends layout
+
+block content
+
+   
+
+    
+
+
+    .col
+        .card.container.mt-4.cardShadow.border-3
+            .container.my-3
+                .row.row-cols-1.row-cols-lg-2.flex-row-reverse
+                    //div.insta
+                    
+
+                    #carouselExampleAutoplaying.carousel.slide.carousel-dark(data-bs-ride='carousel')
+                      .carousel-inner
+                        each img,index in productData.img
+                          if index == 0
+                            .carousel-item.active(data-bs-interval="4000")
+                              img.d-block.w-100.p-4.insta(src=img, alt=productData.name, style="aspect-ratio: 1 / 1;")
+                          else
+                            .carousel-item(data-bs-interval="4000")
+                              img.d-block.w-100.p-4.insta(src=img, alt=productData.name, style="aspect-ratio: 1 / 1;")
+                        
+                      button.carousel-control-prev(type='button' data-bs-target='#carouselExampleAutoplaying' data-bs-slide='prev')
+                        span.carousel-control-prev-icon(aria-hidden='true')
+                        span.visually-hidden Previous
+                      button.carousel-control-next(type='button' data-bs-target='#carouselExampleAutoplaying' data-bs-slide='next')
+                        span.carousel-control-next-icon(aria-hidden='true')
+                        span.visually-hidden Next
+                    
+                  
+                    
+                    
+      
+
+                    
+                    form#cart(method='POST' action='/cart')
+                        
+                        div.px-lg-3.text-right
+                            h3.my-4#product_name= productData.name
+                            if managerNow
+                              a(href=`../manager/editAny/Product/${productData._id}/name//${productData.name?productData.name:"NaN"}/${typeof productData.name}/productshop`)
+                                span تعديل الاسم
+
+                            .text-right.d-flex.bd-highlight.justify-content-between.flex-column.flex-md-row-reverse.align-self-baselin
+                                .col.p-0
+                                    span.badge.badge-light.mt-2
+                                        
+                                        Span.text-success متوفر
+                                
+                                .col.p-0.mt-md-0
+                                    
+                                    if productData.discounted
+                                      .row.row-cols-auto.mx-1
+                                        span.p-0.col.ltr.text-decoration-line-through.card-text#card-text1.fw-bolder.fs-6.text-danger= `${(productData.price).toFixed(3)} K.D` 
+                                        span.mx-1.p-0.col.ltr.card-text#card-text1.fw-bolder.fs-4= `${(productData.discountPrice).toFixed(3)} K.D`
+                                    else
+                                      span.card-text#card-text1.fw-bolder.fs-4= `${(productData.price).toFixed(3)} K.D`
+
+
+
+                            br
+
+                            p.my-0 الكمية
+                            div.my-1
+                                label.sr-only(for='inlineFormInputGroup')
+                                .input-group.my-2
+                                    .input-group-prepend
+                                    button.btn.btn-light.btn-number.border(type='button', data-type='minus', data-field='quantity')
+                                        i.fa.fa-minus(aria-hidden='true')
+                                    if Q
+                                      input.form-control.col-3(type='text', id="intTextBox", name='quantity', value=Q , min='1', max='1000')
+                                    else
+                                      input.form-control.col-3(type='text', id="intTextBox", name='quantity', value='1', min='1', max='1000')
+
+                                    .input-group-prepend
+                                    button.btn.btn-number.tomato.text-white.rounded-0(type='button', data-type='plus', data-field='quantity')
+                                        i.fa.fa-plus(aria-hidden='true')
+
+
+                    
+                            -  var productDataid = productData._id;
+                           
+                            div(hidden)
+                              input#pid(type="" name="productId" value= productDataid)
+
+                              if productData.discounted
+                                input#pprice(type="" name="price" value= productData.discountPrice)
+                              else
+                                input#pprice(type="" name="price" value= productData.price)
+
+
+                              input#pname(type="" name="name" value= productData.name)
+                              
+                              input#pproductNo(type="" name="productNo" value= productData.productNo)
+                              input#pproductNo(type="" name="parentNo" value= productData.productNo)
+                              input#pwarranty(type="" name="warranty" value= productData.warranty)
+
+
+
+                              if productData.discounted
+                                .row.row-cols-auto.mx-1
+                                  span.p-0.col.ltr.text-decoration-line-through.card-text#card-text1.fw-bolder.fs-6.text-danger= `${(productData.discountPrice).toFixed(3)} K.D` 
+                                  span.mx-1.p-0.col.ltr.card-text#card-text1.fw-bolder.fs-5= `${(productData.price).toFixed(3)} K.D`
+                              else
+                                span.card-text#card-text1.fw-bolder.fs-5= `${(productData.price).toFixed(3)} K.D`
+
+
+                           
+
+                            h3.mx-1#errorProduct.text-danger.mt-2 
+
+
+                            
+
+                            button.col.btn.tomato.mt-3.text-white#addToCartButton(type='submit')
+                                | اضف للعربة
+                                i.mx-2.fa.fa-cart-plus(aria-hidden='true')
+
+
+
+                            if managerNow || theSalesemanNow
+                              div.mt-5
+                                
+
+                                a(href=`../manager/editAny/Product/${productData._id}/googleSheet//${productData.googleSheet?productData.googleSheet:"NaN"}/${typeof productData.googleSheet}/productshop`)
+                                 p= `عرض في قوقل =  ${productData.googleSheet} `
+
+                               
+
+                                a(href=`../manager/productPage/${productData._id}`)
+                                 span.badge.text-bg-success صفحة ادارة المنتج
+
+
+
+                                if managerNow  
+                                  a(href=`../manager/editAny/Product/${productData._id}/cost//${productData.cost?productData.cost:"NaN"}/${typeof productData.cost}/productshop`)
+                                    p.text-danger= `التكلفه    ${productData.name} =  ${productData.cost} `
+                                  a(href=`../manager/editAny/Product/${productData._id}/price//${productData.price?productData.price:"NaN"}/${typeof productData.price}/productshop`)
+                                    p= `سعر  ${productData.name} =  ${productData.price} `
+                                  
+                              
+                            
+                    
+                    
+        
+        .card.container.p-0.mb-4.border-0.mt-2
+            .card-header.bg-white.border-0
+                ul.nav.nav-tabs.card-header-tabs
+                    li.nav-item
+                        a.nav-link.active.px-4.bg-light(href='#') المواصفات
+            .card-body.border-bottom.cardShadow.text-right.border-3
+                //- h5.card-title Special title treatment
+                if managerNow
+                  a(href=`../manager/editAny/Product/${productData._id}/description//${productData.description?productData.description:"NaN"}/${typeof productData.description}/productshop`)
+                    p.card-text.mr-4.pr-2(style="text-align: justify;")= productData.description || "..."
+                else
+                  p.card-text.mr-4.pr-2(style="text-align: justify;")= productData.description || "..."
+
+                table.table.table-striped
+                  thead
+                    tr
+                      th(scope='col') تفاصيل المنتج
+                      th(scope='col')
+                     
+                  tbody
+                    
+                    
+
+                    tr
+                      th ابعاد المنتج
+                      
+                      if managerNow
+                        td
+                          a(href=`../manager/editAny/Product/${productData._id}/Dim//${productData.Dim?productData.Dim:"NaN"}/${typeof productData.Dim}/productshop`)
+                            span= `${productData.Dim}`
+                      else
+                        td= `${productData.Dim}`
+                      
+            
+                    
+                      
+    include ./includes/modal.pug
+                                           
+
+    script.
+            // Restricts input for the given textbox to the given inputFilter.
+        function setInputFilter(textbox, inputFilter) {
+        ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function(event) {
+            textbox.addEventListener(event, function() {
+            if (inputFilter(this.value)) {
+                this.oldValue = this.value;
+                this.oldSelectionStart = this.selectionStart;
+                this.oldSelectionEnd = this.selectionEnd;
+            } else if (this.hasOwnProperty("oldValue")) {
+                this.value = this.oldValue;
+                this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+            } else {
+                this.value = "";
+            }
+            });
+        });
+        }
+
+
+        // Install input filters.
+        setInputFilter(document.getElementById("intTextBox"), function(value) {
+        return /^-?\d*$/.test(value); });
+
+
+
+    if ShowModal == "yes"
+    script.
+      window.onload = function () {
+        document.getElementById("modalButton").click()
+      };
+  
+
+      
+      
+                    
+
+    
+    

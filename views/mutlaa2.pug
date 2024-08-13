@@ -1,0 +1,25 @@
+extends layout
+
+block content
+
+  .container.text-center
+    br
+    h2 ضع كود الخصم
+    br
+    br
+    br
+    br
+    .mx-auto
+      form#addorder(method='POST' action='/Disc')
+        input.p-1.bd-highlight(placeholder="كود الخصم" type='text' id='code' name='code')
+        br
+        .d-flex.flex-column.bd-highlight.mb-3
+          button.btn.btn-primary.mt-4.mb-2.bg-success(type='submit')
+            h4.mt-2.font-weight-bold فعل الكود
+        br
+      //a(href="../")
+        button.btn.btn-primary.mx-3.bg-success(type='button') المتابعة للتسوق
+
+    
+ 
+  

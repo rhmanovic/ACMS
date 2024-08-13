@@ -1,0 +1,95 @@
+extends layout
+
+block content
+
+  - var subTotal = 0
+  - var shipping = 0
+  - var discount = 0
+
+  - var cartLength = cartData2.length
+
+
+  
+
+  if cartData.length > 0
+    h1.mx-3.mt-3 العربة
+    .container.text-right.my-3     
+      .col.col-md-8.p-0
+
+        
+
+        each product,index in cartData
+          .card.cardShadow.mb-2
+            .card-header.fw-bold= product.name
+            .card-body
+              .small-font= ` سعر الحبة الاساسي: ${product.price} د.ك`          
+               
+
+              each cartProduct,index in cartData2
+                
+                if cartProduct.ID == product._id
+                  .row.form-group.mt-1
+                    input(type='text', id=`i=${index}`, value=`${product._id}` hidden)
+
+                  .row.form-group.mt-1
+                    
+                    label.col-3.col-form-label الكمية:
+                    .col
+                      input.form-control.text-center.input-number(type='number', id=`q=${index}`, name=`quantity`, value=cartProduct.Quantity , min='0', max='1000' onchange=`CartChange("${index}",${cartLength})`)
+
+
+                  .row.form-group.mt-1
+                    label.col-3.col-form-label السعر:
+                    .col
+                      if cartProduct.isUpSell
+                        - product.price = cartProduct.upsell
+                    
+                      input.form-control.text-center.input-number(type='number', id=`p=${index}`, name=`price`, value=product.price , min='0', max='1000' onchange=`CartChange("${index}","${cartData2.length}")`)
+
+
+              
+
+                  
+                  h6.mt-5
+                    span الاجمالي: 
+                    span(id=`t=${index}`)= `${(cartProduct.Quantity * product.price).toFixed(3)}`
+                    span  د.ك
+
+
+                  - subTotal += cartProduct.Quantity * product.price
+
+
+
+
+
+
+
+
+        form#addorder2(method='POST' action='/AddOrder2')
+          .card.border.border-danger.mb-2.mt-5.bg-light.bg-gradient        
+            .card-body
+              .row
+                .col-4
+                  .input-number.card-text.form-control.mt-1 الفاتورة:
+                  .input-number.card-text.form-control.mt-1 الاسم:
+                  .input-number.card-text.form-control.mt-1 هاتف:
+                  .input-number.card-text.form-control.mt-1 عنوان:
+                  .input-number.card-text.form-control.mt-1 الشحن:
+                  .input-number.card-text.form-control.mt-1 الخصم:
+                  .input-number.card-text.form-control.mt-1 الاجمالي:
+                .col
+                  input.form-control.text-center.input-number.mt-1(type='number', id=``, name=`invoice` , min='0', max='10000' onchange=`` placeholder="")
+                  input.form-control.text-center.mt-1(type='text', id=``, name=`customerName` , min='0', max='1000' onchange=`` placeholder="")
+                  input.form-control.text-center.input-number.mt-1(type='number', id=``, name=`mobile` ,  onchange=`` placeholder="")
+                  input.form-control.text-center.mt-1(type='text', id=``, name=`address` , min='0', max='1000' onchange=`` placeholder="")
+                  input.form-control.text-center.input-number.mt-1(step="0.001", type='number', id=`shippingCost`, name=`shippingCost`, value=shipping , min='0', max='1000' onchange=`TotalChange("${cartLength}")`)
+                  input.form-control.text-center.input-number.mt-1(step="0.001", type='number', id=`discount`, name=`discount`, value=discount , min='0', max='1000' onchange=`TotalChange("${cartLength}")`)
+                  input.form-control-plaintext.text-center.mt-1(id="FinalTotal" value=`${(subTotal + shipping - discount).toFixed(3)}` readonly)
+  
+              .d-flex.flex-column.bd-highlight.my-3
+  
+
+              
+              
+                button.btn.btn-primary.mt-4.mb-2.bg-success(type='submit')
+                  h4.mt-2.font-weight-bold اكمل الطلب

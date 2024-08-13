@@ -1,0 +1,28 @@
+extends layout
+
+block content
+
+  
+  
+  .main
+    .container
+      .row.row-cols-3.row-cols-md-6
+        each TheCategory,index in categoriesPass
+
+          if websiteLangaue === "ar"
+            - var categoryName = TheCategory.name
+          else if websiteLangaue === "en"
+            - var categoryName = TheCategory.nameE
+            
+          include ./includes/CategoryCard.pug
+          
+    
+    - var counter = 0
+    each productData,index in productDataAll 
+
+      if websiteLangaue === "ar"
+        - var categoryPassName = categoriesPass[index].name
+      else if websiteLangaue === "en"
+        - var categoryPassName = categoriesPass[index].nameE
+      
+      include ./includes/productsScroll.pug

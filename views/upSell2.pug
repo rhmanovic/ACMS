@@ -1,0 +1,152 @@
+extends layout
+
+
+block content
+  - var upSelling = true
+  if cartData.length > 0
+    
+    - var colortype = 0
+    - var totalPrice = 0
+    - var shippingPrice = 1.5
+    .container.mt-3
+      each product,index in cartData 
+        - colortype = product.colortype
+        if product.upsell
+          
+          - totalPrice += product.upsell
+          .row.border-bottom
+            .col-4
+              img.img-fluid(src=product.img alt='....') 
+            .col-8
+              h4.m-3.fw-bold.mx-0= product.Name
+              //.m-3.fw-bold.mx-0= `${product.Price} K.D`
+              .container.fs-1.px-0
+                span.text-danger.fw-bold= product.upsell
+                span.text-danger.fw-bold= " د.ك "
+                span.text-decoration-line-through.fs-3=` ${product.Price} د.ك`
+        else
+          - upSelling = false
+    if upSelling
+      .container.mt-3
+        .row 
+          .col
+            .d-grid.gap-2
+              // button.btn.btn-primary(type='button') اضف 50 حبة زيادة بـ 8.900 د.ك
+    
+              a.d-grid.gap-2(href=`../upSellAdd/${cartData[0].productNo}/${cartData[0].nextUpSell}`)
+                button.btn.btn-danger.btn-lg(type='button')= `زيد من نفس العرض بـ ${cartData[0].nextUpSell} د.ك`
+    
+      form#addorder(method='POST' action='/upSellApprove')
+
+        if colortype == 1 || colortype == 2
+          .container
+            hr.mx-2.mt-3
+            .col
+              h4.mx-3.mt-2 اختر اللون المطلوب :
+              .form-check.mx-1.fs-5
+                input.mx-1(type='radio' name='color' value='wh')
+                label(for='html') ابيض
+                br
+                input.mx-1(type='radio' name='color' value='ww')
+                label(for='css') اصفر
+                br
+                if colortype == 1
+                  input.mx-1(type='radio' name='color' value='4k')
+                  label(for='javascript') وورم(اوف وايت)
+              
+          hr.mx-2.mb-4.mt-3
+
+
+
+
+  
+        .card.cardShadow.m-3
+          h4.mx-3.mt-2 ملخص الطلبية
+          hr.mx-3
+          .container
+              .row.mx-1
+                  .col الاجمالي
+                  .col.text-left.ltr
+                      span(id="subTotalPrice")= totalPrice
+                      span= " K.D"
+              .row.mx-1
+                  .col التوصيل
+                  .col.text-left.ltr
+                      span#shipping= shippingPrice
+                      span#shipping1= " K.D"
+                  
+              hr.mx-3
+              .row.mx-1
+                .col الاجمالي الكلي
+                .col.text-left.ltr
+                    span#finalPrice= totalPrice + shippingPrice
+                    span= " K.D"
+          
+        
+
+
+          
+
+          .d-flex.flex-column.bd-highlight.m-3
+      
+              //.pt-2.bd-highlight اختر المنطقة:
+              //select.form-select#city(name='city' type='text')
+                option(value="1001") المناطق
+                each cityEnglish,index in citytData.cityEnglish
+                  option(value=`${citytData.ID_CITY[index]}#${citytData.price[index]}#${citytData.cityEnglish[index]}`)= `${citytData.cityArabic[index]}`
+      
+             
+      
+                                        
+      
+      
+      
+              // User ID
+              
+              input.p-1.bd-highlight(value= currentUser hidden  name='userID')
+                  
+            
+      
+              .pt-2.bd-highlight الاسم:
+              input.p-1.bd-highlight(placeholder="الاسم الكامل" type='text' id='name' name='customerName' value"-")
+              .pt-2.bd-highlight رقم الهاتف:
+      
+              input.p-1.bd-highlight.input-number(placeholder="رقم الهاتف" type='tel' id='mobile' name='mobile' required="required" oninvalid="this.setCustomValidity('ضع هاتف صحيح')" oninput="setCustomValidity('')")
+              //.pt-2.bd-highlight الايميل (اختياري):
+              //input.p-1.bd-highlight(placeholder="example@example.com" type='text' id='email' name='email')
+              .pt-2.bd-highlight العنوان:
+              textarea.p-1.bd-highlight(placeholder="العنوان الكامل" type='text' id='address' name='address' required="required" oninvalid="this.setCustomValidity('ضع عنوان صحيح')" oninput="setCustomValidity('')")
+      
+              .row.mt-3
+                .col            
+                  input(type='radio' checked="checked")      
+                  label.mx-2 دفع عند الاستلام
+              .row
+                .col            
+                  input(type='radio' disabled )      
+                  s.text-secondary.mx-2 كي-نت
+      
+              .row            
+                  span#errorCart.text-danger.mt-2 
+                     
+              
+      
+      
+              
+    
+              //a.btn.btn-primary.bg-success.py-3(href=`../upSellApprove`)
+              button.btn.btn-primary.mt-4.mb-2.bg-success(type='submit')
+                h4.m-0 تأكيد الطلب
+
+    else
+      .container.text-right.my-3
+        .col.p-0
+            .card.cardShadow
+                h3.text-center.my-auto no offer available
+
+  
+  else
+    .container.text-right.my-3
+        .col.p-0
+            .card.cardShadow
+                h3.text-center.my-auto عربة التسوق فارغة

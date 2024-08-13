@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  .main.container
+    .row
+      .col-md-8.col-md-offset-2
+        each val, index in SiteData
+          form(action=`SiteData?toedit=${index}`, method='POST')
+            label(for='userInput').font-weight-bold.text-danger= index
+            .input-group.mb-3
+              input.form-control(type='text', placeholder='Enter your text here', name='userInput', value=val)
+              .input-group-append
+                button.btn.btn-outline-secondary.mx-2(type='submit') تعديل

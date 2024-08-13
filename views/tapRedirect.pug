@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  h1 Welcome to Home Page.
+
+  if profile.status.toLowerCase() == 'captured'
+    h3 شكرا لك تم قبول عملية الدفع
+    ul
+      li= `Amount ${profile.amount} ${profile.currency}`
+  else
+    h3 لم يتم قبول عملية الدفع
+
+  p= JSON.stringify(profile)

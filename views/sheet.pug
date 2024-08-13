@@ -1,0 +1,64 @@
+extends layout
+
+
+block content
+
+  .ltr
+    table.table
+      thead
+        tr
+          th(scope='col') id
+          th(scope='col') title
+          th(scope='col') link
+          th(scope='col') description
+          th(scope='col') image_link
+          th(scope='col') price
+          th(scope='col') availability
+          th(scope='col') brand
+          th(scope='col') google_product_category
+          th(scope='col') update_type
+      each product,index in productData
+        tr
+          td= product.productNo
+          td= product.name
+          td= `https://tingstorekw.com/product/${product.url}` 
+          td= product.description
+          td= `https://tingstorekw.com/${product.img[0]}`
+          td= `${product.price} KWD` 
+          td in_stock
+          td= product.brandName
+          td= product.googleCategory
+          td merge
+
+    each product,index in productData
+      span= `<item>` 
+      br
+      a(href=`/manager/productPage/${product._id}`)
+        span= `<g:id>${product.productNo}</g:id>`
+      br
+      span= `<title>${product.name}</title>`
+      br
+      span= `<link>https://tingstorekw.com/product/${product.url}</link>` 
+      br
+      span= `<description>${product.description}</description>` 
+      br
+      span= `<g:image_link>https://tingstorekw.com/${product.img[0]}</g:image_link>`
+      br
+      span= `<g:price>${product.price} KWD</g:price>` 
+      br
+      if product.discounted
+        span= `<g:sale_price>${product.discountPrice} KWD</g:sale_price>` 
+        br
+      span= `<g:availability>in_stock</g:availability>`
+      br
+      span= `<g:brand>${product.brandName}</g:brand>` 
+      br
+      span= `<g:google_product_category>${product.googleCategory}</g:google_product_category>` 
+      br
+      span= `<g:update_type>merge</g:update_type>`
+      br
+      span= `</item>`
+      br
+      br
+    
+  

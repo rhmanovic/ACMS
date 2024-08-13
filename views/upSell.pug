@@ -1,0 +1,105 @@
+extends layout
+
+block content
+
+  .fixed-bottom 
+    nav.navbar.navbar-dark.bg-dark
+      .container-fluid
+        span.navbar-brand= ` ${productData.discountPrice.toFixed(3)} K.D`
+        a(href=`/upSellAdd/${productData.productNo}/111`)
+          button.btn.btn-danger.btn-lg(type='button') اشتر الأن
+
+
+  img.img-fluid(src=productData.img alt='...')
+
+  h4.m-3.fw-bold= productData.name
+
+  .alert.alert-danger.mx-3
+    i.fa-sharp.fa-regular.fa-clock
+    span= " الوقت المتبقي: "
+    // span= " 00hr : 00m : 00s "
+
+
+    // span.days
+    span.hours 00
+    span= " ساعة "
+    span.minutes 00
+    span= " دقيقة "
+    span.seconds 00
+    span= " ثانية "
+
+  .container.fs-1
+    span= " السعر "
+    span.text-danger.fw-bold= productData.discountPrice
+    span.text-danger.fw-bold= " د.ك "
+    span.text-decoration-line-through.fs-3=` ${productData.price} د.ك`
+
+  
+  .container.my-3.py-1.border-top.border-bottom.border-5.border-light
+    .row
+      .col
+        i.fa-solid.fa-truck-fast 
+        | توصيل خلال 24 ساعة
+      .col
+        i.fa-solid.fa-money-bill
+        | الدفع عند الاستلام
+      .col
+        i.fa-solid.fa-shield-halved
+        | كفاله سنة
+
+
+  .container
+    .card.container.p-0.mb-4.border-0.mt-2
+      .card-header.bg-white.border-0
+          ul.nav.nav-tabs.card-header-tabs
+              li.nav-item
+                  a.nav-link.active.px-4.bg-light(href='#') المواصفات
+      .card-body.border-bottom.cardShadow.text-right.border-3
+          //- h5.card-title Special title treatment
+          p.card-text.mr-4.pr-2= productData.description || "N/A"
+
+
+
+
+  
+
+  script.
+    // The End Of The Year Date To Countdown To
+    // 1000 milliseconds = 1 Second
+    
+    let countDownDate = new Date();
+    countDownDate.setDate(countDownDate.getDate() + 1);
+    countDownDate.setHours(0, 0, 0, 0);
+    console.log(countDownDate);
+    
+    
+
+    let counter = setInterval(() => {
+
+
+      // Get Date Now
+      let dateNow = new Date().getTime();
+    
+      // Find The Date Difference Between Now And Countdown Date
+      let dateDiff = countDownDate - dateNow;
+    
+      // Get Time Units
+      // let days = Math.floor(dateDiff / 1000 / 60 / 60 / 24);
+      // let days = Math.floor(dateDiff / (1000 * 60 * 60 * 24));
+      let hours = Math.floor((dateDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      let minutes = Math.floor((dateDiff % (1000 * 60 * 60)) / (1000 * 60));
+      let seconds = Math.floor((dateDiff % (1000 * 60)) / 1000);
+    
+      // document.querySelector(".days").innerHTML = days < 10 ? `0${days}` : days;
+      document.querySelector(".hours").innerHTML = hours < 10 ? `0${hours}` : hours;
+      document.querySelector(".minutes").innerHTML = minutes < 10 ? `0${minutes}` : minutes;
+      document.querySelector(".seconds").innerHTML = seconds < 10 ? `0${seconds}` : seconds;
+      if (dateDiff < 0) {
+        clearInterval(counter);
+      }
+
+
+    }, 1000);
+
+
+

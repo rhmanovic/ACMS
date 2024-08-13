@@ -1,0 +1,94 @@
+nav.navbar-expand-lg.bgnav.text-white
+
+  
+  div.d-flex.flex-column.bd-highlight
+    div.d-flex.justify-content-between.pt-2.px-2
+      div
+        a.navbar-toggler.border-0(href='/changeLanguage')
+          i.material-icons.mt-3.mx-3.h4(aria-hidden='true') language
+
+        a.navbar-toggler.border-0(href='/cart')
+          span
+            i.fas.fa-shopping-cart.mt-2.h4
+            span#lblCartCount.badge.badge-warning= cartCountNow
+      
+      div
+        a.navbar-brand.m-0.p-0(href="/")
+          img.mx-2.hideMAX(src=`/img/upload/${SiteImages.logo}`, alt='ITC', data-purpose='ITC-brand-logo', height='45')
+
+        button.navbar-toggler.border-0.px-2(type='button', data-bs-toggle="collapse", data-bs-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
+          i.fa.fa-bars(aria-hidden='true').h4.mt-3
+
+
+    
+     
+
+  #navbarSupportedContent.navbar-toggler.collapse.pt-1 
+
+    if currentUser
+      .p-2.bd-highlight.border-bottom
+        span #{theLanguage.welcome} #{currentUserName}
+    if !currentUser
+      .p-2.bd-highlight.border-bottom
+        a(aria-current='page' href='/login')= theLanguage.login
+  
+
+    
+    
+    if managerNow || theSalesemanNow
+      .p-2.bd-highlight.border-bottom
+        a(aria-current='page' href='/manager') الادارة
+
+      .p-2.bd-highlight.border-bottom
+        a(aria-current='page' href='/emptyCart')= theLanguage.emptyCart
+      .p-2.bd-highlight.border-bottom
+        a(aria-current='page' href='/SiteData')= theLanguage.SiteData
+      .p-2.bd-highlight.border-bottom
+        a(aria-current='page' href='/SiteLanguage')= theLanguage.SiteLanguage
+      .p-2.bd-highlight.border-bottom
+        a(aria-current='page' href='/SiteImages')= theLanguage.SiteImages
+
+    if currentUser
+      .p-2.bd-highlight.border-bottom
+        a(aria-current='page' href='/logout')= theLanguage.logout
+    .p-2.bd-highlight.border-bottom
+      a(aria-current='page' href='/contact')= theLanguage.contactus
+  
+   
+
+   
+
+ 
+
+  // Navigation Bar on Desktop size
+  dev
+    .col
+      .navbar-collapse.collapse.justify-content-around.p-2(style='')
+       
+        
+
+        a.navbar-brand.nav-item.m-0.p-0.col-auto(href="/")
+          img.udemy-logo.mx-2.hideMIN(src=`/img/upload/${SiteImages.logo}`, alt='ITC', data-purpose='udemy-brand-logo', height='45')
+
+        
+        .col
+
+        .navbar-nav.mx-4.mr-md-0
+          a.nav-item.nav-link.mx-3.mt-1(href='/manager')
+            i.fa.fa-cog(aria-hidden='true')
+          a.nav-item.nav-link.mx-3(href='/changeLanguage')
+            i.material-icons(aria-hidden='true') language
+          a.nav-item.nav-link.mx-3(href='/')
+            i.fa.fa-user.mt-1(aria-hidden='true')
+          a.nav-item.nav-link.mx-3(href='/cart')
+            i.fa.fa-shopping-cart.mt-1(aria-hidden='true')
+          
+          .nav-item
+            if currentUser
+              div
+                img.avatar.img-circle.hidden-xs-downborder.border.collapse(src='/images/avatar.png', alt='avatar')
+                a.btn.pull-md-left.btn-secondary(href='/logout')= theLanguage.logout
+            else  
+              a.btn.btn-info.pull-md-left.mr-md-2.collapse(href='/login')
+                i.fa.fa-user.ml-2(aria-hidden='true')
+                span= theLanguage.login
