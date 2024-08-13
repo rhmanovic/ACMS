@@ -92,7 +92,7 @@ app.use('/privates', privates);
 app.use('/admin', routesAdmin);
 app.use('/manager', routesManager);
 app.use('/api', routesAPI);
-app.use('/payment', routesPayment);
+// app.use('/payment', routesPayment);
 app.use('/profile', profileRoutes);
 
 app.set('views', __dirname + '/views');
