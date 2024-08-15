@@ -148,8 +148,13 @@ router.get('/', function(req, res, next) {
 
 
 router.get('/pay', async function(req, res1, next) {
+
+  console.log("/pay")
+  
   const { orderId } = req.query;
-  const myAPIURL = req.headers.host;
+  // const myAPIURL = req.headers.host;
+  const myAPIURL = keys.myAPIURL;
+  console.log(myAPIURL);
   const postURL = "https://" + myAPIURL + '/payment/payPost';
 
   try {
