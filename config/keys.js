@@ -2,6 +2,7 @@
 // add this file to .gitignore
 
 module.exports = {
+  myAPIURL:"gheras.me",
   google: {
     clientID: '390879348958-aafkfja9l2inu4lkhus668gunp9kosos.apps.googleusercontent.com',
     clientSecret: 'oVmsdLuFMI16dBL0ivNOMyf2'
