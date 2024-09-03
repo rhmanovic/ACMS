@@ -58,8 +58,13 @@ block content
   script(src='https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js')
   script(src='https://cdn.jsdelivr.net/npm/quill@2.0.0/dist/quill.js')
   script(src='https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js')
   
-  script(src='/js/productForm.js')
+  script(src='/js/product/quillEditors.js')
+  script(src='/js/product/formValidation.js')
+  script(src='/js/product/tabHandling.js')
+  script(src='/js/product/imageUpload.js')
+  script(src='/js/product/formSubmission.js')
   script(src='/js/productformtab3.js')
   script.
     var productVariations = !{JSON.stringify(product.variations || [])};
