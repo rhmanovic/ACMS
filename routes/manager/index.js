@@ -31,17 +31,306 @@ const PImage = require('pureimage');
 var nodemailer = require("nodemailer");
 
 
+
+
+
+
+
+
 // Set up storage engine
 const storage = multer.diskStorage({
   destination: function(req, file, cb) {
-    cb(null, 'public/img/upload/')
+    cb(null, 'public/img/upload/'); // Save files to this directory
   },
   filename: function(req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
+    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname)); // Unique filename
   }
 });
 
 const upload = multer({ storage: storage });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Set up storage engine for saving images in 'public/img/test/'
+const storagetest = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, 'public/img/test/'); // Save files to this directory
+  },
+  filename: function(req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname)); // Unique filename
+  }
+});
+
+const uploadtest = multer({ storage: storagetest });
+
+// Handle the image upload and product creation
+router.post('/createProductAndUploadImages', uploadtest.array('product_images', 10), async (req, res) => {
+  try {
+    // Access the uploaded files via req.files
+    const files = req.files;
+
+    if (!files || files.length === 0) {
+      return res.status(400).json({ error: 'No files uploaded' });
+    }
+
+    // Extract file paths to save in the product_images array
+    const filePaths = files.map(file => `/img/test/${file.filename}`);
+
+    // Create a new product with the provided details and uploaded images
+    const newProduct = new Product({
+      // merchant: req.body.merchant || "", // Assuming merchant ID is provided in the request body
+      product_name_en: req.body.product_name_en || 0,
+      product_name_ar: req.body.product_name_ar || 0,
+      // category: req.body.category || "", // Assuming category ID is provided in the request body
+      brand: req.body.brand || 0,
+      warranty: req.body.warranty || 0,
+      description_ar: req.body.description_ar || 0,
+      description_en: req.body.description_en || 0,
+      sale_price: req.body.sale_price || 0,
+      purchase_price: req.body.purchase_price || 0,
+      purchase_limit: req.body.purchase_limit || 0,
+      barcode: req.body.barcode || 0,
+      product_images: filePaths, // Save the image paths in the product_images field
+      // Add more fields as necessary
+    });
+
+    // Save the new product to the database
+    await newProduct.save();
+
+    res.status(201).json({ message: 'Product created successfully', product: newProduct });
+  } catch (error) {
+    console.error('Error creating product:', error);
+    res.status(500).json({ error: 'Error creating product', details: error.message });
+  }
+});
+
+
+
+
+
+
+
+
+
+
+router.post('/products', upload.fields([{ name: 'product_image', maxCount: 1 }, { name: 'product_images', maxCount: 10 }]), async (req, res) => {
+    try {
+        console.log("Received body: ", JSON.stringify(req.body, null, 2));
+        console.log("Received files: ", JSON.stringify(req.files, null, 2)); // Debug: log files
+
+        const merchantId = req.session.merchant.id;
+
+        const {
+            product_number, product_name_en, product_name_ar, category_number, order_command, weight,
+            keywords, youtube_video_id, description_ar, description_en,
+            sale_price, purchase_price = 0, purchase_limit = 0, barcode,
+            pdt_discount_type, pdt_discount, Stock = 0, brand, warranty, warehouse_stock = 0, options,
+            v_name_en = [], v_name_ar = [], v_sale_price = [], v_purchase_price = [],
+            v_available_quantity = [], v_warehouse_stock = [], v_purchase_limit = [],
+            v_barcode = [], v_brand = [], v_warranty = []
+        } = req.body;
+
+        // Main product image (single file)
+        const product_image = req.files['product_image'] ? req.files['product_image'][0].path.replace('public', '') : '';
+
+        // Additional product images (multiple files)
+        const product_images = req.files['product_images'] ? req.files['product_images'].map(file => file.path.replace('public', '')) : [];
+
+        const productData = {
+            product_number,
+            product_name_en, 
+            product_name_ar, 
+            category_number, 
+            brand, 
+            warranty,
+            order_command, 
+            weight, 
+            keywords, 
+            youtube_video_id, 
+            options,
+            description_ar, 
+            description_en, 
+            sale_price, 
+            purchase_price,
+            purchase_limit, 
+            warehouse_stock, 
+            barcode, 
+            pdt_discount_type,
+            pdt_discount, 
+            Stock, 
+            product_image, 
+            product_images, // Store array of image paths
+            merchant: merchantId
+        };
+
+        const variations = v_name_en.map((_, index) => ({
+            v_name_en: v_name_en[index] || '',
+            v_name_ar: v_name_ar[index] || '',
+            v_sale_price: v_sale_price[index] || 0,
+            v_purchase_price: v_purchase_price[index] || 0,
+            v_available_quantity: v_available_quantity[index] || 0,
+            v_warehouse_stock: v_warehouse_stock[index] || 0,
+            v_purchase_limit: v_purchase_limit[index] || 0,
+            v_barcode: v_barcode[index] || '',
+            v_brand: v_brand[index] || '',
+            v_warranty: v_warranty[index] || ''
+        }));
+
+        let product = await Product.findOne({ product_number, merchant: merchantId });
+
+        if (product) {
+            Object.assign(product, productData);
+            product.variations = variations.length ? variations : []; // Update variations
+        } else {
+            product = new Product({
+                ...productData,
+                variations
+            });
+        }
+
+        await product.save(); // Save product (new or updated)
+        res.redirect('/manager/products');
+    } catch (error) {
+        console.error('Failed to add or update product', error);
+        res.status(500).send('Error processing product');
+    }
+});
+
+
+
+
+
+
+
+
+router.get("/order", mid.requiresLogin, async function (req, res, next) {
+  try {
+    const order_number = req.query.no;
+    const merchantId = req.session.merchant.id;
+
+    // Find the order by order number and merchant ID
+    const order = await Order.findOne({ merchant: merchantId, order_number: order_number });
+
+    if (!order) {
+      return res.status(404).send('Order not found');
+    }
+
+    return res.render("manager/order", {
+      title: "Order",
+      order: order // Pass the order to the Pug template
+    });
+  } catch (error) {
+    console.error('Error retrieving order:', error);
+    return res.status(500).send('Error retrieving order');
+  }
+});
+
+
+
+
+router.get('/send', async function(req, res) {
+  try {
+    // Extract the ID from the session object
+    const merchantId = req.session.merchant.id;
+
+    // Find the merchant in the database using the ID
+    const merchant = await Merchant.findById(merchantId);
+
+    if (!merchant) {
+      return res.status(404).send('Merchant not found');
+    }
+
+    // Log the emailRecipients array
+    console.log('Email Recipients:', merchant.emailRecipients);
+
+    // Ensure that the necessary fields exist
+    if (!merchant.notifications || !merchant.notifications.newOrder || !merchant.notifications.newOrder.merchantNotification) {
+      return res.status(400).send('Merchant notification settings are incomplete or not defined.');
+    }
+
+    // Define the order number
+    const orderNo = 91;
+
+    // Get the notification texts in Arabic and English
+    let notificationTextAr = merchant.notifications.newOrder.merchantNotification.text.ar;
+    let notificationTextEn = merchant.notifications.newOrder.merchantNotification.text.en;
+
+    // Replace [[store_name]] and [[order_number]] with the actual values in both languages
+    notificationTextAr = notificationTextAr
+      .replace('[[store_name]]', merchant.projectName)
+      .replace('[[order_number]]', orderNo);
+
+    notificationTextEn = notificationTextEn
+      .replace('[[store_name]]', merchant.projectName)
+      .replace('[[order_number]]', orderNo);
+
+    // Combine primary email with all email recipients
+    const recipients = [merchant.email, ...merchant.emailRecipients].join(',');
+
+    // Email content with a title "New Order" and the order number
+    const output = `
+      <div style="color: #000000;">
+        <h2 style="text-align: center;">New Order: #${orderNo}</h2>
+        <p style="direction: rtl; display: block; color: #000000;">${notificationTextAr}</p>
+        <p style="color: #000000;">${notificationTextEn}</p>
+      </div>
+    `;
+
+    // Nodemailer configuration
+    var transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'eng.dugaim@gmail.com',
+        pass: 'kioxedtstdtierbv' // Use your app password here
+      }
+    });
+
+    // Mail options with dynamic "from" field
+    var mailOptions = {
+      from: `"${merchant.projectName} | New Order No: ${orderNo}" <eng.dugaim@gmail.com>`, // sender address
+      to: recipients, // recipient addresses (primary email + additional recipients)
+      subject: `New Order: #${orderNo}`, // Subject line
+      html: output // html body
+    };
+
+    // Send mail
+    transporter.sendMail(mailOptions, function(error, info) {
+      if (error) {
+        console.log(error);
+        return res.status(500).send('Error sending email: ' + error.message);
+      } else {
+        console.log('Email sent: ' + info.response);
+        return res.status(200).send('Dummy email sent successfully to ' + recipients);
+      }
+    });
+  } catch (error) {
+    console.error('Error occurred:', error);
+    return res.status(500).send('Server error');
+  }
+});
+
+
+
+
+
+
+
+
+
+
 
 router.get('/productImageGenerator', (req, res) => {
     res.render('manager/productImageGenerator', { title: 'Product Image Generator' });
@@ -129,121 +418,177 @@ router.get('/createDummyProduct', async (req, res) => {
     res.status(200).json({ message: 'Dummy product created successfully', product: product });
 });
 
-// POST route to create or update a product with variations
-router.post('/products', upload.single('product_image'), async (req, res) => {
-    try {
-        console.log("Received body: ", JSON.stringify(req.body, null, 2));
 
-        const merchantId = req.session.merchant.id; // Assuming merchant ID is stored in session
 
-        // Destructuring the basic product info from the request body
-        const {
-            product_number, product_name_en, product_name_ar, category_number, order_command, weight,
-            keywords, youtube_video_id, description_ar, description_en,
-            sale_price, purchase_price, purchase_limit, barcode, pdt_discount_type, pdt_discount,Stock, brand, warranty, warehouse_stock, options
-        } = req.body;
 
-        // Check if a product with the given product_number and merchantId already exists
-        let product = await Product.findOne({ product_number: product_number, merchant: merchantId });
 
-        if (product) {
-            // Update existing product fields
-            product.product_name_en = product_name_en;
-            product.brand =brand;
-            product.warranty =warranty;
-            product.product_name_ar = product_name_ar;
-            product.category_number = category_number;
-            product.order_command = order_command;
-            product.weight = weight;
-            product.keywords = keywords;
-            // Update product image only if a new image was uploaded
-            if (req.file) {
-                product.product_image = req.file.path.replace('public', '');
-            }
-            product.youtube_video_id = youtube_video_id;
-            product.description_ar = description_ar;
-            product.options = options;
-            product.description_en = description_en;
-            product.sale_price = sale_price;
-            product.category_number = category_number;
-            product.purchase_price = purchase_price || 0;
-          
-            product.purchase_limit = purchase_limit || 0;
-            product.warehouse_stock = warehouse_stock || 0;
-            product.barcode = barcode;
-            product.pdt_discount_type = pdt_discount_type;
-            product.pdt_discount = pdt_discount;
-            product.Stock = Stock || 0;
 
-            // Update variations if provided
-            if (Array.isArray(req.body.v_name_en) && req.body.v_name_en.length > 0) {
-                product.variations = req.body.v_name_en.map((_, index) => ({
-                    v_name_en: req.body.v_name_en[index] || '',
-                    v_name_ar: req.body.v_name_ar[index] || '',
-                    v_sale_price: req.body.v_sale_price[index] || 0,
-                    v_purchase_price: req.body.v_purchase_price[index] || 0,
-                    v_available_quantity: req.body.v_available_quantity[index] || 0,
-                      v_warehouse_stock: req.body.v_warehouse_stock[index] || 0,
-                    v_purchase_limit: req.body.v_purchase_limit[index] || 0,
-                    v_barcode: req.body.v_barcode[index] || '',
-                    v_brand: req.body.v_brand[index] || '',
-                    v_warranty: req.body.v_warranty[index] || ''
-                }));
-            } else {
-              product.variations = []; // Clear variations if none are provided
-            }
 
-            await product.save(); // Save updates
-            res.redirect('/manager/products'); // Redirect to the product management page
-        } else {
-            // No existing product found, create a new one
-            const newProduct = new Product({
-                product_number,
-                product_name_en,
-                product_name_ar,
-                category_number,
-                brand,
-                warranty,
-                order_command,
-                weight,
-                keywords,
-                product_image: req.file ? req.file.path.replace('public', '') : '',
-                youtube_video_id,
-                options,
-                description_ar,
-                description_en,
-                merchant: merchantId, // Attach the merchant ID as a reference
-                sale_price,
-                purchase_price: purchase_price || 0,
-                Stock: Stock || 0,
-                purchase_limit: purchase_limit || 0,
-                warehouse_stock: warehouse_stock   || 0
-            });
 
-            // Handle variations for new product
-            if (Array.isArray(req.body.v_name_en) && req.body.v_name_en.length > 0) {
-                newProduct.variations = req.body.v_name_en.map((_, index) => ({
-                    v_name_en: req.body.v_name_en[index] || '',
-                    v_name_ar: req.body.v_name_ar[index] || '',
-                    v_sale_price: req.body.v_sale_price[index] || 0,
-                    v_purchase_price: req.body.v_purchase_price[index] || 0,
-                    v_available_quantity: req.body.v_available_quantity[index] || 0,
-                      v_warehouse_stock: req.body.v_warehouse_stock[index] || 0,
-                    v_purchase_limit: req.body.v_purchase_limit[index] || 0,
-                    v_barcode: req.body.v_barcode[index] || '',
-                    v_brand: req.body.v_brand[index] || '',
-                    v_warranty: req.body.v_warranty[index] || ''
-                }));
-            }
 
-            await newProduct.save(); // Save new product
-            res.redirect('/manager/products'); // Redirect to the product management page
-        }
-    } catch (error) {
-        console.error('Failed to add or update product', error);
-        res.status(500).send('Error processing product');
-    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+router.post('/products/create', upload.single('product_image'), async (req, res) => {
+
+  try {
+      console.log("Received body: ", JSON.stringify(req.body, null, 2));
+
+      const merchantId = req.session.merchant.id; // Assuming merchant ID is stored in session
+
+      // Destructuring the basic product info from the request body
+      const {
+          product_number, product_name_en, product_name_ar, category_number, order_command, weight,
+          keywords, youtube_video_id, description_ar, description_en,
+          sale_price, purchase_price, purchase_limit, barcode, pdt_discount_type, pdt_discount, Stock, brand, warranty, warehouse_stock, options
+      } = req.body;
+
+      // Create a new product
+      const newProduct = new Product({
+          product_number,
+          product_name_en,
+          product_name_ar,
+          category_number,
+          brand,
+          warranty,
+          order_command,
+          weight,
+          keywords,
+          product_image: req.file ? req.file.path.replace('public', '') : '',
+          youtube_video_id,
+          options,
+          description_ar,
+          description_en,
+          merchant: merchantId, // Attach the merchant ID as a reference
+          sale_price,
+          purchase_price: purchase_price || 0,
+          Stock: Stock || 0,
+          purchase_limit: purchase_limit || 0,
+          warehouse_stock: warehouse_stock || 0
+      });
+
+      // Handle variations for the new product
+      if (Array.isArray(req.body.v_name_en) && req.body.v_name_en.length > 0) {
+          newProduct.variations = req.body.v_name_en.map((_, index) => ({
+              v_name_en: req.body.v_name_en[index] || '',
+              v_name_ar: req.body.v_name_ar[index] || '',
+              v_sale_price: req.body.v_sale_price[index] || 0,
+              v_purchase_price: req.body.v_purchase_price[index] || 0,
+              v_available_quantity: req.body.v_available_quantity[index] || 0,
+              v_warehouse_stock: req.body.v_warehouse_stock[index] || 0,
+              v_purchase_limit: req.body.v_purchase_limit[index] || 0,
+              v_barcode: req.body.v_barcode[index] || '',
+              v_brand: req.body.v_brand[index] || '',
+              v_warranty: req.body.v_warranty[index] || ''
+          }));
+      }
+
+      await newProduct.save(); // Save the new product
+      res.redirect('/manager/products'); // Redirect to the product management page
+  } catch (error) {
+      console.error('Failed to create product', error);
+      res.status(500).send('Error creating product');
+  }
 });
+
+
+// POST route to update an existing product with variations
+router.post('/products/update', upload.single('product_image'), async (req, res) => {
+  try {
+      console.log("Received body: ", JSON.stringify(req.body, null, 2));
+
+      const merchantId = req.session.merchant.id; // Assuming merchant ID is stored in session
+
+      // Destructuring the basic product info from the request body
+      const {
+          product_number, product_name_en, product_name_ar, category_number, order_command, weight,
+          keywords, youtube_video_id, description_ar, description_en,
+          sale_price, purchase_price, purchase_limit, barcode, pdt_discount_type, pdt_discount, Stock, brand, warranty, warehouse_stock, options
+      } = req.body;
+
+      // Find the product by product_number and merchantId
+      let product = await Product.findOne({ product_number: product_number, merchant: merchantId });
+
+      if (product) {
+          // Update existing product fields
+          product.product_name_en = product_name_en;
+          product.brand = brand;
+          product.warranty = warranty;
+          product.product_name_ar = product_name_ar;
+          product.category_number = category_number;
+          product.order_command = order_command;
+          product.weight = weight;
+          product.keywords = keywords;
+
+          // Update product image only if a new image was uploaded
+          if (req.file) {
+              product.product_image = req.file.path.replace('public', '');
+          }
+
+          product.youtube_video_id = youtube_video_id;
+          product.description_ar = description_ar;
+          product.options = options;
+          product.description_en = description_en;
+          product.sale_price = sale_price;
+          product.purchase_price = purchase_price || 0;
+          product.purchase_limit = purchase_limit || 0;
+          product.warehouse_stock = warehouse_stock || 0;
+          product.barcode = barcode;
+          product.pdt_discount_type = pdt_discount_type;
+          product.pdt_discount = pdt_discount;
+          product.Stock = Stock || 0;
+
+          // Update variations if provided
+          if (Array.isArray(req.body.v_name_en) && req.body.v_name_en.length > 0) {
+              product.variations = req.body.v_name_en.map((_, index) => ({
+                  v_name_en: req.body.v_name_en[index] || '',
+                  v_name_ar: req.body.v_name_ar[index] || '',
+                  v_sale_price: req.body.v_sale_price[index] || 0,
+                  v_purchase_price: req.body.v_purchase_price[index] || 0,
+                  v_available_quantity: req.body.v_available_quantity[index] || 0,
+                  v_warehouse_stock: req.body.v_warehouse_stock[index] || 0,
+                  v_purchase_limit: req.body.v_purchase_limit[index] || 0,
+                  v_barcode: req.body.v_barcode[index] || '',
+                  v_brand: req.body.v_brand[index] || '',
+                  v_warranty: req.body.v_warranty[index] || ''
+              }));
+          } else {
+              product.variations = []; // Clear variations if none are provided
+          }
+
+          await product.save(); // Save the updates
+          res.redirect('/manager/products'); // Redirect to the product management page
+      } else {
+          res.status(404).send('Product not found');
+      }
+  } catch (error) {
+      console.error('Failed to update product', error);
+      res.status(500).send('Error updating product');
+  }
+});
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -544,6 +889,24 @@ router.get('/dashboard', (req, res) => {
     name: req.session.merchant.name
   });
 });
+
+
+// Dashboard route
+router.get('/test', (req, res) => {
+  if (!req.session.merchant) {
+    // Redirect the user to the login page if they are not logged in
+    return res.redirect('/manager/login');
+  }
+
+  // Render a dashboard page using session data
+  res.render('manager/test', {
+    merchantID: req.session.merchant.id,
+    projectName: req.session.merchant.projectName,
+    name: req.session.merchant.name
+  });
+});
+
+
 
 // Dashboard route
 router.get('/dashboard2', (req, res) => {
@@ -1357,6 +1720,82 @@ router.post('/add-customer', async (req, res) => {
 
 
 
+router.post('/merchant/settings', async (req, res) => {
+  try {
+    console.log("Full req.body: ", JSON.stringify(req.body, null, 2));
+
+    const notifications = {};
+
+    const isEnabled = (value) => {
+      if (Array.isArray(value)) {
+        return value.includes('on');
+      }
+      return value === 'on';
+    };
+
+    // Map the notification settings using the received values
+    notifications.newOrder = {
+      merchantNotification: {
+        enabled: isEnabled(req.body['notifications[newOrder][merchantNotification][enabled]']),
+        text: {
+          en: req.body['notifications[newOrder][merchantNotification][text][en]'] || '',
+          ar: req.body['notifications[newOrder][merchantNotification][text][ar]'] || ''
+        }
+      },
+      customerNotification: {
+        enabled: isEnabled(req.body['notifications[newOrder][customerNotification][enabled]']),
+        text: {
+          en: req.body['notifications[newOrder][customerNotification][text][en]'] || '',
+          ar: req.body['notifications[newOrder][customerNotification][text][ar]'] || ''
+        }
+      },
+      subUserNotification: {
+        enabled: isEnabled(req.body['notifications[newOrder][subUserNotification][enabled]'])
+      }
+    };
+
+    notifications.orderStatusUpdate = {
+      customerNotification: {
+        text: {
+          en: req.body['notifications[orderStatusUpdate][customerNotification][text][en]'] || '',
+          ar: req.body['notifications[orderStatusUpdate][customerNotification][text][ar]'] || ''
+        }
+      }
+    };
+
+    // Split the emailRecipients string by semicolon, trim whitespace, and remove empty strings
+    const emailRecipients = req.body.emailRecipients
+      .split(';')
+      .map(email => email.trim()) // Manually trim whitespace
+      .filter(email => email); // Remove empty strings
+
+    console.log("Processed notifications: ", JSON.stringify(notifications, null, 2));
+    console.log("Email Recipients: ", emailRecipients);
+
+    // Fetch the merchant document from the database using session ID
+    const merchantId = req.session.merchant.id;
+    let merchant = await Merchant.findById(merchantId);
+
+    if (!merchant) {
+      return res.status(404).send('Merchant not found');
+    }
+
+    // Update the merchant's notifications settings
+    merchant.notifications = notifications;
+
+    // Update the merchant's email recipients
+    merchant.emailRecipients = emailRecipients;
+
+    // Save the updated merchant document
+    await merchant.save();
+
+    // Redirect back to the settings page
+    res.redirect('/manager/settings');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server error');
+  }
+});
 
 
 
