@@ -143,12 +143,10 @@ router.post('/products', upload.fields([{ name: 'product_image', maxCount: 1 }, 
             v_barcode = [], v_brand = [], v_warranty = []
         } = req.body;
 
-        // Main product image (single file)
-        const product_image = req.files['product_image'] ? req.files['product_image'][0].path.replace('public', '') : '';
+        // Retrieve the existing product
+        let product = await Product.findOne({ product_number, merchant: merchantId });
 
-        // Additional product images (multiple files)
-        const product_images = req.files['product_images'] ? req.files['product_images'].map(file => file.path.replace('public', '')) : [];
-
+        // Prepare the updated product data
         const productData = {
             product_number,
             product_name_en, 
@@ -171,11 +169,20 @@ router.post('/products', upload.fields([{ name: 'product_image', maxCount: 1 }, 
             pdt_discount_type,
             pdt_discount, 
             Stock, 
-            product_image, 
-            product_images, // Store array of image paths
             merchant: merchantId
         };
 
+        // Handle main product image (single file)
+        if (req.files['product_image'] && req.files['product_image'][0]) {
+            productData.product_image = req.files['product_image'][0].path.replace('public', '');
+        }
+
+        // Handle additional product images (multiple files)
+        if (req.files['product_images'] && req.files['product_images'].length > 0) {
+            productData.product_images = req.files['product_images'].map(file => file.path.replace('public', ''));
+        }
+
+        // Handle variations
         const variations = v_name_en.map((_, index) => ({
             v_name_en: v_name_en[index] || '',
             v_name_ar: v_name_ar[index] || '',
@@ -189,25 +196,39 @@ router.post('/products', upload.fields([{ name: 'product_image', maxCount: 1 }, 
             v_warranty: v_warranty[index] || ''
         }));
 
-        let product = await Product.findOne({ product_number, merchant: merchantId });
-
         if (product) {
+            // Update existing product
             Object.assign(product, productData);
-            product.variations = variations.length ? variations : []; // Update variations
+
+            // Update variations if provided
+            if (variations.length > 0) {
+                product.variations = variations;
+            }
+
+            // Only update images if they are provided
+            if (productData.product_image) {
+                product.product_image = productData.product_image;
+            }
+            if (productData.product_images) {
+                product.product_images = productData.product_images;
+            }
         } else {
+            // Create a new product if it doesn't exist
             product = new Product({
                 ...productData,
                 variations
             });
         }
 
-        await product.save(); // Save product (new or updated)
+        // Save the product (new or updated)
+        await product.save();
         res.redirect('/manager/products');
     } catch (error) {
         console.error('Failed to add or update product', error);
         res.status(500).send('Error processing product');
     }
 });
+
 
 
 
