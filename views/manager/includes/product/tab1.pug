@@ -1,6 +1,27 @@
 table.table.table-bordered.table-striped.table-hover
   tbody
     tr.align-middle
+      td
+        span صور المنتج (PNG/JPG/GIF)
+        br
+        span (يمكنك رفع أكثر من صورة)
+      td
+        h1 Upload Product Images
+        
+        .form-group
+          label(for="product_images") Upload a Product Image (PNG/JPG/GIF)
+          input#product_images(type="file", name="product_images", accept="image/png, image/jpeg, image/jpg, image/gif")
+          
+        h2 Preview Images
+        ul#image-preview-list.uploaded-images-list
+        
+        h2 Existing Uploaded Images
+        ul#existing-images-list.uploaded-images-list
+          each image in product.product_images
+            li
+              img.border.border-4.my-4(src=`${image || 'https://via.placeholder.com/150'}`, alt='Uploaded Product Image', style='height: 150px;')
+
+    tr.align-middle
       td اسم المنتج (العربية)
       td
         .col.col-lg-
@@ -149,5 +170,4 @@ table.table.table-bordered.table-striped.table-hover
           });
           // Retrieve the description from the hidden input
           var descriptionEn = document.getElementById('hiddenDescriptionEn').value;
-          // Set the editor's content using dangerouslyPasteHTML
-          quill33.clipboard.dangerouslyPasteHTML(descriptionEn);
+          // Set the editor's content using dangerouslyPasteHTML(descriptionEn);
