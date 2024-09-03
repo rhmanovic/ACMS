@@ -25,7 +25,7 @@ var VariationSchema = new mongoose.Schema({
 
 // Main Product Schema
 var ProductSchema = new mongoose.Schema({
-  merchant: { type: mongoose.Schema.Types.ObjectId, ref: 'Merchant', required: true },
+  merchant: { type: mongoose.Schema.Types.ObjectId, ref: 'Merchant' },
   product_number: { type: Number }, // field for the unique product number
   category_number: { type: Number }, // field for the unique product number
   product_name_en: { type: String, required: true },
@@ -37,6 +37,7 @@ var ProductSchema = new mongoose.Schema({
   weight: { type: String, default: 0 },
   keywords: { type: String, default: '' },
   product_image: { type: String, default: '' },
+  product_images: [{ type: String }], // Updated to store multiple images
   youtube_video_id: { type: String, default: '' },
   description_ar: { type: String, default: '' },
   description_en: { type: String, default: '' },
