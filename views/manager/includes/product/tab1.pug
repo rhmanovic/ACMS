@@ -17,9 +17,15 @@ table.table.table-bordered.table-striped.table-hover
         
         h2 Existing Uploaded Images
         ul#existing-images-list.uploaded-images-list
-          each image in product.product_images
+          if product.product_images && product.product_images.length > 0
+            each image in product.product_images
+              li
+                img.border.border-4.my-4(src=`${image || 'https://via.placeholder.com/150'}`, alt='Uploaded Product Image', style='height: 150px;')
+          else
             li
-              img.border.border-4.my-4(src=`${image || 'https://via.placeholder.com/150'}`, alt='Uploaded Product Image', style='height: 150px;')
+              img.border.border-4.my-4(src='https://via.placeholder.com/150', alt='No Product Image', style='height: 150px;')
+              span No images available
+
 
     tr.align-middle
       td اسم المنتج (العربية)
