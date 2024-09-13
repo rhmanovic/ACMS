@@ -107,6 +107,16 @@ table.table.table-bordered.table-striped.table-hover
             input#options(type='checkbox', name='options', checked=product.options)
             span.switch-slider.round
           span.checkmark.fas.fa-check(style='display: none;')
+
+    tr.align-middle
+      td المقاسات القياسية (Standard Sizes)
+      td
+        .col.col-lg-8
+          label.switch
+            input#standard_sizes(type='checkbox', name='standard_sizes', checked=product.standard_sizes)
+            span.switch-slider.round
+          span.checkmark.fas.fa-check(style='display: none;')
+
     tr.align-middle
       td.col-3
         label.control-label(for='quill-editor32') الوصف (العربية)
