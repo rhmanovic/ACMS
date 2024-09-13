@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     formData.set('options', form.querySelector('#options').checked ? 'true' : 'false');
+    formData.set('standard_sizes', form.querySelector('#standard_sizes').checked ? 'true' : 'false');
 
     fetch('/manager/products', {
       method: 'POST',
